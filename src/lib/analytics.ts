@@ -1,5 +1,5 @@
 // Google Analytics 4 Tracking ID
-export const GA_TRACKING_ID = 'G-94J5R3EG4C';
+export const GA_TRACKING_ID = 'G-QYTVB1G7XQ';
 
 // Declare gtag function globally
 declare global {
