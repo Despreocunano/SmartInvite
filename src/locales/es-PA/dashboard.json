@@ -1,0 +1,18 @@
+{
+  "dashboard": {
+    "welcome": "¡Bienvenido a tu panel de Panamá!",
+    "logout": "Cerrar sesión",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "main": "Panel principal",
+    "digital_invitation": "Parte Digital",
+    "guests": "Gestión de invitados",
+    "rsvps": "Confirmaciones",
+    "tables": "Gestión de mesas",
+    "wishlist": "Lista de deseos",
+    "music": "Música",
+    "reminders": "Recordatorios",
+    "contact": "Contacto",
+    "invitation": "invitación"
+  }
+} 

@@ -1,0 +1,8 @@
+{
+  "dashboard": {
+    "welcome": "¡Bienvenido a tu panel de México!",
+    "logout": "Cerrar sesión",
+    "profile": "Perfil",
+    "settings": "Configuración"
+  }
+} 

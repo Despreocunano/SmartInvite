@@ -1,0 +1,9 @@
+{
+  "events": {
+    "ceremony": "Ceremonia",
+    "reception": "Recepción",
+    "location": "Lugar",
+    "date": "Fecha",
+    "time": "Hora"
+  }
+} 

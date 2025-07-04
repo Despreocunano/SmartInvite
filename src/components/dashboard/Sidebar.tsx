@@ -3,60 +3,62 @@ import { Heart, UserPlus, ListChecks, Grid, Settings, LogOut, Globe, Music, Send
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
 import logoDark from '../../assets/images/logo-dark.svg';
+import { useTranslation } from 'react-i18next';
 
 export function Sidebar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { signOut } = useAuth();
+  const { t } = useTranslation();
 
   const navigation = [
     {
-      name: 'Panel principal',
+      name: t('dashboard.main', 'Panel principal'),
       href: '/',
       icon: Heart
     },
     {
-      name: 'Parte Digital',
+      name: t('dashboard.digital_invitation', 'Parte Digital'),
       href: '/landing',
       icon: Globe
     },
     {
-      name: 'Gestión de invitados',
+      name: t('dashboard.guests', 'Gestión de invitados'),
       href: '/attendees',
       icon: UserPlus
     },
     {
-      name: 'Confirmaciones',
+      name: t('dashboard.rsvps', 'Confirmaciones'),
       href: '/rsvps',
       icon: ListChecks
     },
     {
-      name: 'Gestión de mesas',
+      name: t('dashboard.tables', 'Gestión de mesas'),
       href: '/tables',
       icon: Grid
     },
     {
-      name: 'Lista de deseos',
+      name: t('dashboard.wishlist', 'Lista de deseos'),
       href: '/wishlist-admin',
       icon: Gift
     },
     {
-      name: 'Música',
+      name: t('dashboard.music', 'Música'),
       href: '/songs',
       icon: Music
     },
     {
-      name: 'Recordatorios',
+      name: t('dashboard.reminders', 'Recordatorios'),
       href: '/reminders',
       icon: Send
     },
     {
-      name: 'Configuración',
+      name: t('dashboard.settings', 'Configuración'),
       href: '/settings',
       icon: Settings
     },
     {
-      name: 'Contacto',
+      name: t('dashboard.contact', 'Contacto'),
       href: '/contact',
       icon: MessageCircle
     }
@@ -77,7 +79,7 @@ export function Sidebar() {
           {navigation.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
-            const showBadge = item.name === 'Parte Digital';
+            const showBadge = item.href === '/landing';
             
             return (
               <Link
@@ -102,7 +104,7 @@ export function Sidebar() {
                   {item.name}
                   {showBadge && (
                     <span className="absolute -top-2 -right-3 px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-500 text-white shadow border border-white whitespace-nowrap z-10">
-                     invitación
+                     {t('dashboard.invitation', 'invitación')}
                     </span>
                   )}
                 </span>
@@ -119,7 +121,7 @@ export function Sidebar() {
           className="group flex items-center px-3 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 w-full"
         >
           <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-          Cerrar sesión
+          {t('dashboard.logout', 'Cerrar sesión')}
         </button>
       </div>
     </div>

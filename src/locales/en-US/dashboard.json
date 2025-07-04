@@ -1,0 +1,18 @@
+{
+  "dashboard": {
+    "welcome": "Welcome to your dashboard!",
+    "logout": "Log out",
+    "profile": "Profile",
+    "settings": "Settings",
+    "main": "Main panel",
+    "digital_invitation": "Digital Invitation",
+    "guests": "Guest Management",
+    "rsvps": "RSVPs",
+    "tables": "Table Management",
+    "wishlist": "Wish List",
+    "music": "Music",
+    "reminders": "Reminders",
+    "contact": "Contact",
+    "invitation": "invitation"
+  }
+} 

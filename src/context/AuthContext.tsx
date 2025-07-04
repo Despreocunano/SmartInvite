@@ -10,7 +10,7 @@ type AuthContextType = {
     success: boolean;
     error: Error | null;
   }>;
-  signUp: (email: string, password: string, groomName: string, brideName: string) => Promise<{
+  signUp: (email: string, password: string, groomName: string, brideName: string, country: string) => Promise<{
     success: boolean;
     error: Error | null;
   }>;
@@ -75,7 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signUp = async (email: string, password: string, groomName: string, brideName: string) => {
+  const signUp = async (email: string, password: string, groomName: string, brideName: string, country: string) => {
     try {
       const { data: { user }, error: signUpError } = await supabase.auth.signUp({
         email,
@@ -96,6 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             id: user.id,
             groom_name: groomName,
             bride_name: brideName,
+            country: country,
           },
         ]);
 
