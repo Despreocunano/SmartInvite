@@ -4,65 +4,63 @@ import { Heart, Menu, X, UserPlus, ListChecks, Grid, Settings, LogOut, Globe, Mu
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
 import logoDark from '../../assets/images/logo-dark.svg';
-import { useTranslation } from 'react-i18next';
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { signOut } = useAuth();
-  const { t } = useTranslation();
 
   const toggleNav = () => setIsOpen(!isOpen);
 
   const navigation = [
     {
-      name: t('dashboard.main', 'Panel principal'),
+      name: 'Panel principal',
       href: '/',
       icon: Heart
     },
     {
-      name: t('dashboard.digital_invitation', 'Invitación Digital'),
+      name: 'Invitación Digital',
       href: '/landing',
       icon: Globe
     },
     {
-      name: t('dashboard.guests', 'Gestión de invitados'),
+      name: 'Gestión de invitados',
       href: '/attendees',
       icon: UserPlus
     },
     {
-      name: t('dashboard.rsvps', 'Confirmaciones'),
+      name: 'Confirmaciones',
       href: '/rsvps',
       icon: ListChecks
     },
     {
-      name: t('dashboard.tables', 'Gestión de mesas'),
+      name: 'Gestión de mesas',
       href: '/tables',
       icon: Grid
     },
     {
-      name: t('dashboard.wishlist', 'Lista de deseos'),
+      name: 'Lista de deseos',
       href: '/wishlist-admin',
       icon: Gift
     },
     {
-      name: t('dashboard.music', 'Música'),
+      name: 'Música',
       href: '/songs',
       icon: Music
     },
     {
-      name: t('dashboard.reminders', 'Recordatorios'),
+      name: 'Recordatorios',
       href: '/reminders',
       icon: Send
     },
     {
-      name: t('dashboard.settings', 'Configuración'),
+      name: 'Configuración',
       href: '/settings',
       icon: Settings
     },
     {
-      name: t('dashboard.contact', 'Contacto'),
+      name: 'Contacto',
       href: '/contact',
       icon: MessageCircle
     }
@@ -133,7 +131,7 @@ export function MobileNav() {
                 className="group flex items-center px-3 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 w-full"
               >
                 <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-                {t('dashboard.logout', 'Cerrar sesión')}
+                Cerrar sesión
               </button>
             </div>
           </div>

@@ -1,49 +1,57 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-
-import dashboard_en from './locales/en-US/dashboard.json';
-import dashboard_pa from './locales/es-PA/dashboard.json';
-import dashboard_mx from './locales/es-MX/dashboard.json';
-import landingHero_en from './locales/en-US/landing-hero.json';
-import landingHero_pa from './locales/es-PA/landing-hero.json';
-import landingHero_mx from './locales/es-MX/landing-hero.json';
-import landingEvents_en from './locales/en-US/landing-events.json';
-import landingEvents_pa from './locales/es-PA/landing-events.json';
-import landingEvents_mx from './locales/es-MX/landing-events.json';
-import landingWelcome_en from './locales/en-US/landing-welcome.json';
-import landingWelcome_pa from './locales/es-PA/landing-welcome.json';
-import landingWelcome_mx from './locales/es-MX/landing-welcome.json';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 const resources = {
-  'en-US': {
-    dashboard: dashboard_en,
-    'landing-hero': landingHero_en,
-    'landing-events': landingEvents_en,
-    'landing-welcome': landingWelcome_en,
+  es: {
+    translation: {
+      'register.title': 'Crea tu cuenta',
+      'register.subtitle': 'Comienza a crear tu invitación digital',
+      'register.groom': 'Novio',
+      'register.bride': 'Novia',
+      'register.email': 'Correo electrónico',
+      'register.password': 'Contraseña',
+      'register.confirm': 'Confirmar',
+      'register.country': 'País',
+      'register.select_country': 'Selecciona un país',
+      'register.us': 'Estados Unidos',
+      'register.mx': 'México',
+      'register.create': 'Crear cuenta',
+      'register.already_account': '¿Ya tienes cuenta?',
+      'register.login': 'Inicia sesión',
+      'register.min_password': 'Mínimo 6 caracteres',
+    }
   },
-  'es-PA': {
-    dashboard: dashboard_pa,
-    'landing-hero': landingHero_pa,
-    'landing-events': landingEvents_pa,
-    'landing-welcome': landingWelcome_pa,
-  },
-  'es-MX': {
-    dashboard: dashboard_mx,
-    'landing-hero': landingHero_mx,
-    'landing-events': landingEvents_mx,
-    'landing-welcome': landingWelcome_mx,
-  },
+  en: {
+    translation: {
+      'register.title': 'Create your account',
+      'register.subtitle': 'Start creating your digital invitation',
+      'register.groom': 'Groom',
+      'register.bride': 'Bride',
+      'register.email': 'Email',
+      'register.password': 'Password',
+      'register.confirm': 'Confirm',
+      'register.country': 'Country',
+      'register.select_country': 'Select a country',
+      'register.us': 'United States',
+      'register.mx': 'Mexico',
+      'register.create': 'Create account',
+      'register.already_account': 'Already have an account?',
+      'register.login': 'Log in',
+      'register.min_password': 'Minimum 6 characters',
+    }
+  }
 };
 
 i18n
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en-US', // default
-    fallbackLng: 'en-US',
-    ns: ['dashboard', 'landing-hero', 'landing-events', 'landing-welcome'],
-    defaultNS: 'dashboard',
-    interpolation: { escapeValue: false },
+    fallbackLng: 'es',
+    interpolation: {
+      escapeValue: false,
+    },
   });
 
 export default i18n; 

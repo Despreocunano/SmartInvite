@@ -8,6 +8,8 @@ import { Mail, Lock, User, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { translateAuthError } from '../../lib/authErrors';
 import { trackSignUp } from '../../lib/analytics';
+import { Select } from '../ui/Select';
+import { useTranslation } from 'react-i18next';
 
 type FormData = {
   email: string;
@@ -29,9 +31,12 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
-  const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors } = useForm<FormData>({
+    defaultValues: { country: 'US' }
+  });
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (confirmPassword) {
@@ -87,12 +92,26 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
 
   return (
     <Card className="w-full max-w-sm mx-auto border-0 shadow-xl">
+      <div className="flex justify-end p-2">
+        <button
+          className={`px-2 py-1 text-xs rounded-l ${i18n.language.startsWith('es') ? 'bg-rose-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          onClick={() => i18n.changeLanguage('es')}
+        >
+          ES
+        </button>
+        <button
+          className={`px-2 py-1 text-xs rounded-r ${i18n.language.startsWith('en') ? 'bg-rose-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          onClick={() => i18n.changeLanguage('en')}
+        >
+          EN
+        </button>
+      </div>
       <CardHeader className="space-y-1 pb-3">
         <CardTitle className="text-center text-lg font-bold text-gray-900">
-          Crea tu cuenta
+          {t('register.title')}
         </CardTitle>
         <p className="text-center text-xs text-gray-500">
-          Comienza a crear tu invitación digital
+          {t('register.subtitle')}
         </p>
       </CardHeader>
       <CardContent>
@@ -109,7 +128,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5">
           <div className="grid grid-cols-2 gap-2">
             <Input
-              label="Novio"
+              label={t('register.groom')}
               placeholder="Juan"
               error={errors.groomName?.message}
               leftIcon={<User className="h-3 w-3 text-gray-400" />}
@@ -118,7 +137,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
               })}
             />
             <Input
-              label="Novia"
+              label={t('register.bride')}
               placeholder="María"
               error={errors.brideName?.message}
               leftIcon={<User className="h-3 w-3 text-gray-400" />}
@@ -127,24 +146,20 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
               })}
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">País</label>
-            <select
-              {...register('country', { required: 'El país es requerido' })}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-              defaultValue=""
-            >
-              <option value="" disabled>Selecciona tu país</option>
-              <option value="USA">USA</option>
-              <option value="Panama">Panama</option>
-              <option value="Mexico">Mexico</option>
-            </select>
-            {errors.country && (
-              <p className="text-xs text-red-500 mt-1">{errors.country.message}</p>
-            )}
-          </div>
+          <Select
+            id="country"
+            label={t('register.country')}
+            options={[
+              { value: '', label: t('register.select_country') },
+              { value: 'US', label: t('register.us') },
+              { value: 'MX', label: t('register.mx') },
+            ]}
+            error={errors.country?.message}
+            defaultValue="US"
+            {...register('country', { required: 'Requerido' })}
+          />
           <Input
-            label="Correo electrónico"
+            label={t('register.email')}
             type="email"
             placeholder="tu@ejemplo.com"
             error={errors.email?.message}
@@ -158,7 +173,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
             })}
           />
           <Input
-            label="Contraseña"
+            label={t('register.password')}
             type="password"
             placeholder="••••••"
             error={errors.password?.message}
@@ -168,7 +183,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
             })}
           />
           <Input
-            label="Confirmar"
+            label={t('register.confirm')}
             type="password"
             placeholder="••••••"
             error={errors.confirmPassword?.message}
@@ -178,26 +193,26 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
             })}
           />
           <div className="text-xs text-gray-500 pt-1">
-            <p>Mínimo 6 caracteres</p>
+            <p>{t('register.min_password')}</p>
           </div>
           <Button 
             type="submit" 
             isLoading={isLoading} 
             className="w-full bg-rose-500 hover:bg-rose-600 text-white h-9 text-sm mt-3"
           >
-            Crear cuenta
+            {t('register.create')}
           </Button>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center border-t pt-3">
         <p className="text-xs text-gray-600">
-          ¿Ya tienes cuenta?{' '}
+          {t('register.already_account')} {' '}
           <button
             type="button"
             onClick={onToggleForm}
             className="text-rose-600 hover:text-rose-800 font-medium transition-colors"
           >
-            Inicia sesión
+            {t('register.login')}
           </button>
         </p>
       </CardFooter>

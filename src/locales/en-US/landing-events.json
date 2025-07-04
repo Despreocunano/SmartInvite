@@ -1,9 +1,0 @@
-{
-  "events": {
-    "ceremony": "Ceremony",
-    "reception": "Reception",
-    "location": "Location",
-    "date": "Date",
-    "time": "Time"
-  }
-} 
