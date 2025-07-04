@@ -22,6 +22,7 @@ import { useSearchParams } from 'react-router-dom';
 import { trackEvent } from '../../lib/analytics';
 import { WishListSection, WishListItem } from './form/WishListSection';
 import { useLandingPreview } from '../../hooks/useLandingPreview';
+import { useTranslation } from 'react-i18next';
 
 interface LandingPageFormData {
   groom_name: string;
@@ -157,6 +158,7 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
   const [serviceStatus, setServiceStatus] = useState<'normal' | 'degraded' | 'down'>('normal');
   const [lastErrorTime, setLastErrorTime] = useState<number | null>(null);
   const [isCheckingPublishedStatus, setIsCheckingPublishedStatus] = useState(true);
+  const { t, i18n } = useTranslation('landing');
 
   const { register, handleSubmit, formState: { errors }, watch, setValue, trigger } = useForm<LandingPageFormData>({
     defaultValues: {
@@ -224,12 +226,12 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
   const coupleCode = watch('couple_code');
 
   const dressCodeOptions = [
-    { value: 'Formal', label: 'Formal' },
-    { value: 'Black tie', label: 'Black Tie' },
-    { value: 'Cocktail', label: 'Cocktail' },
-    { value: 'Semi formal', label: 'Semi Formal' },
-    { value: 'Casual elegante', label: 'Casual Elegante' },
-    { value: 'custom', label: 'Otro' }
+    { value: 'formal', label: t('dress_code_option_formal') },
+    { value: 'black_tie', label: t('dress_code_option_black_tie') },
+    { value: 'cocktail', label: t('dress_code_option_cocktail') },
+    { value: 'semi_formal', label: t('dress_code_option_semi_formal') },
+    { value: 'casual_elegante', label: t('dress_code_option_casual_elegante') },
+    { value: 'custom', label: t('dress_code_option_custom') }
   ];
 
   const storeOptions = [
@@ -1003,11 +1005,11 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             </div>
             <div className="ml-3">
               <h3 className="text-sm font-medium text-amber-800">
-                Recuerda publicar tu invitación
+                {t('reminder_publish_title')}
               </h3>
               <div className="mt-2 text-sm text-amber-700">
                 <p>
-                  Tu invitación ha sido creada y esta lista para que la veas. Pero debes publicarla para poder compartirla con tus invitados y disfrutar de todas las funcionalidades.
+                  {t('reminder_publish_description')}
                 </p>
               </div>
             </div>
@@ -1022,7 +1024,7 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
               <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
                 <span className="text-rose-600 font-medium">1</span>
               </div>
-              <CardTitle>Elige el diseño </CardTitle>
+              <CardTitle>{t('select_template_title')}</CardTitle>
             </div>
             <Button
               variant="secondary"
@@ -1036,7 +1038,7 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
               leftIcon={<Grid className="h-4 w-4" />}
               className='border border-primary text-primary hover:bg-primary-dark hover:text-primary-contrast'
             >
-              Ver todos los diseños
+              {t('see_all_templates')}
             </Button>
           </div>
         </CardHeader>
@@ -1056,19 +1058,19 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">2</span>
             </div>
-            <CardTitle>Nombre de los novios</CardTitle>
+            <CardTitle>{t('names_title')}</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="p-0 pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              label="Nombre del Novio"
-              {...register('groom_name', { required: 'El nombre del novio es requerido' })}
+              label={t('groom_name_label')}
+              {...register('groom_name', { required: t('groom_name_required') })}
               error={errors.groom_name?.message}
             />
             <Input
-              label="Nombre de la Novia"
-              {...register('bride_name', { required: 'El nombre de la novia es requerido' })}
+              label={t('bride_name_label')}
+              {...register('bride_name', { required: t('bride_name_required') })}
               error={errors.bride_name?.message}
             />
           </div>
@@ -1081,26 +1083,29 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">3</span>
             </div>
-            <CardTitle>Mensaje de bienvenida</CardTitle>
+            <CardTitle>{t('welcome_message_title')}</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="p-0 pt-6">
           <div className="space-y-4">
             <Textarea
-              label="Mensaje de Bienvenida"
-              {...register('welcome_message', { required: 'El mensaje de bienvenida es requerido', maxLength: { value: 120, message: 'El mensaje no puede tener más de 120 caracteres' } })}
+              label={t('welcome_message_label')}
+              {...register('welcome_message', {
+                required: t('welcome_message_required'),
+                maxLength: { value: 120, message: t('welcome_message_max') }
+              })}
               error={errors.welcome_message?.message}
-              placeholder="Todos somos mortales, hasta el primer beso y la segunda copa de vino."
+              placeholder={t('welcome_message_placeholder')}
               maxLength={120}
             />
             <div className="text-sm text-gray-500 text-right">
-              {watch('welcome_message')?.length || 0}/120 caracteres
+              {t('welcome_message_counter', { count: watch('welcome_message')?.length || 0 })}
             </div>
             <Input
-              label="Hashtag"
-              {...register('hashtag', { required: 'El hashtag es requerido' })}
+              label={t('hashtag_label')}
+              {...register('hashtag', { required: t('hashtag_required') })}
               error={errors.hashtag?.message}
-              placeholder="Ej: #JuanYMaria2024"
+              placeholder={t('hashtag_placeholder')}
             />
           </div>
         </CardContent>
@@ -1113,7 +1118,7 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
               <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
                 <span className="text-rose-600 font-medium">4</span>
               </div>
-              <CardTitle>Imagen de portada</CardTitle>
+              <CardTitle>{t('cover_image_title')}</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="p-0 pt-6">
@@ -1123,8 +1128,10 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
                 onChange={handleCoverImageChange}
                 onRemove={() => {
                   setCoverImage('');
-                  setCoverImageError('Debes subir una imagen de portada');
+                  setCoverImageError(t('cover_image_required'));
                 }}
+                helperText={t('cover_image_recommendation')}
+                buttonLabel={t('cover_image_button')}
               />
               {coverImageError && (
                 <div className="text-sm text-red-500 mt-2">{coverImageError}</div>
@@ -1139,7 +1146,7 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
               <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
                 <span className="text-rose-600 font-medium">5</span>
               </div>
-              <CardTitle>Galería de fotos</CardTitle>
+              <CardTitle>{t('gallery_title')}</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="p-0 pt-6">
@@ -1147,6 +1154,10 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
               <GalleryUpload
                 images={galleryImages}
                 onChange={handleGalleryImagesChange}
+                helperText={t('gallery_recommendation')}
+                buttonUploadLabel={t('gallery_button_upload')}
+                buttonAddLabel={t('gallery_button_add')}
+                counterText={t('gallery_counter', { count: galleryImages.length })}
               />
               {galleryImagesError && (
                 <div className="text-sm text-red-500 mt-2">{galleryImagesError}</div>
@@ -1162,37 +1173,38 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">6</span>
             </div>
-            <CardTitle>Datos de la ceremonia</CardTitle>
+            <CardTitle>{t('ceremony_section_title')}</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="p-0 pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               type="date"
-              label="Fecha de la Ceremonia"
+              label={t('ceremony_date_label')}
               {...register('ceremony_date', {
-                required: 'La fecha de la ceremonia es requerida',
+                required: t('ceremony_date_required'),
                 validate: (value) => {
                   if (new Date(value) < new Date(today)) {
-                    return 'La fecha debe ser futura';
+                    return t('ceremony_date_future');
                   }
                   return true;
                 }
               })}
               error={errors.ceremony_date?.message}
               min={today}
+              lang={i18n.language === 'en' ? 'en' : undefined}
             />
             <Input
-              label="Hora de la Ceremonia"
+              label={t('ceremony_time_label')}
               type="time"
               {...register('ceremony_time')}
             />
             <div className="md:col-span-2">
               <Input
-                label="Lugar de la Ceremonia"
-                {...register('ceremony_location', { required: 'El lugar es requerido' })}
+                label={t('ceremony_location_label')}
+                {...register('ceremony_location', { required: t('ceremony_location_required') })}
                 error={errors.ceremony_location?.message}
-                placeholder="Iglesia San Sebastián"
+                placeholder={t('ceremony_location_placeholder')}
                 autoComplete="off"
                 role="textbox"
                 aria-autocomplete="none"
@@ -1200,14 +1212,14 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             </div>
             <div className="md:col-span-2">
               <PlacesAutocomplete
-                label="Dirección de la Ceremonia"
+                label={t('ceremony_address_label')}
                 value={watch('ceremony_address')}
                 onChange={(address, placeId) => {
                   setValue('ceremony_address', address, { shouldValidate: true });
                   setValue('ceremony_place_id', placeId);
                   trigger('ceremony_address');
                 }}
-                placeholder="Buscar dirección..."
+                placeholder={t('ceremony_address_placeholder')}
                 error={errors.ceremony_address?.message}
               />
             </div>
@@ -1221,20 +1233,20 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">7</span>
             </div>
-            <CardTitle>Datos de la recepción</CardTitle>
+            <CardTitle>{t('party_section_title')}</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="p-0 pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              label="Fecha de la recepción"
+              label={t('party_date_label')}
               type="date"
               min={today}
               {...register('party_date', { 
-                required: 'La fecha es requerida',
+                required: t('party_date_required'),
                 validate: value => {
                   const date = new Date(value);
-                  return date >= new Date() || 'La fecha debe ser futura';
+                  return date >= new Date() || t('party_date_future');
                 }
               })}
               error={errors.party_date?.message}
@@ -1242,19 +1254,20 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
                 setHasModifiedPartyDate(true);
                 setValue('party_date', e.target.value, { shouldValidate: true });
               }}
+              lang={i18n.language === 'en' ? 'en' : undefined}
             />
             <Input
-              label="Hora de la recepción"
+              label={t('party_time_label')}
               type="time"
-              {...register('party_time', { required: 'La hora es requerida' })}
+              {...register('party_time', { required: t('party_time_required') })}
               error={errors.party_time?.message}
             />
             <div className="md:col-span-2">
               <Input
-                label="Lugar de la recepción"
-                {...register('party_location', { required: 'El lugar es requerido' })}
+                label={t('party_location_label')}
+                {...register('party_location', { required: t('party_location_required') })}
                 error={errors.party_location?.message}
-                placeholder="Estadio Español"
+                placeholder={t('party_location_placeholder')}
                 autoComplete="off"
                 role="textbox"
                 aria-autocomplete="none"
@@ -1262,14 +1275,14 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             </div>
             <div className="md:col-span-2">
               <PlacesAutocomplete
-                label="Dirección de la recepción"
+                label={t('party_address_label')}
                 value={watch('party_address')}
                 onChange={(address, placeId) => {
                   setValue('party_address', address, { shouldValidate: true });
                   setValue('party_place_id', placeId);
                   trigger('party_address');
                 }}
-                placeholder="Buscar dirección..."
+                placeholder={t('party_address_placeholder')}
                 error={errors.party_address?.message}
               />
             </div>
@@ -1283,12 +1296,12 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">8</span>
             </div>
-            <CardTitle>Información adicional</CardTitle>
+            <CardTitle>{t('additional_info_section_title')}</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="p-0 pt-6 space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Código de Vestimenta</label>
+            <label className="text-sm font-medium text-gray-700">{t('dress_code_label', 'Código de Vestimenta')}</label>
             <Select
               value={selectedDressCode === 'custom' ? 'custom' : watch('dress_code')}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -1308,23 +1321,24 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             />
             {showCustomDressCode && (
               <Input
-                {...register('dress_code', { required: 'El código de vestimenta es requerido' })}
-                placeholder="Especifica el código de vestimenta"
+                {...register('dress_code', { required: t('dress_code_required', 'El código de vestimenta es requerido') })}
+                placeholder={t('dress_code_custom_placeholder', 'Especifica el código de vestimenta')}
                 error={errors.dress_code?.message}
               />
             )}
           </div>
           
           <Textarea
-            label="Información Adicional"
-            {...register('additional_info', { required: 'La información adicional es requerida' })}
-            placeholder="El evento será al aire libre, recomendamos llevar abrigo..."
+            label={t('additional_info_label')}
+            {...register('additional_info', { required: t('additional_info_required') })}
+            placeholder={t('additional_info_placeholder')}
+            error={errors.additional_info?.message}
           />
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <label className="text-sm font-medium text-gray-700">¿Aceptas niños?</label>
-                <p className="text-sm text-gray-500">Informa a tus invitados que se permite llevar niños</p>
+                <label className="text-sm font-medium text-gray-700">{t('accepts_kids_label')}</label>
+                <p className="text-sm text-gray-500">{t('accepts_kids_helper')}</p>
               </div>
               <Switch
                 checked={!!watch('accepts_kids')}
@@ -1333,8 +1347,8 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <label className="text-sm font-medium text-gray-700">¿Aceptas mascotas?</label>
-                <p className="text-sm text-gray-500">Informa a tus invitados que tu boda será pet friendly</p>
+                <label className="text-sm font-medium text-gray-700">{t('accepts_pets_label')}</label>
+                <p className="text-sm text-gray-500">{t('accepts_pets_helper')}</p>
               </div>
               <Switch
                 checked={!!watch('accepts_pets')}
@@ -1353,10 +1367,10 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">9</span>
             </div>
-            <CardTitle className="text-lg sm:text-xl">Información bancaria</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t('bank_info_section_title')}</CardTitle>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700">¿Agregar información bancaria?</span>
+            <span className="text-sm text-gray-700">{t('bank_info_toggle_label')}</span>
             <Switch checked={!!watch('bank_info_enabled')} onCheckedChange={(checked) => setValue('bank_info_enabled', checked)} />
           </div>
         </div>
@@ -1364,60 +1378,60 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
           <CardContent className="p-0 pt-6 space-y-6">
             <div>
               <p className="text-sm text-gray-500 mb-4">
-                Esta información será visible para tus invitados en la invitación. Los datos bancarios permitirán a tus invitados realizar transferencias como regalo para tu boda.
+                {t('bank_info_helper')}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
-                  label="Nombre del titular"
-                  {...register('bank_info.accountHolder', { required: watch('bank_info_enabled') ? 'El titular es requerido' : false })}
+                  label={t('bank_info_accountHolder_label')}
+                  {...register('bank_info.accountHolder', { required: watch('bank_info_enabled') ? t('bank_info_accountHolder_required') : false })}
                   error={errors.bank_info?.accountHolder?.message}
-                  placeholder="Nombre del titular de la cuenta"
+                  placeholder={t('bank_info_accountHolder_placeholder', 'Nombre del titular de la cuenta')}
                 />
                 <Input
-                  label="RUT"
-                  {...register('bank_info.rut', { required: watch('bank_info_enabled') ? 'El RUT es requerido' : false })}
+                  label={t('bank_info_rut_label')}
+                  {...register('bank_info.rut', { required: watch('bank_info_enabled') ? t('bank_info_rut_required') : false })}
                   error={rutError || errors.bank_info?.rut?.message}
-                  placeholder="12345678-9"
+                  placeholder={t('bank_info_rut_placeholder')}
                   value={rutValue}
                   onChange={handleRutChange}
                 />
                 <Select
-                  label="Tipo de cuenta"
+                  label={t('bank_info_accountType_label')}
                   value={watch('bank_info.accountType')}
                   onChange={handleAccountTypeChange}
                   error={errors.bank_info?.accountType?.message}
                   options={[
-                    { value: '', label: 'Selecciona un tipo de cuenta' },
-                    { value: 'Cuenta Corriente', label: 'Cuenta Corriente' },
-                    { value: 'Cuenta Vista', label: 'Cuenta Vista' },
-                    { value: 'Cuenta RUT', label: 'Cuenta RUT' }
+                    { value: '', label: t('bank_info_accountType_label') },
+                    { value: 'Cuenta Corriente', label: t('bank_info_accountType_option_corriente') },
+                    { value: 'Cuenta Vista', label: t('bank_info_accountType_option_vista') },
+                    { value: 'Cuenta RUT', label: t('bank_info_accountType_option_rut') }
                   ]}
                 />
                 <Input
-                  label="Número de cuenta"
-                  {...register('bank_info.accountNumber', { required: watch('bank_info_enabled') ? 'El número de cuenta es requerido' : false })}
+                  label={t('bank_info_accountNumber_label')}
+                  {...register('bank_info.accountNumber', { required: watch('bank_info_enabled') ? t('bank_info_accountNumber_required') : false })}
                   error={errors.bank_info?.accountNumber?.message}
-                  placeholder="Número de cuenta"
+                  placeholder={t('bank_info_accountNumber_placeholder')}
                   disabled={watch('bank_info.accountType') === 'Cuenta RUT'}
                 />
                 <Input
-                  label="Banco"
-                  {...register('bank_info.bank', { required: watch('bank_info_enabled') ? 'El banco es requerido' : false })}
+                  label={t('bank_info_bank_label')}
+                  {...register('bank_info.bank', { required: watch('bank_info_enabled') ? t('bank_info_bank_required') : false })}
                   error={errors.bank_info?.bank?.message}
-                  placeholder="Nombre del banco"
+                  placeholder={t('bank_info_bank_placeholder', 'Nombre del banco')}
                   disabled={watch('bank_info.accountType') === 'Cuenta RUT'}
                 />
                 <Input
-                  label="Email para transferencias"
+                  label={t('bank_info_email_label')}
                   {...register('bank_info.email', { 
-                    required: watch('bank_info_enabled') ? 'El email es requerido' : false,
+                    required: watch('bank_info_enabled') ? t('bank_info_email_required') : false,
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Email inválido'
+                      message: t('bank_info_email_invalid')
                     }
                   })}
                   error={errors.bank_info?.email?.message}
-                  placeholder="Email para recibir comprobantes"
+                  placeholder={t('bank_info_email_placeholder')}
                 />
               </div>
             </div>
@@ -1431,10 +1445,10 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">10</span>
             </div>
-            <CardTitle className="text-lg sm:text-xl">Código de novios Falabella / Paris</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t('couple_code_section_title')}</CardTitle>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700">¿Agregar lista de novios?</span>
+            <span className="text-sm text-gray-700">{t('couple_code_toggle_label')}</span>
             <Switch checked={!!watch('couple_code_enabled')} onCheckedChange={(checked) => setValue('couple_code_enabled', checked)} />
           </div>
         </div>
@@ -1442,15 +1456,18 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
           <CardContent className="p-0 pt-6">
             <div className="space-y-4">
               <Input
-                label="Código de Novios"
-                {...register('couple_code', { required: watch('couple_code_enabled') ? 'El código de novios es requerido' : false })}
+                label={t('couple_code_label')}
+                {...register('couple_code', { required: watch('couple_code_enabled') ? t('couple_code_required') : false })}
                 error={errors.couple_code?.message}
-                placeholder="Ingresa el código de novios"
+                placeholder={t('couple_code_placeholder')}
               />
               <Select
-                label="Tienda"
-                {...register('store', { required: watch('couple_code_enabled') ? 'La tienda es requerida' : false })}
-                options={storeOptions}
+                label={t('store_label')}
+                {...register('store', { required: watch('couple_code_enabled') ? t('store_required') : false })}
+                options={[
+                  { value: 'falabella', label: t('store_option_falabella') },
+                  { value: 'paris', label: t('store_option_paris') }
+                ]}
                 disabled={!coupleCode ? true : false}
                 value={selectedStore}
                 onChange={(e) => {
@@ -1461,7 +1478,7 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
               />
               {!coupleCode && (
                 <p className="text-sm text-gray-500">
-                  Ingresa un código de novios para seleccionar la tienda
+                  {t('store_helper')}
                 </p>
               )}
             </div>
@@ -1475,10 +1492,10 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">11</span>
             </div>
-            <CardTitle className="text-lg sm:text-xl">Lista de Deseos / Regalos</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t('wishlist_section_title')}</CardTitle>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700">¿Agregar lista de deseos?</span>
+            <span className="text-sm text-gray-700">{t('wishlist_toggle_label')}</span>
             <Switch checked={watch('wish_list_enabled')} onCheckedChange={(checked) => setValue('wish_list_enabled', checked)} />
           </div>
         </div>
@@ -1498,17 +1515,17 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
               <span className="text-rose-600 font-medium">12</span>
             </div>
-            <CardTitle className="text-lg sm:text-xl">Música de fondo</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t('music_section_title')}</CardTitle>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700">¿Agregar música?</span>
+            <span className="text-sm text-gray-700">{t('music_toggle_label')}</span>
             <Switch checked={watch('music_enabled')} onCheckedChange={(checked) => setValue('music_enabled', checked)} />
           </div>
         </div>
         {watch('music_enabled') && (
           <CardContent className="p-0 pt-6 space-y-4">
             <div>
-              <p className="text-sm text-gray-500">La música se reproducirá automáticamente al abrir la invitación</p>
+              <p className="text-sm text-gray-500">{t('music_helper')}</p>
               <MusicUpload
                 value={selectedTrack}
                 onChange={setSelectedTrack}

@@ -1,6 +1,7 @@
 import { Save, Eye } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { FieldErrors } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 interface FloatingSaveButtonProps {
   isLoading: boolean;
@@ -26,6 +27,7 @@ export function FloatingSaveButton({
   onSave
 }: FloatingSaveButtonProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useTranslation('landing');
 
   useEffect(() => {
     // Mostrar inmediatamente en desktop, con pequeño delay en mobile para evitar flash
@@ -95,7 +97,7 @@ export function FloatingSaveButton({
           onClick={handlePreviewClick}
         >
           <Eye className="h-4 w-4" />
-          <span className="hidden sm:inline">Vista previa</span>
+          <span className="hidden sm:inline">{t('floating_preview')}</span>
         </button>
       )}
       {hasChanges && (
@@ -110,7 +112,7 @@ export function FloatingSaveButton({
           ) : (
             <>
               <Save className="h-4 w-4" />
-              <span className="hidden sm:inline">Guardar</span>
+              <span className="hidden sm:inline">{t('floating_save')}</span>
             </>
           )}
         </button>

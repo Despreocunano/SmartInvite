@@ -1,4 +1,3 @@
-
 import { ImageUpload } from './ImageUpload';
 
 interface CoverImageUploadProps {
@@ -6,25 +5,29 @@ interface CoverImageUploadProps {
   onChange: (value: string) => void;
   onRemove?: () => void;
   className?: string;
+  helperText?: string;
+  buttonLabel?: string;
 }
 
 export function CoverImageUpload({
   value,
   onChange,
   onRemove,
-  className = ''
+  className = '',
+  helperText,
+  buttonLabel
 }: CoverImageUploadProps) {
   return (
     <div className={className}>
       <div className="space-y-4">
-        <p className="text-sm text-gray-500">
-          Recomendamos una imagen horizontal de alta calidad. Algunos diseños no muestran la imagen de portada.
-        </p>
+        {helperText && (
+          <p className="text-sm text-gray-500">{helperText}</p>
+        )}
         <ImageUpload
           value={value}
           onChange={onChange}
           onRemove={onRemove}
-          label="Subir imagen de portada"
+          label={buttonLabel}
         />
       </div>
     </div>

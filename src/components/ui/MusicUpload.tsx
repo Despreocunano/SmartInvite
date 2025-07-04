@@ -3,6 +3,7 @@ import { Music, X } from 'lucide-react';
 import { Button } from './Button';
 import { toast } from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
+import { useTranslation } from 'react-i18next';
 
 interface MusicUploadProps {
   value?: string;
@@ -17,8 +18,9 @@ export function MusicUpload({
   onChange,
   onRemove,
   className = '',
-  label = 'Subir música'
+  label
 }: MusicUploadProps) {
+  const { t } = useTranslation('landing');
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [audioName, setAudioName] = useState<string>('');
@@ -29,13 +31,13 @@ export function MusicUpload({
 
     // Validate file size (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
-      toast.error('El archivo es demasiado grande. Máximo 10MB.');
+      toast.error(t('music_upload_file_too_large'));
       return;
     }
 
     // Validate file type
     if (!file.type.startsWith('audio/')) {
-      toast.error('Por favor selecciona un archivo de audio válido.');
+      toast.error(t('music_upload_invalid_type'));
       return;
     }
 
@@ -69,10 +71,10 @@ export function MusicUpload({
 
       setAudioName(file.name);
       onChange(publicUrl);
-      toast.success('Música subida correctamente');
+      toast.success(t('music_upload_success'));
     } catch (error) {
       console.error('Error uploading music:', error);
-      toast.error('Error al subir la música');
+      toast.error(t('music_upload_error'));
     } finally {
       setIsUploading(false);
       if (inputRef.current) {
@@ -98,10 +100,10 @@ export function MusicUpload({
 
       onRemove();
       setAudioName('');
-      toast.success('Música eliminada correctamente');
+      toast.success(t('music_upload_remove_success'));
     } catch (error) {
       console.error('Error removing music:', error);
-      toast.error('Error al eliminar la música');
+      toast.error(t('music_upload_remove_error'));
     }
   };
 
@@ -123,11 +125,11 @@ export function MusicUpload({
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
-                {audioName || 'Música subida'}
+                {audioName || t('music_upload_uploaded')}
               </p>
               <audio controls className="mt-2 max-w-full">
                 <source src={value} type="audio/mpeg" />
-                Tu navegador no soporta la reproducción de audio.
+                {t('music_upload_audio_not_supported')}
               </audio>
             </div>
             {onRemove && (
@@ -153,8 +155,8 @@ export function MusicUpload({
           {!isUploading && (
             <>
               <Music className="h-8 w-8 text-gray-400" />
-              <span className="text-sm text-gray-600">{label}</span>
-              <span className="text-xs text-gray-500">MP3, máximo 10MB</span>
+              <span className="text-sm text-gray-600">{label || t('music_upload_button')}</span>
+              <span className="text-xs text-gray-500">{t('music_upload_helper')}</span>
             </>
           )}
         </Button>

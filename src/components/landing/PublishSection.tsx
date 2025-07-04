@@ -7,6 +7,7 @@ import { createPayment, checkPaymentStatus, checkExistingPayment } from '../../l
 import { Modal } from '../ui/Modal';
 import { trackBeginCheckout, trackPurchase } from '../../lib/analytics';
 import { openPaymentWindow } from '../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface PublishSectionProps {
   previewUrl: string;
@@ -85,6 +86,7 @@ export function PublishSection({
   const [hasAlreadyPaid, setHasAlreadyPaid] = React.useState<boolean>(false);
   const [checkAttempts, setCheckAttempts] = React.useState(0);
   const maxCheckAttempts = 12; // Máximo 1 minuto de verificación (12 * 5 segundos)
+  const { t } = useTranslation('landing');
 
   const handleCopy = async () => {
     if (!publishedUrl) return;
@@ -92,10 +94,10 @@ export function PublishSection({
     try {
       await navigator.clipboard.writeText(publishedUrl);
       setCopied(true);
-      toast.success('URL copiada al portapapeles');
+      toast.success(t('share_copy_success'));
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      toast.error('Error al copiar la URL');
+      toast.error(t('share_copy_error'));
     }
   };
 
@@ -114,10 +116,10 @@ export function PublishSection({
         try {
           await navigator.clipboard.writeText(publishedUrl);
           setCopied(true);
-          toast.success('URL copiada al portapapeles');
+          toast.success(t('share_copy_success'));
           setTimeout(() => setCopied(false), 2000);
         } catch (err) {
-          toast.error('Error al copiar la URL');
+          toast.error(t('share_copy_error'));
         }
         break;
     }
@@ -331,9 +333,9 @@ export function PublishSection({
                 <TicketPlus className="w-8 h-8 text-rose-600" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl font-medium text-gray-900">Crea tu invitación digital</h3>
+                <h3 className="text-xl font-medium text-gray-900">{t('intro_title')}</h3>
                 <p className="text-gray-500 max-w-md mx-auto">
-                Completa el formulario para crear y previsualizar tu invitación. ¿Te gustó el resultado? Publícala y compártela fácilmente con tus invitados.
+                  {t('intro_subtitle')}
                 </p>
               </div>
             </div>
@@ -346,9 +348,9 @@ export function PublishSection({
                     <Eye className="w-5 h-5 text-rose-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-medium text-gray-900">Vista Previa</h3>
+                    <h3 className="text-lg font-medium text-gray-900">{t('preview_title')}</h3>
                     <p className="text-sm text-gray-500">
-                      Visualiza cómo se verá tu invitación
+                      {t('preview_subtitle')}
                     </p>
                   </div>
                 </div>
@@ -361,7 +363,7 @@ export function PublishSection({
                     leftIcon={<Eye className="h-4 w-4" />}
                     disabled={!hasRequiredInfo}
                   >
-                    Vista previa
+                    {t('preview_button')}
                   </Button>
                   {!publishedStatus.isPublished ? (
                     <Button
@@ -371,7 +373,7 @@ export function PublishSection({
                       className="flex-1 bg-primary hover:bg-primary-dark text-primary-contrast"
                       leftIcon={hasAlreadyPaid ? <Globe className="h-4 w-4" /> : <CreditCard className="h-4 w-4" />}
                     >
-                      {isProcessingPayment ? 'Procesando...' : hasAlreadyPaid ? 'Publicar' : 'Publicar'}
+                      {isProcessingPayment ? t('processing_button') : t('publish_button')}
                     </Button>
                   ) : (
                     <Button
@@ -381,7 +383,7 @@ export function PublishSection({
                       className="flex-1 border border-primary bg-primary hover:bg-primary-dark text-primary-contrast"
                       leftIcon={<EyeOff className="h-4 w-4" />}
                     >
-                      Despublicar
+                      {t('unpublish_button')}
                     </Button>
                   )}
                 </div>
@@ -395,9 +397,9 @@ export function PublishSection({
                       <Share2 className="w-5 h-5 text-emerald-600" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900">Compartir Invitación</h3>
+                      <h3 className="text-lg font-medium text-gray-900">{t('share_title')}</h3>
                       <p className="text-sm text-gray-500">
-                        Comparte el enlace con tus invitados
+                        {t('share_subtitle')}
                       </p>
                     </div>
                   </div>
@@ -411,7 +413,7 @@ export function PublishSection({
                       className="w-full border border-primary text-primary hover:bg-primary-dark hover:text-primary-contrast text-sm"
                       leftIcon={<Share2 className="h-4 w-4" />}
                     >
-                      Compartir por WhatsApp
+                      {t('share_whatsapp')}
                     </Button>
 
                     {/* Enlace con botón de copiar */}

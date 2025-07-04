@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { FeatureLockModal } from '../ui/FeatureLockModal';
+import { useTranslation } from 'react-i18next';
 
 interface RequireLandingPageProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ export function RequireLandingPage({ children }: RequireLandingPageProps) {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [hasLandingPage, setHasLandingPage] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const checkLandingPage = async () => {
@@ -21,15 +23,18 @@ export function RequireLandingPage({ children }: RequireLandingPageProps) {
           .from('landing_pages')
           .select('id')
           .eq('user_id', user.id)
-          .single();
+          .limit(1);
 
-        if (error && error.code !== 'PGRST116') {
-          throw error;
+        if (error) {
+          console.error('Error checking landing page:', error);
+          setHasLandingPage(false);
+          return;
         }
 
-        setHasLandingPage(!!data);
+        setHasLandingPage(data && data.length > 0);
       } catch (error) {
         console.error('Error checking landing page:', error);
+        setHasLandingPage(false);
       } finally {
         setLoading(false);
       }
@@ -51,9 +56,9 @@ export function RequireLandingPage({ children }: RequireLandingPageProps) {
       {children}
       <FeatureLockModal
         isOpen={!hasLandingPage}
-        title="¡Bienvenid@ a Tu Parte Digital ❤️"
-        description="Primero crea tu invitación. ¡Es rápido y fácil! Luego podrás vivir la experiencia completa."
-        actionText="Crear invitación"
+        title={t('landing:welcome_modal_title')}
+        description={t('landing:welcome_modal_description')}
+        actionText={t('landing:welcome_modal_action')}
         actionPath="/landing"
       />
     </>

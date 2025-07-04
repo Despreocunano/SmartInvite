@@ -6,6 +6,7 @@ import { supabase } from '../../../lib/supabase';
 import { useAuth } from '../../../context/AuthContext';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 // Icon options for wedding wishes with social impact
 const ICON_OPTIONS = [
@@ -45,6 +46,7 @@ interface WishListSectionProps {
 export function WishListSection({ value, onChange, enabled, onEnabledChange, errors, onSaved }: WishListSectionProps) {
   const { user } = useAuth();
   const [saving, setSaving] = useState(false);
+  const { t } = useTranslation('landing');
 
   const formatPriceInput = (value: string) => {
     // Remove all non-digit characters
@@ -85,7 +87,7 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
 
   const handleSave = async () => {
     if (!user?.id) {
-      toast.error('Debes iniciar sesión para guardar tu lista de deseos');
+      toast.error(t('wishlist_login_required', 'Debes iniciar sesión para guardar tu lista de deseos'));
       return;
     }
     setSaving(true);
@@ -154,10 +156,10 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
       // Actualizar el estado con los IDs
       onChange([...value]);
       
-      toast.success('Lista de deseos guardada');
+      toast.success(t('wishlist_saved', 'Lista guardada'));
       if (onSaved) onSaved();
     } catch (err) {
-      toast.error('Error al guardar la lista');
+      toast.error(t('wishlist_save_error', 'Error al guardar la lista'));
       console.error(err);
     } finally {
       setSaving(false);
@@ -174,7 +176,7 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
 
   const handleAddExamples = async () => {
     if (!user?.id) {
-      toast.error('Debes iniciar sesión para agregar ejemplos');
+      toast.error(t('wishlist_login_required', 'Debes iniciar sesión para agregar ejemplos'));
       return;
     }
     setSaving(true);
@@ -195,9 +197,9 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
         newItems.push(newItem);
       }
       onChange([...value, ...newItems]);
-      toast.success('Ejemplos agregados');
+      toast.success(t('wishlist_examples_added', 'Ejemplos agregados'));
     } catch (err) {
-      toast.error('Error al agregar ejemplos');
+      toast.error(t('wishlist_examples_error', 'Error al agregar ejemplos'));
       console.error(err);
     } finally {
       setSaving(false);
@@ -209,14 +211,10 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
       <CardContent className="p-0 pt-6">
         {enabled && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-500">
-              Agrega ideas de regalos o experiencias que te gustaría recibir. Tus invitados podrán ver esta lista y elegir cómo sorprenderte.
-            </p>
-            <p className="text-sm text-gray-500 font-bold italic">
-            Se descontará un cargo por el servicio otorgado correspondiente al 5% del monto total a transferir.
-            </p>
+            <p className="text-sm text-gray-500">{t('wishlist_helper')}</p>
+            <p className="text-sm text-gray-500 font-bold italic">{t('wishlist_service_fee')}</p>
             {value.length === 0 && (
-              <div className="text-sm text-gray-400 italic">No has agregado ningún deseo/regalo aún.</div>
+              <div className="text-sm text-gray-400 italic">{t('wishlist_empty')}</div>
             )}
             {/* Botón para agregar ejemplos */}
             {(value.length === 0 || value.length < 3) && (
@@ -226,7 +224,7 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
                 onClick={handleAddExamples}
                 disabled={saving}
               >
-                {saving ? 'Agregando...' : 'Agregar ejemplos de regalos'}
+                {saving ? t('wishlist_adding') : t('wishlist_add_examples')}
               </button>
             )}
             {value.map((item, idx) => (
@@ -273,22 +271,22 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
                   {/* Name */}
                   <div className="md:col-span-1">
                     <Input
-                      label="Nombre del deseo"
+                      label={t('wishlist_name_label')}
                       value={item.name}
                       onChange={e => handleChange(idx, 'name', e.target.value)}
                       error={((errors?.[idx] as any)?.name?.message) || undefined}
-                      placeholder="Ej: Luna de miel, Cena romántica..."
+                      placeholder={t('wishlist_name_placeholder')}
                     />
                   </div>
                   {/* Price */}
                   <div className="md:col-span-1">
                     <Input
-                      label="Precio estimado"
+                      label={t('wishlist_price_label')}
                       type="text"
                       value={item.price ? formatPriceInput(item.price.toString()) : ''}
                       onChange={e => handlePriceChange(idx, e.target.value)}
                       error={((errors?.[idx] as any)?.price?.message) || undefined}
-                      placeholder="$"
+                      placeholder={t('wishlist_price_placeholder')}
                     />
                   </div>
                 </div>
@@ -303,7 +301,7 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
                 onClick={handleAdd}
                 disabled={saving}
               >
-                <Plus size={16} /> Agregar deseo
+                <Plus size={16} /> {t('wishlist_add')}
               </button>
               <button
                 type="button"
@@ -311,7 +309,7 @@ export function WishListSection({ value, onChange, enabled, onEnabledChange, err
                 onClick={handleSave}
                 disabled={!enabled || saving}
               >
-                {saving ? 'Guardando...' : 'Guardar lista'}
+                {saving ? t('wishlist_saving') : t('wishlist_save')}
               </button>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { getUniqueTemplates } from './templates';
 import { Modal } from '../ui/Modal';
 import { Palette, Check } from 'lucide-react';
 import type { Template, TemplateVariantGroup } from './templates/types';
+import { useTranslation } from 'react-i18next';
 
 interface TemplateSelectorProps {
   selectedTemplateId: string;
@@ -25,6 +26,7 @@ export function TemplateSelector({
   setShowAllTemplates
 }: TemplateSelectorProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   const scrollToTemplate = (templateId: string) => {
     const container = scrollContainerRef.current;
@@ -151,9 +153,14 @@ export function TemplateSelector({
       <Modal
         isOpen={showAllTemplates}
         onClose={() => setShowAllTemplates(false)}
-        title="Todos los diseños"
+        title={t('landing:all_templates_title', 'Todos los diseños')}
         panelClassName="w-full max-w-lg sm:max-w-7xl"
       >
+        <div className="w-full mb-4">
+          <p className="text-center text-gray-600 text-sm">
+            {t('landing:all_templates_helper', 'Explora todos los diseños disponibles y elige el que más te guste para tu invitación.')}
+          </p>
+        </div>
         <div className="w-full">
           <div className="grid grid-cols-2 lg:grid-cols-6 p-0 gap-2 md:p-2">
             {uniqueTemplates.map((template) => {

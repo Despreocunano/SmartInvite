@@ -9,6 +9,8 @@ import esContact from './i18n/locales/es/contact.json';
 import enContact from './i18n/locales/en/contact.json';
 import esSettings from './i18n/locales/es/settings.json';
 import enSettings from './i18n/locales/en/settings.json';
+import esLanding from './i18n/locales/es/landing.json';
+import enLanding from './i18n/locales/en/landing.json';
 
 const resources = {
   es: {
@@ -80,7 +82,8 @@ const resources = {
     auth: esAuth,
     menu: esMenu,
     contact: esContact,
-    settings: esSettings
+    settings: esSettings,
+    landing: esLanding
   },
   en: {
     translation: {
@@ -151,7 +154,8 @@ const resources = {
     auth: enAuth,
     menu: enMenu,
     contact: enContact,
-    settings: enSettings
+    settings: enSettings,
+    landing: enLanding
   }
 };
 
@@ -161,7 +165,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'es',
-    ns: ['auth', 'menu', 'contact', 'settings'],
+    ns: ['auth', 'menu', 'contact', 'settings', 'landing'],
     defaultNS: 'auth',
     interpolation: {
       escapeValue: false,

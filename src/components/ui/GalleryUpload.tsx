@@ -13,12 +13,20 @@ interface GalleryUploadProps {
   images: GalleryImage[];
   onChange: (images: GalleryImage[]) => void;
   className?: string;
+  helperText?: string;
+  buttonUploadLabel?: string;
+  buttonAddLabel?: string;
+  counterText?: string;
 }
 
 export function GalleryUpload({
   images,
   onChange,
-  className = ''
+  className = '',
+  helperText,
+  buttonUploadLabel,
+  buttonAddLabel,
+  counterText
 }: GalleryUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = React.useState(false);
@@ -124,10 +132,9 @@ export function GalleryUpload({
   return (
     <div className={className}>
       <div className="space-y-4">
-        <p className="text-sm text-gray-500">
-          Agrega entre 3 y 9 fotos a tu galería para compartir momentos especiales con tus invitados. Imagenes cuadradas de al menos 800x800 pixeles.
-        </p>
-        
+        {helperText && (
+          <p className="text-sm text-gray-500">{helperText}</p>
+        )}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((image, index) => (
             <div key={index} className="relative group aspect-square">
@@ -169,7 +176,7 @@ export function GalleryUpload({
                   <>
                     <Upload className="h-6 w-6 text-gray-400" />
                     <span className="text-sm text-gray-600">
-                      {images.length === 0 ? 'Subir fotos' : 'Agregar más fotos'}
+                      {images.length === 0 ? buttonUploadLabel : buttonAddLabel}
                     </span>
                   </>
                 )}
@@ -178,12 +185,13 @@ export function GalleryUpload({
           )}
         </div>
 
-        <div className="mt-2 text-sm text-gray-500 flex items-center gap-2">
-          <span className={images.length < 3 ? 'text-red-500' : 'text-green-500'}>
-            {images.length}/9
-          </span>
-          fotos seleccionadas (mínimo 3)
-        </div>
+        {counterText && (
+          <div className="mt-2 text-sm text-gray-500 flex items-center gap-2">
+            <span className={images.length < 3 ? 'text-red-500' : 'text-green-500'}>
+              {counterText}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
