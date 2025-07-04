@@ -64,7 +64,7 @@ export const getSignatureTemplate = (groomName: string, brideName: string, profi
     </tr>
   </table>
           <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-          <a href="https://tuparte.digital" style="text-decoration: none; color: #666;">
+          <a href="https://smartinvite.me" style="text-decoration: none; color: #666;">
             <img src="https://res.cloudinary.com/sorostica/image/upload/v1750830636/logo-parte_r2bfjg.png" 
                  alt="TuParte Digital" 
                  style="height: 30px; width: auto; margin-bottom: 8px;">

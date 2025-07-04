@@ -1,20 +1,20 @@
-# IMPORTANTE: Para el sitio público (tuparte.digital - Astro), 
+# IMPORTANTE: Para el sitio público (smartinvite.me - Astro), 
 # necesitas crear un archivo _redirects con esta configuración:
 #
-# /invitacion/* https://app.tuparte.digital/invitacion/:splat 200
+# /invitacion/* https://app.smartinvite.me/invitacion/:splat 200
 #
-# Esto hará que cuando alguien visite tuparte.digital/invitacion/slug,
-# Netlify redirija internamente a app.tuparte.digital/invitacion/slug
+# Esto hará que cuando alguien visite smartinvite.me/invitacion/slug,
+# Netlify redirija internamente a app.smartinvite.me/invitacion/slug
 # y muestre la invitación renderizada por React.
 
 # Redirect www to non-www
-https://www.tuparte.digital/* https://tuparte.digital/:splat 301!
+https://www.smartinvite.me/* https://smartinvite.me/:splat 301!
 
 # Handle public invitation routes
 /invitacion/* /index.html 200
 
 # Handle panel subdomain
-https://app.tuparte.digital/* /index.html 200
+https://app.smartinvite.me/* /index.html 200
 
 # Handle client-side routing for the dashboard app
 /* /index.html 200

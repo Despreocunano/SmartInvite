@@ -202,7 +202,7 @@ export function PublicSitePage() {
             Lo sentimos, pero parece que esta invitación ya no está activa o ha sido eliminada.
           </p>
           <Button
-            onClick={() => window.location.href = 'https://tuparte.digital'}
+            onClick={() => window.location.href = 'https://smartinvite.me'}
             size="lg"
             className="bg-rose-500 hover:bg-rose-600 text-white px-8 group"
           >

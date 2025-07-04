@@ -291,7 +291,7 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
 
   React.useEffect(() => {
     if (groomName && brideName && publishedStatus.slug) {
-      setPublishedUrl(`https://tuparte.digital/invitacion/${publishedStatus.slug}`);
+      setPublishedUrl(`https://smartinvite.me/invitacion/${publishedStatus.slug}`);
     }
   }, [groomName, brideName, publishedStatus.slug]);
 
@@ -322,7 +322,7 @@ export function LandingPageForm({ initialData, onSuccess, onError }: LandingPage
             };
             setPublishedStatus(newStatus);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(newStatus));
-            setPublishedUrl(`https://tuparte.digital/invitacion/${data.slug}`);
+            setPublishedUrl(`https://smartinvite.me/invitacion/${data.slug}`);
           }
         } else {
           setHasLandingPage(false);

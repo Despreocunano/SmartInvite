@@ -212,7 +212,7 @@ export function useAttendees() {
       if (landingError) throw new Error('Error fetching landing page');
 
       const landingUrl = landingPage?.slug 
-        ? `https://tuparte.digital/invitacion/${landingPage.slug}`
+        ? `https://smartinvite.me/invitacion/${landingPage.slug}`
         : '';
 
       const signature = getSignatureTemplate(groomName, brideName, profileImage);

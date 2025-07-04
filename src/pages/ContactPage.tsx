@@ -149,8 +149,8 @@ export function ContactPage() {
     {
       icon: <Mail className="h-5 w-5" />,
       title: 'Email',
-      content: 'contacto@tuparte.digital',
-      link: 'mailto:contacto@tuparte.digital'
+      content: 'contacto@smartinvite.me',
+      link: 'mailto:contacto@smartinvite.me'
     }
     //,
     //{

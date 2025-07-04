@@ -24,7 +24,7 @@ export function AuthPage() {
       <div className="w-full max-w-md">
         <Button
           variant="ghost"
-          onClick={() => window.location.href = 'https://tuparte.digital'}
+          onClick={() => window.location.href = 'https://smartinvite.me'}
           className="absolute top-4 left-4 text-white/90 hover:text-white hover:bg-white/10 rounded-full px-4 transition-all duration-200"
         >
           ← Volver al inicio

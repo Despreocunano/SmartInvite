@@ -21,7 +21,7 @@ export function useLandingPreview({ user, formValues, publishedStatus, selectedT
 
   useEffect(() => {
     if (formValues.groom_name && formValues.bride_name && publishedStatus.slug) {
-      setPublishedUrl(`https://tuparte.digital/invitacion/${publishedStatus.slug}`);
+      setPublishedUrl(`https://smartinvite.me/invitacion/${publishedStatus.slug}`);
     } else {
       setPublishedUrl('');
     }

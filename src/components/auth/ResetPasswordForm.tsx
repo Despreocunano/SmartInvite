@@ -40,7 +40,7 @@ export function ResetPasswordForm() {
 
       toast.success('Contraseña actualizada correctamente');
       setTimeout(() => {
-        window.location.href = 'https://app.tuparte.digital/auth?showLogin=true';
+        window.location.href = 'https://app.smartinvite.me/auth?showLogin=true';
       }, 1500);
     } catch (error) {
       console.error('Error al actualizar la contraseña:', error);

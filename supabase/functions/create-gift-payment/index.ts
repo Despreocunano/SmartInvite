@@ -60,7 +60,7 @@ serve(async (req)=>{
     });
     
     // Usar la URL de retorno proporcionada o la URL por defecto
-    const baseUrl = returnUrl || "https://app.tuparte.digital";
+    const baseUrl = returnUrl || "https://app.smartinvite.me";
     
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
