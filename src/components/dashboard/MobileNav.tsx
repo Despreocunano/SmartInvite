@@ -1,73 +1,50 @@
-import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Heart, Menu, X, UserPlus, ListChecks, Grid, Settings, LogOut, Globe, Music, Send, MessageCircle, Gift } from 'lucide-react';
-import { cn } from '../../lib/utils';
-import { useAuth } from '../../context/AuthContext';
+import { useState, useRef, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Heart, Menu, UserPlus, ListChecks, Grid, Settings, LogOut, Globe, Music, Send, MessageCircle, Gift, X } from 'lucide-react';
 import logoDark from '../../assets/images/logo-dark.svg';
+import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
+
+const navItems = [
+  { nameKey: 'menu.dashboard', href: '/', icon: Heart },
+  { nameKey: 'menu.landing_alt', href: '/landing', icon: Globe },
+  { nameKey: 'menu.attendees', href: '/attendees', icon: UserPlus },
+  { nameKey: 'menu.rsvps', href: '/rsvps', icon: ListChecks },
+  { nameKey: 'menu.tables', href: '/tables', icon: Grid },
+  { nameKey: 'menu.wishlist', href: '/wishlist-admin', icon: Gift },
+  { nameKey: 'menu.songs', href: '/songs', icon: Music },
+  { nameKey: 'menu.reminders', href: '/reminders', icon: Send },
+  { nameKey: 'menu.settings', href: '/settings', icon: Settings },
+  { nameKey: 'menu.contact', href: '/contact', icon: MessageCircle },
+];
 
 export function MobileNav() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const { signOut } = useAuth();
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const toggleNav = () => setIsOpen(!isOpen);
-
-  const navigation = [
-    {
-      name: 'Panel principal',
-      href: '/',
-      icon: Heart
-    },
-    {
-      name: 'Invitación Digital',
-      href: '/landing',
-      icon: Globe
-    },
-    {
-      name: 'Gestión de invitados',
-      href: '/attendees',
-      icon: UserPlus
-    },
-    {
-      name: 'Confirmaciones',
-      href: '/rsvps',
-      icon: ListChecks
-    },
-    {
-      name: 'Gestión de mesas',
-      href: '/tables',
-      icon: Grid
-    },
-    {
-      name: 'Lista de deseos',
-      href: '/wishlist-admin',
-      icon: Gift
-    },
-    {
-      name: 'Música',
-      href: '/songs',
-      icon: Music
-    },
-    {
-      name: 'Recordatorios',
-      href: '/reminders',
-      icon: Send
-    },
-    {
-      name: 'Configuración',
-      href: '/settings',
-      icon: Settings
-    },
-    {
-      name: 'Contacto',
-      href: '/contact',
-      icon: MessageCircle
+  // Cerrar el menú al hacer click fuera
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
     }
-  ];
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <div className="md:hidden">
+    <div className="md:hidden w-full">
       <div className="bg-white shadow-sm px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
           <img 
@@ -76,66 +53,56 @@ export function MobileNav() {
             className="h-8 w-auto"
           />
         </Link>
-        <button onClick={toggleNav} className="text-gray-500 focus:outline-none">
+        <button onClick={() => setIsOpen((v) => !v)} className="text-gray-500 focus:outline-none">
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
-
       {isOpen && (
-        <div className="fixed inset-0 z-10 flex bg-black bg-opacity-50">
-          <div className="w-64 bg-white h-full overflow-y-auto shadow-lg flex flex-col">
-            <Link to="/" className="flex flex-col items-center px-4 py-6 border-b border-gray-200 hover:opacity-80 transition-opacity">
-              <img 
-                src={logoDark} 
-                alt="Parte Digital" 
-                className="h-12 w-auto mb-3"
-              />
-            </Link>
-            <nav className="mt-5 px-4 space-y-1 flex-1">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href;
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={cn(
-                      isActive
-                        ? 'bg-rose-50 text-rose-600'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                      'group flex items-center px-3 py-3 text-sm font-medium rounded-md transition-all'
-                    )}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Icon
-                      className={cn(
-                        isActive
-                          ? 'text-rose-600'
-                          : 'text-gray-400 group-hover:text-gray-500',
-                        'mr-3 h-5 w-5 flex-shrink-0'
-                      )}
-                    />
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Logout Button */}
-            <div className="px-4 py-4 border-t border-gray-200">
+        <div ref={menuRef} className="absolute right-4 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+          <nav className="py-2">
+            {navItems.map(({ nameKey, href, icon: Icon }) => {
+              const isActive = pathname === href;
+              return (
+                <Link
+                  key={nameKey}
+                  to={href}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors ${isActive ? 'bg-rose-50 text-rose-600' : 'text-gray-700 hover:bg-gray-100 hover:text-rose-600'}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span>{t(nameKey)}</span>
+                </Link>
+              );
+            })}
+            <div className="border-t border-gray-200 mt-2 pt-2 flex flex-col gap-2">
               <button
                 onClick={() => {
                   signOut();
                   setIsOpen(false);
                 }}
-                className="group flex items-center px-3 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 w-full"
+                className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-rose-600 font-medium"
               >
-                <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-                Cerrar sesión
+                <LogOut className="w-5 h-5" />
+                {t('menu.logout')}
               </button>
+              <div className="flex gap-2 px-4">
+                <button
+                  onClick={() => i18n.changeLanguage('es')}
+                  className={`p-1 rounded-full border-2 ${i18n.language.startsWith('es') ? 'border-rose-500' : 'border-transparent'} hover:border-rose-400`}
+                  aria-label="Español"
+                >
+                  <img src="https://flagcdn.com/es.svg" alt="Español" width={24} height={24} className="rounded-full" />
+                </button>
+                <button
+                  onClick={() => i18n.changeLanguage('en')}
+                  className={`p-1 rounded-full border-2 ${i18n.language.startsWith('en') ? 'border-rose-500' : 'border-transparent'} hover:border-rose-400`}
+                  aria-label="English"
+                >
+                  <img src="https://flagcdn.com/us.svg" alt="English" width={24} height={24} className="rounded-full" />
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="flex-1" onClick={() => setIsOpen(false)}></div>
+          </nav>
         </div>
       )}
     </div>

@@ -3,60 +3,63 @@ import { Heart, UserPlus, ListChecks, Grid, Settings, LogOut, Globe, Music, Send
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
 import logoDark from '../../assets/images/logo-dark.svg';
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 
 export function Sidebar() {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { signOut } = useAuth();
 
   const navigation = [
     {
-      name: 'Panel principal',
+      name: t('menu.dashboard'),
       href: '/',
       icon: Heart
     },
     {
-      name: 'Parte Digital',
+      name: t('menu.landing'),
       href: '/landing',
       icon: Globe
     },
     {
-      name: 'Gestión de invitados',
+      name: t('menu.attendees'),
       href: '/attendees',
       icon: UserPlus
     },
     {
-      name: 'Confirmaciones',
+      name: t('menu.rsvps'),
       href: '/rsvps',
       icon: ListChecks
     },
     {
-      name: 'Gestión de mesas',
+      name: t('menu.tables'),
       href: '/tables',
       icon: Grid
     },
     {
-      name: 'Lista de deseos',
+      name: t('menu.wishlist'),
       href: '/wishlist-admin',
       icon: Gift
     },
     {
-      name: 'Música',
+      name: t('menu.songs'),
       href: '/songs',
       icon: Music
     },
     {
-      name: 'Recordatorios',
+      name: t('menu.reminders'),
       href: '/reminders',
       icon: Send
     },
     {
-      name: 'Configuración',
+      name: t('menu.settings'),
       href: '/settings',
       icon: Settings
     },
     {
-      name: 'Contacto',
+      name: t('menu.contact'),
       href: '/contact',
       icon: MessageCircle
     }
@@ -102,7 +105,7 @@ export function Sidebar() {
                   {item.name}
                   {showBadge && (
                     <span className="absolute -top-2 -right-3 px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-500 text-white shadow border border-white whitespace-nowrap z-10">
-                     invitación
+                      {t('menu.invite_badge')}
                     </span>
                   )}
                 </span>
@@ -119,8 +122,24 @@ export function Sidebar() {
           className="group flex items-center px-3 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 w-full"
         >
           <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-          Cerrar sesión
+          {t('menu.logout')}
         </button>
+        <div className="flex justify-center mt-4 gap-2">
+          <button
+            onClick={() => i18n.changeLanguage('es')}
+            className={`p-1 rounded-full border-2 ${i18n.language.startsWith('es') ? 'border-rose-500' : 'border-transparent'} hover:border-rose-400`}
+            aria-label="Español"
+          >
+            <img src="https://flagcdn.com/es.svg" alt="Español" width={24} height={24} className="rounded-full" />
+          </button>
+          <button
+            onClick={() => i18n.changeLanguage('en')}
+            className={`p-1 rounded-full border-2 ${i18n.language.startsWith('en') ? 'border-rose-500' : 'border-transparent'} hover:border-rose-400`}
+            aria-label="English"
+          >
+            <img src="https://flagcdn.com/us.svg" alt="English" width={24} height={24} className="rounded-full" />
+          </button>
+        </div>
       </div>
     </div>
   );
