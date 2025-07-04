@@ -1,0 +1,16 @@
+{
+  "dashboard": "Panel principal",
+  "landing": "Parte Digital",
+  "landing_alt": "Invitación Digital",
+  "attendees": "Gestión de invitados",
+  "rsvps": "Confirmaciones",
+  "tables": "Gestión de mesas",
+  "wishlist": "Lista de deseos",
+  "songs": "Música",
+  "reminders": "Recordatorios",
+  "settings": "Configuración",
+  "contact": "Contacto",
+  "logout": "Cerrar sesión",
+  "invite_badge": "invitación",
+  "more": "Más"
+} 

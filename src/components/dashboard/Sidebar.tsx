@@ -14,52 +14,52 @@ export function Sidebar() {
 
   const navigation = [
     {
-      name: t('menu.dashboard'),
+      name: t('menu:dashboard'),
       href: '/',
       icon: Heart
     },
     {
-      name: t('menu.landing'),
+      name: t('menu:landing'),
       href: '/landing',
       icon: Globe
     },
     {
-      name: t('menu.attendees'),
+      name: t('menu:attendees'),
       href: '/attendees',
       icon: UserPlus
     },
     {
-      name: t('menu.rsvps'),
+      name: t('menu:rsvps'),
       href: '/rsvps',
       icon: ListChecks
     },
     {
-      name: t('menu.tables'),
+      name: t('menu:tables'),
       href: '/tables',
       icon: Grid
     },
     {
-      name: t('menu.wishlist'),
+      name: t('menu:wishlist'),
       href: '/wishlist-admin',
       icon: Gift
     },
     {
-      name: t('menu.songs'),
+      name: t('menu:songs'),
       href: '/songs',
       icon: Music
     },
     {
-      name: t('menu.reminders'),
+      name: t('menu:reminders'),
       href: '/reminders',
       icon: Send
     },
     {
-      name: t('menu.settings'),
+      name: t('menu:settings'),
       href: '/settings',
       icon: Settings
     },
     {
-      name: t('menu.contact'),
+      name: t('menu:contact'),
       href: '/contact',
       icon: MessageCircle
     }
@@ -105,7 +105,7 @@ export function Sidebar() {
                   {item.name}
                   {showBadge && (
                     <span className="absolute -top-2 -right-3 px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-500 text-white shadow border border-white whitespace-nowrap z-10">
-                      {t('menu.invite_badge')}
+                      {t('menu:invite_badge')}
                     </span>
                   )}
                 </span>
@@ -122,7 +122,7 @@ export function Sidebar() {
           className="group flex items-center px-3 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 w-full"
         >
           <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-          {t('menu.logout')}
+          {t('menu:logout')}
         </button>
         <div className="flex justify-center mt-4 gap-2">
           <button

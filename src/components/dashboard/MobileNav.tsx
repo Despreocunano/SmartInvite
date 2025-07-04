@@ -70,7 +70,7 @@ export function MobileNav() {
                   onClick={() => setIsOpen(false)}
                 >
                   <Icon className="w-5 h-5" />
-                  <span>{t(nameKey)}</span>
+                  <span>{t(`menu:${nameKey.split('.')[1]}`)}</span>
                 </Link>
               );
             })}
@@ -83,7 +83,7 @@ export function MobileNav() {
                 className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-rose-600 font-medium"
               >
                 <LogOut className="w-5 h-5" />
-                {t('menu.logout')}
+                {t('menu:logout')}
               </button>
               <div className="flex gap-2 px-4">
                 <button

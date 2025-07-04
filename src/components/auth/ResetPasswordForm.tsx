@@ -7,6 +7,7 @@ import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { translateAuthError } from '../../lib/authErrors';
+import { useTranslation } from 'react-i18next';
 
 type ResetPasswordFormData = {
   password: string;
@@ -16,6 +17,7 @@ type ResetPasswordFormData = {
 export function ResetPasswordForm() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -38,12 +40,12 @@ export function ResetPasswordForm() {
         throw error;
       }
 
-      toast.success('Contraseña actualizada correctamente');
+      toast.success(t('reset.success_message'));
       setTimeout(() => {
         window.location.href = 'https://app.smartinvite.me/auth?showLogin=true';
       }, 1500);
     } catch (error) {
-      console.error('Error al actualizar la contraseña:', error);
+      console.error(t('error.update_password'), error);
       toast.error(translateAuthError(error as Error));
     } finally {
       setLoading(false);
@@ -53,22 +55,22 @@ export function ResetPasswordForm() {
   return (
     <Card className="w-full max-w-sm">
       <div className="p-6">
-        <h2 className="text-xl font-semibold text-center mb-2">Nueva Contraseña</h2>
+        <h2 className="text-xl font-semibold text-center mb-2">{t('reset.title')}</h2>
         <p className="text-xs text-gray-500 text-center mb-6">
-          Ingresa tu nueva contraseña
+          {t('reset.subtitle')}
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <div>
             <Input
               type="password"
-              placeholder="Nueva contraseña"
+              placeholder={t('reset.new_password')}
               error={errors.password?.message}
               {...register('password', {
-                required: 'La contraseña es requerida',
+                required: t('validation.password_required'),
                 minLength: {
                   value: 6,
-                  message: 'La contraseña debe tener al menos 6 caracteres',
+                  message: t('validation.password_min_length'),
                 },
               })}
             />
@@ -77,12 +79,12 @@ export function ResetPasswordForm() {
           <div>
             <Input
               type="password"
-              placeholder="Confirmar contraseña"
+              placeholder={t('reset.confirm_password')}
               error={errors.confirmPassword?.message}
               {...register('confirmPassword', {
-                required: 'Por favor confirma tu contraseña',
+                required: t('validation.confirm_password_required'),
                 validate: (value) =>
-                  value === password || 'Las contraseñas no coinciden',
+                  value === password || t('validation.passwords_not_match'),
               })}
             />
           </div>
@@ -92,7 +94,7 @@ export function ResetPasswordForm() {
             className="w-full h-9 bg-primary text-primary-contrast hover:bg-primary-dark"
             isLoading={loading}
           >
-            Actualizar Contraseña
+            {t('reset.update_password')}
           </Button>
         </form>
       </div>

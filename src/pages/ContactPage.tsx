@@ -6,6 +6,7 @@ import { Button } from '../components/ui/Button';
 import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { supabase } from '../lib/supabase';
+import { useTranslation } from 'react-i18next';
 
 interface ContactFormData {
   name: string;
@@ -22,6 +23,7 @@ interface FormErrors {
 }
 
 export function ContactPage() {
+  const { t } = useTranslation('contact');
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -37,23 +39,23 @@ export function ContactPage() {
     const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'El nombre es requerido';
+      newErrors.name = t('validation.name_required');
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'El email es requerido';
+      newErrors.email = t('validation.email_required');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'El email no es válido';
+      newErrors.email = t('validation.email_invalid');
     }
 
     if (!formData.subject.trim()) {
-      newErrors.subject = 'El asunto es requerido';
+      newErrors.subject = t('validation.subject_required');
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = 'El mensaje es requerido';
+      newErrors.message = t('validation.message_required');
     } else if (formData.message.length < 10) {
-      newErrors.message = 'El mensaje debe tener al menos 10 caracteres';
+      newErrors.message = t('validation.message_min');
     }
 
     setErrors(newErrors);
@@ -72,7 +74,7 @@ export function ContactPage() {
     e.preventDefault();
     
     if (!validateForm()) {
-      toast.error('Por favor, corrige los errores en el formulario');
+      toast.error(t('error.form'));
       return;
     }
 
@@ -109,8 +111,7 @@ export function ContactPage() {
 
       if (result.success) {
         setIsSubmitted(true);
-        toast.success('¡Mensaje enviado con éxito! Te responderemos pronto.');
-        
+        toast.success(t('success_title'));
         // Reset form
         setFormData({
           name: '',
@@ -119,26 +120,22 @@ export function ContactPage() {
           message: ''
         });
       } else {
-        throw new Error(result.error || 'Error al enviar el mensaje');
+        throw new Error(result.error || t('error.send'));
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      
-      // Mostrar error más específico
-      let errorMessage = 'Error al enviar el mensaje. Por favor, intenta nuevamente.';
-      
+      let errorMessage = t('error.send');
       if (error instanceof Error) {
         if (error.message.includes('Failed to fetch')) {
-          errorMessage = 'Error de conexión. Verifica tu conexión a internet.';
+          errorMessage = t('error.connection');
         } else if (error.message.includes('VITE_SUPABASE_URL')) {
-          errorMessage = 'Error de configuración. Contacta al administrador.';
+          errorMessage = t('error.config');
         } else if (error.message.includes('401')) {
-          errorMessage = 'Error de autenticación. La función requiere configuración adicional.';
+          errorMessage = t('error.auth');
         } else {
           errorMessage = error.message;
         }
       }
-      
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -148,22 +145,14 @@ export function ContactPage() {
   const contactInfo = [
     {
       icon: <Mail className="h-5 w-5" />,
-      title: 'Email',
-      content: 'contacto@smartinvite.me',
+      title: t('email_label'),
+      content: t('email_content'),
       link: 'mailto:contacto@smartinvite.me'
-    }
-    //,
-    //{
-       //icon: <Phone className="h-5 w-5" />,
-       //title: 'WhatsApp',
-       //content: '+56 9 1234 5678',
-       //link: 'https://wa.me/56912345678'
-     //},
-     ,
+    },
     {
       icon: <MapPin className="h-5 w-5" />,
-      title: 'Ubicación',
-      content: 'Santiago, Chile',
+      title: t('location'),
+      content: t('location_content'),
       link: '#'
     }
   ];
@@ -178,10 +167,10 @@ export function ContactPage() {
                 <CheckCircle className="h-10 w-10 text-green-600" />
               </div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                ¡Mensaje enviado con éxito!
+                {t('success_title')}
               </h2>
               <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
-                Gracias por contactarnos. Te responderemos lo antes posible, generalmente en menos de 24 horas.
+                {t('success_body')}
               </p>
               <Button
                 onClick={() => setIsSubmitted(false)}
@@ -189,7 +178,7 @@ export function ContactPage() {
                 size="lg"
                 className='bg-primary text-primary-contrast hover:bg-primary-dark px-8'
               >
-                Enviar otro mensaje
+                {t('send_another')}
               </Button>
             </CardContent>
           </Card>
@@ -210,10 +199,9 @@ export function ContactPage() {
                   <MessageCircle className="h-5 w-5 text-gray-600" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">
-                  Información de Contacto
+                  {t('title')}
                 </h2>
               </div>
-              
               <div className="space-y-4">
                 {contactInfo.map((info, index) => (
                   <div key={index} className="group">
@@ -233,36 +221,34 @@ export function ContactPage() {
                 ))}
               </div>
             </div>
-
             <div className="bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden z-0">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
               <div className="relative z-10">
                 <h3 className="font-bold text-2xl mb-4">
-                  ¿Por qué elegirnos?
+                  {t('why_us_title')}
                 </h3>
                 <ul className="space-y-3 text-gray-100">
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></span>
-                    <span>Invitaciones digitales personalizadas y únicas</span>
+                    <span>{t('why_us_1')}</span>
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></span>
-                    <span>Gestión completa de invitados y confirmaciones</span>
+                    <span>{t('why_us_2')}</span>
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></span>
-                    <span>Soporte técnico especializado 24/7</span>
+                    <span>{t('why_us_3')}</span>
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></span>
-                    <span>Respuesta rápida en menos de 24 horas</span>
+                    <span>{t('why_us_4')}</span>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-
           {/* Formulario de contacto */}
           <div className="bg-white rounded-2xl shadow-xl border border-gray-200">
             <CardHeader className="pb-6 border-b border-gray-200">
@@ -270,43 +256,41 @@ export function ContactPage() {
                 <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                   <Send className="h-5 w-5 text-gray-600" />
                 </div>
-                <CardTitle className="text-2xl text-gray-900">Envíanos un mensaje</CardTitle>
+                <CardTitle className="text-2xl text-gray-900">{t('send_message_title')}</CardTitle>
               </div>
             </CardHeader>
             <CardContent className="p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <Input
-                    label="Nombre completo"
-                    placeholder="Tu nombre"
+                    label={t('name')}
+                    placeholder={t('name_placeholder')}
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
                     error={errors.name}
                     required
                   />
                   <Input
-                    label="Email"
+                    label={t('email')}
                     type="email"
-                    placeholder="tu@email.com"
+                    placeholder={t('email_placeholder')}
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     error={errors.email}
                     required
                   />
                 </div>
-
                 <Input
-                  label="Asunto"
-                  placeholder="¿En qué podemos ayudarte?"
+                  label={t('subject')}
+                  placeholder={t('subject_placeholder')}
                   value={formData.subject}
                   onChange={(e) => handleInputChange('subject', e.target.value)}
                   error={errors.subject}
                   required
                 />
-
                 <Textarea
-                  label="Mensaje"
-                  placeholder="Cuéntanos más detalles sobre tu proyecto o consulta..."
+                  label={t('message')}
+                  placeholder={t('message_placeholder')}
                   value={formData.message}
                   onChange={(e) => handleInputChange('message', e.target.value)}
                   error={errors.message}
@@ -315,7 +299,6 @@ export function ContactPage() {
                   rows={6}
                   required
                 />
-
                 <Button
                   type="submit"
                   variant="primary"
@@ -324,18 +307,11 @@ export function ContactPage() {
                   leftIcon={<Send className="h-4 w-4" />}
                   className="w-full h-14 text-lg bg-primary text-primary-contrast hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  {isSubmitting ? 'Enviando mensaje...' : 'Enviar mensaje'}
+                  {isSubmitting ? t('sending') : t('send')}
                 </Button>
               </form>
             </CardContent>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-16 pt-8 border-t border-gray-200">
-          <p className="text-gray-600">
-            © 2024 Parte Digital. Todos los derechos reservados.
-          </p>
         </div>
       </div>
     </div>

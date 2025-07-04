@@ -1,0 +1,16 @@
+{
+  "dashboard": "Dashboard",
+  "landing": "Digital Invite",
+  "landing_alt": "Digital Invitation",
+  "attendees": "Guest Management",
+  "rsvps": "RSVPs",
+  "tables": "Table Management",
+  "wishlist": "Wishlist",
+  "songs": "Music",
+  "reminders": "Reminders",
+  "settings": "Settings",
+  "contact": "Contact",
+  "logout": "Log out",
+  "invite_badge": "invite",
+  "more": "More"
+} 

@@ -77,7 +77,7 @@ export function AppNavbar() {
                   className={`flex items-center gap-1 px-2 py-1 rounded-md text-sm font-medium transition-colors ${isActive ? 'bg-rose-50 text-rose-600' : 'text-gray-700 hover:bg-gray-100 hover:text-rose-600'}`}
                 >
                   <Icon className="w-5 h-5" />
-                  <span>{t(nameKey)}</span>
+                  <span>{t(`menu:${nameKey.split('.')[1]}`)}</span>
                 </Link>
               </li>
             );
@@ -91,7 +91,7 @@ export function AppNavbar() {
               aria-expanded={mobileOpen}
             >
               <MoreHorizontal className="w-5 h-5" />
-              <span>{t('menu.more') || 'Más'}</span>
+              <span>{t('menu:more') || 'Más'}</span>
             </button>
             {mobileOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
@@ -106,7 +106,7 @@ export function AppNavbar() {
                           onClick={() => setMobileOpen(false)}
                         >
                           <Icon className="w-5 h-5" />
-                          <span>{t(nameKey)}</span>
+                          <span>{t(`menu:${nameKey.split('.')[1]}`)}</span>
                         </Link>
                       </li>
                     );
@@ -124,7 +124,7 @@ export function AppNavbar() {
             key={nameKey}
             to={href}
             className={`p-2 rounded-full hover:bg-gray-100 transition-colors ${pathname === href ? 'bg-rose-50 text-rose-600' : 'text-gray-500 hover:text-rose-600'}`}
-            title={t(nameKey)}
+            title={t(`menu:${nameKey.split('.')[1]}`)}
           >
             <Icon className="w-5 h-5" />
           </Link>
@@ -132,7 +132,7 @@ export function AppNavbar() {
         <button
           onClick={() => signOut()}
           className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-500 hover:text-rose-600"
-          title={t('menu.logout')}
+          title={t('menu:logout')}
         >
           <LogOut className="w-5 h-5" />
         </button>
@@ -167,13 +167,13 @@ export function AppNavbar() {
                   onClick={() => setMobileOpen(false)}
                 >
                   <Icon className="w-5 h-5" />
-                  <span>{t(nameKey)}</span>
+                  <span>{t(`menu:${nameKey.split('.')[1]}`)}</span>
                 </Link>
               );
             })}
             {/* Sección Más en mobile */}
             <hr className="my-2 border-gray-200" />
-            <div className="px-6 pb-2 text-xs text-gray-400 uppercase tracking-wider">{t('menu.more') || 'Más'}</div>
+            <div className="px-6 pb-2 text-xs text-gray-400 uppercase tracking-wider">{t('menu:more') || 'Más'}</div>
             {moreNavItems.map(({ nameKey, href, icon: Icon }) => {
               const isActive = pathname === href;
               return (
@@ -184,7 +184,7 @@ export function AppNavbar() {
                   onClick={() => setMobileOpen(false)}
                 >
                   <Icon className="w-5 h-5" />
-                  <span>{t(nameKey)}</span>
+                  <span>{t(`menu:${nameKey.split('.')[1]}`)}</span>
                 </Link>
               );
             })}
@@ -195,7 +195,7 @@ export function AppNavbar() {
                   key={nameKey}
                   to={href}
                   className={`p-2 rounded-full hover:bg-gray-100 transition-colors ${pathname === href ? 'bg-rose-50 text-rose-600' : 'text-gray-500 hover:text-rose-600'}`}
-                  title={t(nameKey)}
+                  title={t(`menu:${nameKey.split('.')[1]}`)}
                   onClick={() => setMobileOpen(false)}
                 >
                   <Icon className="w-5 h-5" />
@@ -207,7 +207,7 @@ export function AppNavbar() {
                   setMobileOpen(false);
                 }}
                 className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-500 hover:text-rose-600"
-                title={t('menu.logout')}
+                title={t('menu:logout')}
               >
                 <LogOut className="w-5 h-5" />
               </button>

@@ -6,6 +6,7 @@ import { AuthPage } from './components/auth/AuthPage';
 import { Layout } from './components/dashboard/Layout';
 import { RequireLandingPage } from './components/auth/RequireLandingPage';
 import { trackPageView } from './lib/analytics';
+import './i18n';
 
 // Lazy load pages
 const DashboardPage = lazy(() => import('./pages/DashboardPage').then(module => ({ default: module.DashboardPage })));

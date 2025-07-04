@@ -1,0 +1,42 @@
+{
+  "title": "Información de Contacto",
+  "send_message_title": "Envíanos un mensaje",
+  "name": "Nombre completo",
+  "name_placeholder": "Tu nombre",
+  "email": "Email",
+  "email_placeholder": "tu@email.com",
+  "subject": "Asunto",
+  "subject_placeholder": "¿En qué podemos ayudarte?",
+  "message": "Mensaje",
+  "message_placeholder": "Cuéntanos más detalles sobre tu proyecto o consulta...",
+  "send": "Enviar mensaje",
+  "sending": "Enviando mensaje...",
+  "success_title": "¡Mensaje enviado con éxito!",
+  "success_body": "Gracias por contactarnos. Te responderemos lo antes posible, generalmente en menos de 24 horas.",
+  "send_another": "Enviar otro mensaje",
+  "why_us_title": "¿Por qué elegirnos?",
+  "why_us_1": "Invitaciones digitales personalizadas y únicas",
+  "why_us_2": "Gestión completa de invitados y confirmaciones",
+  "why_us_3": "Soporte técnico especializado 24/7",
+  "why_us_4": "Respuesta rápida en menos de 24 horas",
+  "location": "Ubicación",
+  "location_content": "Santiago, Chile",
+  "email_label": "Email",
+  "email_content": "contacto@smartinvite.me",
+  "validation": {
+    "name_required": "El nombre es requerido",
+    "email_required": "El email es requerido",
+    "email_invalid": "El email no es válido",
+    "subject_required": "El asunto es requerido",
+    "message_required": "El mensaje es requerido",
+    "message_min": "El mensaje debe tener al menos 10 caracteres"
+  },
+  "error": {
+    "form": "Por favor, corrige los errores en el formulario",
+    "send": "Error al enviar el mensaje. Por favor, intenta nuevamente.",
+    "connection": "Error de conexión. Verifica tu conexión a internet.",
+    "config": "Error de configuración. Contacta al administrador.",
+    "auth": "Error de autenticación. La función requiere configuración adicional."
+  },
+  "footer": "© 2024 Parte Digital. Todos los derechos reservados."
+} 

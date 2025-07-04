@@ -4,10 +4,12 @@ import { RegisterForm } from './RegisterForm';
 import { ResetPasswordForm } from './ResetPasswordForm';
 import { Button } from '../ui/Button';
 import logoParte from '../../assets/images/logo-parte.svg';
+import { useTranslation } from 'react-i18next';
 
 export function AuthPage() {
   const [showLogin, setShowLogin] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -27,7 +29,7 @@ export function AuthPage() {
           onClick={() => window.location.href = 'https://smartinvite.me'}
           className="absolute top-4 left-4 text-white/90 hover:text-white hover:bg-white/10 rounded-full px-4 transition-all duration-200"
         >
-          ← Volver al inicio
+          {t('auth.back_to_home')}
         </Button>
         
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white/20">

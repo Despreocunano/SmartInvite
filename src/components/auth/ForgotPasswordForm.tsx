@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../ui/Card
 import { Mail } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { translateAuthError } from '../../lib/authErrors';
+import { useTranslation } from 'react-i18next';
 
 type ForgotPasswordFormProps = {
   onBack: () => void;
@@ -20,6 +21,7 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const { t } = useTranslation();
 
   const {
     register,
@@ -47,10 +49,10 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
     <Card className="w-full max-w-sm mx-auto border-0 shadow-xl">
       <CardHeader className="space-y-1 pb-4">
         <CardTitle className="text-center text-xl font-bold text-gray-900">
-          Recuperar contraseña
+          {t('forgot.title')}
         </CardTitle>
         <p className="text-center text-xs text-gray-500">
-          Ingresa tu correo electrónico para recibir instrucciones
+          {t('forgot.subtitle')}
         </p>
       </CardHeader>
       <CardContent>
@@ -61,21 +63,21 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
         )}
         {success && (
           <div className="mb-3 p-2 bg-green-50 border border-green-200 text-green-700 rounded-md text-xs">
-            Se han enviado las instrucciones a tu correo electrónico
+            {t('forgot.success_message')}
           </div>
         )}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <Input
-            label="Correo electrónico"
+            label={t('forgot.email')}
             type="email"
             placeholder="tu@ejemplo.com"
             error={errors.email?.message}
             leftIcon={<Mail className="h-3 w-3 text-gray-400" />}
             {...register('email', {
-              required: 'El correo electrónico es requerido',
+              required: t('validation.email_required'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Correo electrónico inválido',
+                message: t('validation.email_invalid'),
               },
             })}
           />
@@ -84,19 +86,19 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
             isLoading={loading} 
             className="w-full bg-rose-500 hover:bg-rose-600 text-white h-9 text-sm"
           >
-            Enviar instrucciones
+            {t('forgot.send_instructions')}
           </Button>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center border-t pt-4">
         <p className="text-xs text-gray-600">
-          ¿Recordaste tu contraseña?{' '}
+          {t('forgot.remembered_password')}{' '}
           <button
             type="button"
             onClick={onBack}
             className="text-rose-600 hover:text-rose-800 font-medium transition-colors"
           >
-            Volver al inicio de sesión
+            {t('forgot.back_to_login')}
           </button>
         </p>
       </CardFooter>

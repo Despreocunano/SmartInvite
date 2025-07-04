@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../ui/Card
 import { Mail, Lock } from 'lucide-react';
 import { ForgotPasswordForm } from './ForgotPasswordForm';
 import { translateAuthError } from '../../lib/authErrors';
+import { useTranslation } from 'react-i18next';
 
 type FormData = {
   email: string;
@@ -24,6 +25,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const { t } = useTranslation();
   
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
@@ -40,7 +42,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
         setErrorMessage(translateAuthError(error));
       }
     } catch (error) {
-      setErrorMessage('Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.');
+      setErrorMessage(t('error.unexpected'));
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -55,10 +57,10 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
     <Card className="w-full max-w-sm mx-auto border-0 shadow-xl">
       <CardHeader className="space-y-1 pb-3">
         <CardTitle className="text-center text-lg font-bold text-gray-900">
-          Bienvenido de vuelta
+          {t('login.title')}
         </CardTitle>
         <p className="text-center text-xs text-gray-500">
-          Accede a tu panel de administración
+          {t('login.subtitle')}
         </p>
       </CardHeader>
       <CardContent>
@@ -69,30 +71,30 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
         )}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5">
           <Input
-            label="Correo electrónico"
+            label={t('login.email')}
             type="email"
             placeholder="tu@ejemplo.com"
             error={errors.email?.message}
             leftIcon={<Mail className="h-3 w-3 text-gray-400" />}
             {...register('email', {
-              required: 'Requerido',
+              required: t('validation.required'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Correo inválido',
+                message: t('validation.invalid_email'),
               },
             })}
           />
           <Input
-            label="Contraseña"
+            label={t('login.password')}
             type="password"
             placeholder="••••••"
             error={errors.password?.message}
             leftIcon={<Lock className="h-3 w-3 text-gray-400" />}
             {...register('password', {
-              required: 'Requerido',
+              required: t('validation.required'),
               minLength: {
                 value: 6,
-                message: 'Mínimo 6 caracteres',
+                message: t('validation.min_password'),
               },
             })}
           />
@@ -102,7 +104,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
               onClick={() => setShowForgotPassword(true)}
               className="text-xs text-blue-600 hover:text-blue-700"
             >
-              ¿Olvidaste tu contraseña?
+              {t('login.forgot_password')}
             </button>
           </div>
           <Button 
@@ -110,19 +112,19 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
             isLoading={isLoading} 
             className="w-full bg-rose-500 hover:bg-rose-600 text-white h-9 text-sm mt-3"
           >
-            Iniciar sesión
+            {t('login.sign_in')}
           </Button>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center border-t pt-3">
         <p className="text-xs text-gray-600">
-          ¿No tienes cuenta?{' '}
+          {t('login.no_account')}{' '}
           <button
             type="button"
             onClick={onToggleForm}
             className="text-rose-600 hover:text-rose-800 font-medium transition-colors"
           >
-            Regístrate
+            {t('login.register')}
           </button>
         </p>
       </CardFooter>

@@ -43,17 +43,17 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
       if (password !== confirmPassword) {
         setError('confirmPassword', {
           type: 'manual',
-          message: 'Las contraseñas no coinciden'
+          message: t('validation.passwords_not_match')
         });
       } else {
         clearErrors('confirmPassword');
       }
     }
-  }, [password, confirmPassword, setError, clearErrors]);
+  }, [password, confirmPassword, setError, clearErrors, t]);
 
   const validatePassword = (value: string) => {
-    if (!value) return 'La contraseña es requerida';
-    if (value.length < 6) return 'La contraseña debe tener al menos 6 caracteres';
+    if (!value) return t('validation.password_required');
+    if (value.length < 6) return t('validation.password_min_length');
     return true;
   };
 
@@ -73,7 +73,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
           navigate('/', { replace: true });
           trackSignUp(data.email);
         } else {
-          setSuccessMessage('¡Registro exitoso! Ahora puedes iniciar sesión.');
+          setSuccessMessage(t('success.registration'));
           setTimeout(() => {
             onToggleForm();
           }, 2000);
@@ -82,7 +82,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
         setErrorMessage(translateAuthError(error));
       }
     } catch (error) {
-      setErrorMessage('Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.');
+      setErrorMessage(t('error.unexpected'));
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -132,7 +132,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
               error={errors.groomName?.message}
               leftIcon={<User className="h-3 w-3 text-gray-400" />}
               {...register('groomName', {
-                required: 'Requerido',
+                required: t('validation.required'),
               })}
             />
             <Input
@@ -141,7 +141,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
               error={errors.brideName?.message}
               leftIcon={<User className="h-3 w-3 text-gray-400" />}
               {...register('brideName', {
-                required: 'Requerido',
+                required: t('validation.required'),
               })}
             />
           </div>
@@ -155,7 +155,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
             ]}
             error={errors.country?.message}
             defaultValue="US"
-            {...register('country', { required: 'Requerido' })}
+            {...register('country', { required: t('validation.required') })}
           />
           <Input
             label={t('register.email')}
@@ -164,10 +164,10 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
             error={errors.email?.message}
             leftIcon={<Mail className="h-3 w-3 text-gray-400" />}
             {...register('email', {
-              required: 'Requerido',
+              required: t('validation.required'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Correo inválido',
+                message: t('validation.invalid_email'),
               },
             })}
           />
@@ -188,7 +188,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
             error={errors.confirmPassword?.message}
             leftIcon={<Lock className="h-3 w-3 text-gray-400" />}
             {...register('confirmPassword', {
-              required: 'Requerido'
+              required: t('validation.required')
             })}
           />
           <div className="text-xs text-gray-500 pt-1">

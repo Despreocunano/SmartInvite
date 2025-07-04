@@ -1,0 +1,42 @@
+{
+  "title": "Contact Information",
+  "send_message_title": "Send us a message",
+  "name": "Full name",
+  "name_placeholder": "Your name",
+  "email": "Email",
+  "email_placeholder": "your@email.com",
+  "subject": "Subject",
+  "subject_placeholder": "How can we help you?",
+  "message": "Message",
+  "message_placeholder": "Tell us more about your project or inquiry...",
+  "send": "Send message",
+  "sending": "Sending message...",
+  "success_title": "Message sent successfully!",
+  "success_body": "Thank you for contacting us. We will get back to you as soon as possible, usually within 24 hours.",
+  "send_another": "Send another message",
+  "why_us_title": "Why choose us?",
+  "why_us_1": "Personalized and unique digital invitations",
+  "why_us_2": "Complete guest and RSVP management",
+  "why_us_3": "Specialized technical support 24/7",
+  "why_us_4": "Quick response in less than 24 hours",
+  "location": "Location",
+  "location_content": "Santiago, Chile",
+  "email_label": "Email",
+  "email_content": "contacto@smartinvite.me",
+  "validation": {
+    "name_required": "Name is required",
+    "email_required": "Email is required",
+    "email_invalid": "Email is not valid",
+    "subject_required": "Subject is required",
+    "message_required": "Message is required",
+    "message_min": "Message must be at least 10 characters"
+  },
+  "error": {
+    "form": "Please correct the errors in the form",
+    "send": "Error sending the message. Please try again.",
+    "connection": "Connection error. Check your internet connection.",
+    "config": "Configuration error. Contact the administrator.",
+    "auth": "Authentication error. The function requires additional configuration."
+  },
+  "footer": "© 2024 Parte Digital. All rights reserved."
+} 
