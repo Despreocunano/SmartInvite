@@ -7,6 +7,7 @@ import { GuestTable, Attendee } from '../../types/supabase';
 import { getInitials } from '../../lib/utils';
 import { TableAssignmentModal } from './TableAssignmentModal';
 import { Input } from '../ui/Input';
+import { useTranslation } from 'react-i18next';
 
 interface TableCardProps {
   table: GuestTable;
@@ -27,6 +28,7 @@ export function TableCard({
   const [showEditModal, setShowEditModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [localAttendees, setLocalAttendees] = useState<Attendee[]>([]);
+  const { t } = useTranslation('tables');
   
   useEffect(() => {
     setLocalAttendees(attendees);
@@ -39,7 +41,7 @@ export function TableCard({
     (
       attendee.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (attendee.last_name && attendee.last_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      attendee.email.toLowerCase().includes(searchTerm.toLowerCase())
+      (attendee.email && attendee.email.toLowerCase().includes(searchTerm.toLowerCase()))
     )
   );
   
@@ -130,7 +132,7 @@ export function TableCard({
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowEditModal(true)}
-                    aria-label="Editar Mesa"
+                    aria-label={t('table_card.edit_table')}
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -138,7 +140,7 @@ export function TableCard({
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowDeleteModal(true)}
-                    aria-label="Eliminar Mesa"
+                    aria-label={t('table_card.delete_table')}
                   >
                     <Trash2 className="h-4 w-4 text-red-500" />
                   </Button>
@@ -155,11 +157,11 @@ export function TableCard({
                 <div className="flex items-center justify-center p-2 rounded-md bg-gray-100 text-gray-800">
                   {availableSeats > 0 ? (
                     <span className="text-sm font-medium">
-                      {availableSeats} asientos disponibles
+                      {t('table_card.seats_available', { count: availableSeats })}
                     </span>
                   ) : (
                     <span className="text-sm font-medium">
-                      Mesa llena
+                      {t('table_card.table_full')}
                     </span>
                   )}
                 </div>
@@ -187,7 +189,7 @@ export function TableCard({
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
-                placeholder="Buscar invitados..."
+                placeholder={t('table_card.search_placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -216,7 +218,7 @@ export function TableCard({
                       size="sm"
                       onClick={() => handleAssignAttendee(attendee)}
                       disabled={availableSeats === 0}
-                      title={availableSeats === 0 ? 'Mesa llena' : 'Asignar a esta mesa'}
+                      title={availableSeats === 0 ? t('table_card.table_full') : t('table_card.assign_to_table')}
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
@@ -247,7 +249,7 @@ export function TableCard({
                       variant="ghost"
                       size="sm"
                       onClick={() => handleRemoveFromTable(attendee)}
-                      title="Remover de esta mesa"
+                      title={t('table_card.remove_from_table')}
                     >
                       <X className="h-4 w-4 text-gray-500 hover:text-red-500" />
                     </Button>
@@ -263,12 +265,12 @@ export function TableCard({
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDeleteTable}
-        title="Eliminar Mesa"
-        confirmText="Eliminar"
+        title={t('table_card.delete_modal.title')}
+        confirmText={t('table_card.delete_modal.confirm')}
         isDanger
       >
         <p className="text-sm text-gray-500">
-          ¿Estás seguro de que deseas eliminar la mesa {table.name}?
+          {t('table_card.delete_modal.message', { name: table.name })}
         </p>
       </Modal>
 

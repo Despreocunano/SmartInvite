@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { useAuth } from '../context/AuthContext';
@@ -52,6 +53,7 @@ function WishListSkeleton() {
 }
 
 export function WishListAdminPage() {
+  const { t } = useTranslation('features');
   const { user } = useAuth();
   const [wishList, setWishList] = useState<WishListItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,14 +70,14 @@ export function WishListAdminPage() {
         .eq('user_id', user.id)
         .order('created_at');
       if (error) {
-        toast.error('Error al cargar la lista de deseos');
+        toast.error(t('wishlist.loading_error'));
       } else {
         setWishList(data || []);
       }
       setLoading(false);
     };
     fetchWishList();
-  }, [user]);
+  }, [user, t]);
 
   const handleChange = (items: WishListItem[]) => {
     setWishList(items);
@@ -83,7 +85,7 @@ export function WishListAdminPage() {
 
   const handleSave = async () => {
     if (!user?.id) {
-      toast.error('Debes iniciar sesión para guardar tu lista de deseos');
+      toast.error(t('wishlist.login_required'));
       return;
     }
     setSaving(true);
@@ -138,9 +140,9 @@ export function WishListAdminPage() {
         }
       }
       setWishList([...wishList]);
-      toast.success('Lista de deseos guardada');
+      toast.success(t('wishlist.save_success'));
     } catch (err) {
-      toast.error('Error al guardar la lista');
+      toast.error(t('wishlist.save_error'));
       console.error(err);
     } finally {
       setSaving(false);
@@ -152,7 +154,7 @@ export function WishListAdminPage() {
       <div className="max-w-6xl mx-auto py-8">
         <Card>
           <CardHeader>
-            <CardTitle>Lista de deseos</CardTitle>
+            <CardTitle>{t('wishlist.title')}</CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (

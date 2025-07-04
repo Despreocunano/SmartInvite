@@ -20,3 +20,12 @@ export interface Attendee {
   created_at: string;
   updated_at: string;
 }
+
+export interface GuestTable {
+  id: string;
+  user_id: string;
+  name: string;
+  capacity: number;
+  created_at: string;
+  updated_at: string;
+}

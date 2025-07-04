@@ -5,6 +5,7 @@ import { getInitials } from '../../lib/utils';
 import { UserPlus } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { TableAssignmentModal } from './TableAssignmentModal';
+import { useTranslation } from 'react-i18next';
 
 interface UnassignedGuestsProps {
   attendees: Attendee[];
@@ -15,6 +16,7 @@ interface UnassignedGuestsProps {
 export function UnassignedGuests({ attendees, tables, onAssignTable }: UnassignedGuestsProps) {
   const [selectedGuest, setSelectedGuest] = React.useState<Attendee | null>(null);
   const [localAttendees, setLocalAttendees] = useState<Attendee[]>([]);
+  const { t } = useTranslation('tables');
   
   useEffect(() => {
     setLocalAttendees(attendees);
@@ -69,12 +71,14 @@ export function UnassignedGuests({ attendees, tables, onAssignTable }: Unassigne
         <CardHeader className="pb-2">
           <div className="flex justify-between items-start">
             <div>
-              <CardTitle className="text-lg">Invitados sin Mesa</CardTitle>
+              <CardTitle className="text-lg">{t('unassigned_guests.title')}</CardTitle>
               <div className="flex items-center mt-1 text-sm text-gray-600">
                 <UserPlus className="h-4 w-4 mr-1" />
                 <span>
-                  {unassignedAttendees.filter(a => a.rsvp_status === 'confirmed').length} confirmados,{' '}
-                  {unassignedAttendees.filter(a => a.rsvp_status === 'pending').length} pendientes
+                  {t('unassigned_guests.stats', { 
+                    confirmed: unassignedAttendees.filter(a => a.rsvp_status === 'confirmed').length,
+                    pending: unassignedAttendees.filter(a => a.rsvp_status === 'pending').length
+                  })}
                 </span>
               </div>
             </div>
@@ -112,7 +116,7 @@ export function UnassignedGuests({ attendees, tables, onAssignTable }: Unassigne
               ))
             ) : (
               <div className="flex items-center justify-center h-24 text-gray-400 text-sm">
-                Todos los invitados tienen mesa asignada
+                {t('unassigned_guests.all_assigned')}
               </div>
             )}
           </div>

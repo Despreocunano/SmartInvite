@@ -11,6 +11,7 @@ import { AttendeeCard } from '../components/attendees/AttendeeCard';
 import { AttendeeForm } from '../components/attendees/AttendeeForm';
 import type { Attendee } from '../types/supabase';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 function AttendeesSkeleton() {
   return (
@@ -82,6 +83,7 @@ export function AttendeesPage() {
   const [sendingReminder, setSendingReminder] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState('all');
   const [showFeatureLockModal, setShowFeatureLockModal] = useState(false);
+  const { t } = useTranslation('attendees');
   
   const { 
     attendees, 
@@ -178,10 +180,10 @@ export function AttendeesPage() {
       setSendingReminder(attendee.id);
       const result = await sendReminder(attendee.id);
       if (result.success) {
-      toast.success('Recordatorio enviado');
+      toast.success(t('reminder_sent'));
       }
     } catch (error) {
-      toast.error('Error al enviar el recordatorio');
+      toast.error(t('reminder_error'));
     } finally {
       setSendingReminder(null);
     }
@@ -198,9 +200,9 @@ export function AttendeesPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Invitados</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
         <p className="text-gray-500 mt-1">
-          Gestiona la lista de invitados y sus confirmaciones
+          {t('description')}
         </p>
       </div>
 
@@ -210,7 +212,7 @@ export function AttendeesPage() {
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input 
-              placeholder="Buscar invitados..."
+              placeholder={t('search_placeholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -221,10 +223,10 @@ export function AttendeesPage() {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
-              <option value="all">Todos</option>
-              <option value="confirmed">Confirmados</option>
-              <option value="pending">Pendientes</option>
-              <option value="declined">No Asistirán</option>
+                              <option value="all">{t('filter_all')}</option>
+                <option value="confirmed">{t('filter_confirmed')}</option>
+                <option value="pending">{t('filter_pending')}</option>
+                <option value="declined">{t('filter_declined')}</option>
             </select>
           </div>
           <Button 
@@ -232,7 +234,7 @@ export function AttendeesPage() {
             leftIcon={<Plus className="h-4 w-4" />}
             className="bg-primary hover:bg-primary-dark text-primary-contrast w-full sm:w-auto"
           >
-            Agregar Invitado
+                          {t('add_attendee')}
           </Button>
         </div>
       </div>
@@ -240,7 +242,7 @@ export function AttendeesPage() {
       {!attendeesLoading && !tablesLoading && showAddForm && (
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Agregar Invitado</CardTitle>
+            <CardTitle>{t('add_attendee_title')}</CardTitle>
           </CardHeader>
           <CardContent>
             <AttendeeForm 
@@ -255,7 +257,7 @@ export function AttendeesPage() {
       {!attendeesLoading && !tablesLoading && editingAttendee && (
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Editar Invitado</CardTitle>
+            <CardTitle>{t('edit_attendee_title')}</CardTitle>
           </CardHeader>
           <CardContent>
             <AttendeeForm
@@ -291,12 +293,12 @@ export function AttendeesPage() {
           <CardContent className="py-12">
             <div className="text-center">
               <p className="text-gray-500 mb-4">
-                {searchTerm ? 'No se encontraron invitados' : 'No hay invitados registrados'}
+                {searchTerm ? t('no_attendees_found') : t('no_attendees_registered')}
               </p>
               {!searchTerm && (
                 <Button onClick={handleAddAttendeeClick}
                 className='bg-primary text-primary-contrast hover:bg-primary-dark'>
-                  Agregar Primer Invitado
+                  {t('add_first_attendee')}
                 </Button>
               )}
             </div>
@@ -305,9 +307,9 @@ export function AttendeesPage() {
       )}
 
       <FeatureLockModal
-        title="Función no disponible"
-        description="Para agregar invitados manualmente y enviar tu invitación por correo, necesitas tener publicada tu invitación."
-        actionText="Publicar"
+        title={t('feature_lock.title')}
+        description={t('feature_lock.description')}
+        actionText={t('feature_lock.action')}
         actionPath="/landing"
         isOpen={showFeatureLockModal}
         onClose={() => setShowFeatureLockModal(false)}

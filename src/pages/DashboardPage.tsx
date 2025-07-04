@@ -7,6 +7,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import { Modal } from '../components/ui/Modal';
 import { Input } from '../components/ui/Input';
+import { useTranslation } from 'react-i18next';
 
 // Skeleton Components
 const SkeletonCard = () => (
@@ -134,6 +135,7 @@ export function DashboardPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation('dashboard');
 
   const [totalInvitados, setTotalInvitados] = useState(0);
   const [invitadosConAcompanante, setInvitadosConAcompanante] = useState(0);
@@ -422,13 +424,13 @@ export function DashboardPage() {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Panel Principal</h1>
+              <h1 className="text-2xl font-bold text-gray-900 mb-6">{t('title')}</h1>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 mb-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total de Invitados</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('total_guests')}</CardTitle>
             <UserPlus className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
@@ -441,13 +443,13 @@ export function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Confirmados</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('confirmed')}</CardTitle>
             <CheckCircle2 className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{confirmados}</div>
             <p className="text-xs text-gray-500 mb-2">
-              {totalInvitados > 0 ? Math.round((confirmados / totalInvitados) * 100) : 0}% de invitados
+              {totalInvitados > 0 ? t('percent_guests', { percent: Math.round((confirmados / totalInvitados) * 100) }) : t('percent_guests', { percent: 0 })}
             </p>
             <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
               <div className="bg-emerald-600 h-1.5 rounded-full" style={{ width: `${totalInvitados > 0 ? (confirmados / totalInvitados) * 100 : 0}%` }}></div>
@@ -457,13 +459,13 @@ export function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">No Asistirán</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('not_attending')}</CardTitle>
             <XCircle className="h-4 w-4 text-rose-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{noAsistiran}</div>
             <p className="text-xs text-gray-500 mb-2">
-              {totalInvitados > 0 ? Math.round((noAsistiran / totalInvitados) * 100) : 0}% de invitados
+              {totalInvitados > 0 ? t('percent_guests', { percent: Math.round((noAsistiran / totalInvitados) * 100) }) : t('percent_guests', { percent: 0 })}
             </p>
             <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
               <div className="bg-rose-600 h-1.5 rounded-full" style={{ width: `${totalInvitados > 0 ? (noAsistiran / totalInvitados) * 100 : 0}%` }}></div>
@@ -473,13 +475,13 @@ export function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pendientes</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('pending')}</CardTitle>
             <Clock className="h-4 w-4 text-amber-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{pendientes}</div>
             <p className="text-xs text-gray-500 mb-2">
-              {totalInvitados > 0 ? Math.round((pendientes / totalInvitados) * 100) : 0}% de invitados
+              {totalInvitados > 0 ? t('percent_guests', { percent: Math.round((pendientes / totalInvitados) * 100) }) : t('percent_guests', { percent: 0 })}
             </p>
             <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
               <div className="bg-amber-500 h-1.5 rounded-full" style={{ width: `${totalInvitados > 0 ? (pendientes / totalInvitados) * 100 : 0}%` }}></div>
@@ -494,13 +496,13 @@ export function DashboardPage() {
           {/* Alerta de retiro pendiente */}
           {withdrawals.some(w => w.status === 'pending') && (
             <div className="mb-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded">
-              {`Tienes un retiro en proceso por ${formatCurrency(withdrawals.filter(w => w.status === 'pending').reduce((sum, w) => sum + w.amount, 0))}`}
+              {t('withdrawal_pending', { amount: formatCurrency(withdrawals.filter(w => w.status === 'pending').reduce((sum, w) => sum + w.amount, 0)) })}
             </div>
           )}
           {/* Historial de retiros aprobados */}
           {withdrawals.filter(w => w.status === 'completed').length > 0 && (
             <div className="mb-4 p-4 bg-emerald-50 border-l-4 border-emerald-400 text-emerald-800 rounded">
-              <div className="font-semibold mb-2">Retiros realizados</div>
+              <div className="font-semibold mb-2">{t('withdrawals_completed')}</div>
               <ul className="space-y-1">
                 {withdrawals.filter(w => w.status === 'completed').map(w => (
                   <li key={w.id} className="flex justify-between">
@@ -515,7 +517,7 @@ export function DashboardPage() {
             <CardHeader>
               <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 <Gift className="h-5 w-5 text-rose-500" />
-                Regalos Recibidos
+                {t('gifts_received')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -525,25 +527,25 @@ export function DashboardPage() {
                     <div className="bg-gradient-to-r from-rose-50 to-pink-50 p-4 rounded-lg border border-rose-200">
                       <div className="flex items-center gap-2 mb-2">
                         <Gift className="h-5 w-5 text-rose-600" />
-                        <span className="text-sm font-medium text-rose-800">Total Recibido</span>
+                        <span className="text-sm font-medium text-rose-800">{t('total_received')}</span>
                       </div>
                       <div className="text-2xl font-bold text-rose-900">{formatCurrency(availableAmount)}</div>
-                      <p className="text-xs text-rose-600">{totalGiftsCount} regalo{totalGiftsCount !== 1 ? 's' : ''} recibido{totalGiftsCount !== 1 ? 's' : ''}</p>
+                                              <p className="text-xs text-rose-600">{t('gifts_count', { count: totalGiftsCount, plural: totalGiftsCount !== 1 ? 's' : '' })}</p>
                     </div>
                     <div className="bg-gradient-to-r from-emerald-50 to-green-50 p-4 rounded-lg border border-emerald-200">
                       <div className="flex items-center gap-2 mb-2">
                         <DollarSign className="h-5 w-5 text-emerald-600" />
-                        <span className="text-sm font-medium text-emerald-800">Promedio por Regalo</span>
+                        <span className="text-sm font-medium text-emerald-800">{t('average_per_gift')}</span>
                       </div>
                       <div className="text-2xl font-bold text-emerald-900">
                         {totalGiftsCount > 0 ? formatCurrency(averageGift) : formatCurrency(0)}
                       </div>
-                      <p className="text-xs text-emerald-600">Valor promedio</p>
+                                              <p className="text-xs text-emerald-600">{t('average_value')}</p>
                     </div>
                   </div>
                   
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold text-gray-900">Regalos Recibidos:</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('gifts_list_title')}</h3>
                     {(showAllGifts ? paidGifts : paidGifts.slice(0, 2)).map((gift) => (
                       <div key={gift.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div className="flex items-center gap-3">
@@ -568,14 +570,14 @@ export function DashboardPage() {
                           onClick={() => setShowAllGifts((v) => !v)}
                           aria-expanded={showAllGifts}
                         >
-                          {showAllGifts ? 'Ver menos' : `Ver más (${paidGifts.length - 2})`}
+                          {showAllGifts ? t('view_less') : t('view_more', { count: paidGifts.length - 2 })}
                           {showAllGifts ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                         </button>
                     <Button
                       className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-full shadow-md"
                       onClick={() => setShowWithdrawModal(true)}
                     >
-                      Solicitar retiro
+                      {t('request_withdrawal')}
                     </Button>
                       </div>
                     )}
@@ -587,7 +589,7 @@ export function DashboardPage() {
                       setWithdrawSuccess(false);
                       setWithdrawError(null);
                     }}
-                    title="Solicitud de retiro de dinero"
+                    title={t('withdrawal_modal.title')}
                     onConfirm={undefined}
                     confirmText={undefined}
                     isLoading={false}
@@ -595,8 +597,8 @@ export function DashboardPage() {
                   >
                     {withdrawSuccess ? (
                       <div className="text-center py-6">
-                        <p className="text-emerald-700 font-semibold mb-2">¡Solicitud enviada con éxito!</p>
-                        <p className="text-gray-600 text-sm">Recibiras tu transferencia en máximo 2 días hábiles.</p>
+                                    <p className="text-emerald-700 font-semibold mb-2">{t('withdrawal_modal.success_title')}</p>
+            <p className="text-gray-600 text-sm">{t('withdrawal_modal.success_description')}</p>
                       </div>
                     ) : (
                       <form className="space-y-4" onSubmit={e => { e.preventDefault(); handleWithdrawSubmit(); }}>
@@ -615,42 +617,42 @@ export function DashboardPage() {
                             setWithdrawForm(f => ({ ...f, amount: raw }));
                           }}
                           required
-                          placeholder="Monto a retirar"
+                          placeholder={t('withdrawal_modal.amount_placeholder')}
                         />
                         <button
                           type="button"
                           className="text-xs text-emerald-700 underline mb-2"
                           onClick={() => setWithdrawForm(f => ({ ...f, amount: availableAmount.toString() }))}
                         >
-                          {`Retirar todo (${formatCurrency(availableAmount)})`}
+                          {t('withdrawal_modal.withdraw_all', { amount: formatCurrency(availableAmount) })}
                         </button>
                         <Input
                           label=""
                           value={withdrawForm.name}
                           onChange={e => setWithdrawForm(f => ({ ...f, name: e.target.value }))}
                           required
-                          placeholder="Nombre completo"
+                          placeholder={t('withdrawal_modal.full_name_placeholder')}
                         />
                         <Input
                           label=""
                           value={withdrawForm.rut}
                           onChange={e => setWithdrawForm(f => ({ ...f, rut: e.target.value }))}
                           required
-                          placeholder="RUT"
+                          placeholder={t('withdrawal_modal.rut_placeholder')}
                         />
                         <Input
                           label=""
                           value={withdrawForm.account}
                           onChange={e => setWithdrawForm(f => ({ ...f, account: e.target.value }))}
                           required
-                          placeholder="Número de cuenta"
+                          placeholder={t('withdrawal_modal.account_placeholder')}
                         />
                         <Input
                           label=""
                           value={withdrawForm.bank}
                           onChange={e => setWithdrawForm(f => ({ ...f, bank: e.target.value }))}
                           required
-                          placeholder="Banco"
+                          placeholder={t('withdrawal_modal.bank_placeholder')}
                         />
                         <Input
                           label=""
@@ -658,7 +660,7 @@ export function DashboardPage() {
                           value={withdrawForm.email}
                           onChange={e => setWithdrawForm(f => ({ ...f, email: e.target.value }))}
                           required
-                          placeholder="Email"
+                          placeholder={t('withdrawal_modal.email_placeholder')}
                         />
                         {withdrawError && <p className="text-red-600 text-sm mt-2">{withdrawError}</p>}
                         <button
@@ -666,7 +668,7 @@ export function DashboardPage() {
                           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-full shadow-md mt-2"
                           disabled={withdrawLoading}
                         >
-                          {withdrawLoading ? 'Enviando...' : 'Enviar solicitud'}
+                          {withdrawLoading ? t('withdrawal_modal.sending') : t('withdrawal_modal.send_request')}
                         </button>
                       </form>
                     )}
@@ -675,8 +677,8 @@ export function DashboardPage() {
               ) : (
                 <div className="text-center py-8">
                   <Gift className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-1">Aún no has recibido regalos</h3>
-                  <p className="text-sm text-gray-500">Los regalos aparecerán aquí cuando tus invitados los paguen</p>
+                            <h3 className="text-lg font-medium text-gray-900 mb-1">{t('no_gifts_yet')}</h3>
+          <p className="text-sm text-gray-500">{t('no_gifts_description')}</p>
                 </div>
               )}
             </CardContent>
@@ -688,7 +690,7 @@ export function DashboardPage() {
         {/* Resumen de Mesas */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl font-bold text-gray-900">Resumen de Mesas</CardTitle>
+            <CardTitle className="text-xl font-bold text-gray-900">{t('tables_summary')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -696,7 +698,7 @@ export function DashboardPage() {
                 <div key={index}>
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-sm font-medium text-gray-700">{mesa.name}</span>
-                    <span className="text-xs text-gray-500">{mesa.current}/{mesa.total} invitados</span>
+                    <span className="text-xs text-gray-500">{t('guests_count', { current: mesa.current, total: mesa.total })}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
                     <div
@@ -713,23 +715,23 @@ export function DashboardPage() {
         {/* Resumen de la Boda */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl font-bold text-gray-900">Resumen de la Boda</CardTitle>
+            <CardTitle className="text-xl font-bold text-gray-900">{t('wedding_summary')}</CardTitle>
           </CardHeader>
           <CardContent className="p-8 text-center">
             <Heart className="h-16 w-16 text-rose-500 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Administración de invitaciones
+              {t('invitation_management')}
             </h2>
             <p className="text-gray-500 mb-6">
-              Gestiona tus invitados y mesas
+                              {t('manage_guests_tables')}
             </p>
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-500">Mesas</p>
+                <p className="text-sm text-gray-500">{t('tables')}</p>
                 <p className="text-2xl font-bold text-gray-900">{totalMesas}</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-500">Capacidad Total</p>
+                <p className="text-sm text-gray-500">{t('total_capacity')}</p>
                 <p className="text-2xl font-bold text-gray-900">{capacidadTotal}</p>
               </div>
             </div>
@@ -737,7 +739,7 @@ export function DashboardPage() {
               onClick={() => navigate('/landing')}
               className="bg-primary hover:bg-primary-dark text-primary-contrast w-full"
             >
-              Administrar invitación
+                              {t('manage_invitation')}
             </Button>
           </CardContent>
         </Card>

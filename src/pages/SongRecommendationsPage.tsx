@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Music2, Search, Download, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -56,6 +57,7 @@ function SongsSkeleton() {
 }
 
 export function SongRecommendationsPage() {
+  const { t } = useTranslation('features');
   const { user } = useAuth();
   const [songs, setSongs] = useState<SongRecommendation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -105,35 +107,35 @@ export function SongRecommendationsPage() {
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
       link.setAttribute('href', url);
-      link.setAttribute('download', 'canciones_sugeridas.csv');
+      link.setAttribute('download', t('music.csv_filename'));
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       
-      toast.success('Lista de canciones exportada correctamente');
+      toast.success(t('music.export_success'));
     } catch (error) {
       console.error('Error exporting songs:', error);
-      toast.error('Error al exportar la lista de canciones');
+      toast.error(t('music.export_error'));
     }
   };
 
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Canciones Sugeridas</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t('music.title')}</h1>
         <p className="text-gray-500 mt-1">
-          Lista de canciones recomendadas por tus invitados
+          {t('music.subtitle')}
         </p>
       </div>
 
       <Card>
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <CardTitle>Canciones</CardTitle>
+            <CardTitle>{t('music.songs_title')}</CardTitle>
             <div className="flex items-center gap-3">
               <div className="relative flex-1 max-w-sm">
                 <Input 
-                  placeholder="Buscar canciones..."
+                  placeholder={t('music.search_placeholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   leftIcon={<Search className="h-4 w-4 text-gray-400" />}
@@ -150,7 +152,7 @@ export function SongRecommendationsPage() {
                   leftIcon={<Download className="h-4 w-4" />}
                   className="bg-primary text-primary-contrast hover:bg-primary-dark"
                 >
-                  Exportar
+                  {t('music.export_button')}
                 </Button>
               )}
             </div>
@@ -183,8 +185,8 @@ export function SongRecommendationsPage() {
               </div>
               <p className="text-gray-500">
                 {searchTerm 
-                  ? 'No se encontraron canciones que coincidan con tu búsqueda'
-                  : 'Aún no hay canciones sugeridas por tus invitados'
+                  ? t('music.no_search_results')
+                  : t('music.no_songs')
                 }
               </p>
             </div>

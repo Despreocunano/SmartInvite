@@ -1,0 +1,48 @@
+{
+  "title": "Confirmaciones",
+  "total_guests": "{{count}} invitados en total",
+  "export_list": "Exportar Lista",
+  "search_placeholder": "Buscar invitado...",
+  "filter_all": "Todos",
+  "filter_pending": "Pendientes",
+  "filter_confirmed": "Confirmados",
+  "filter_declined": "No asistirán",
+  "table_headers": {
+    "guest": "Invitado",
+    "status": "Estado",
+    "table": "Mesa",
+    "restrictions": "Restricciones",
+    "actions": "Acciones"
+  },
+  "status_labels": {
+    "confirmed": "Confirmado",
+    "declined": "No asistirá",
+    "pending": "Pendiente"
+  },
+  "no_table": "sin mesa",
+  "no_restrictions": "Ninguna",
+  "plus_one_prefix": "+",
+  "plus_one_restrictions": "Acompañante: {{restrictions}}",
+  "remind_button": "Recordar",
+  "export": {
+    "success": "Lista de confirmaciones exportada correctamente",
+    "error": "Error al exportar la lista de confirmaciones",
+    "filename": "confirmaciones.csv",
+    "headers": {
+      "name": "Nombre",
+      "email": "Email",
+      "phone": "Teléfono",
+      "status": "Estado",
+      "dietary_restrictions": "Restricciones Alimentarias",
+      "table": "Mesa",
+      "plus_one": "Acompañante",
+      "plus_one_status": "Estado Acompañante",
+      "plus_one_restrictions": "Restricciones Acompañante"
+    }
+  },
+  "reminder": {
+    "success": "Recordatorio enviado correctamente",
+    "error": "Error al enviar el recordatorio",
+    "subject": "Recordatorio de invitación"
+  }
+} 

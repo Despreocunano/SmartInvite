@@ -31,7 +31,9 @@ export function AppNavbar() {
   const { pathname } = useLocation();
   const { signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
 
   // Cerrar el menú mobile al hacer click fuera
   useEffect(() => {
@@ -49,6 +51,23 @@ export function AppNavbar() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [mobileOpen]);
+
+  // Cerrar el menú "Más" al hacer click fuera
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setMoreMenuOpen(false);
+      }
+    }
+    if (moreMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [moreMenuOpen]);
 
   return (
     <header className="w-full bg-white shadow flex items-center px-2 md:px-8 py-2 z-30 sticky top-0">
@@ -83,17 +102,17 @@ export function AppNavbar() {
             );
           })}
           {/* Botón Más */}
-          <div className="relative">
+          <div className="relative" ref={moreMenuRef}>
             <button
-              onClick={() => setMobileOpen((v) => !v)}
-              className={`flex items-center gap-1 px-2 py-1 rounded-md text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 hover:text-rose-600 ${mobileOpen ? 'bg-rose-50 text-rose-600' : ''}`}
+              onClick={() => setMoreMenuOpen((v) => !v)}
+              className={`flex items-center gap-1 px-2 py-1 rounded-md text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100 hover:text-rose-600 ${moreMenuOpen ? 'bg-rose-50 text-rose-600' : ''}`}
               aria-haspopup="true"
-              aria-expanded={mobileOpen}
+              aria-expanded={moreMenuOpen}
             >
               <MoreHorizontal className="w-5 h-5" />
               <span>{t('menu:more') || 'Más'}</span>
             </button>
-            {mobileOpen && (
+            {moreMenuOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                 <ul className="py-1">
                   {moreNavItems.map(({ nameKey, href, icon: Icon }) => {
@@ -103,7 +122,7 @@ export function AppNavbar() {
                         <Link
                           to={href}
                           className={`flex items-center gap-2 px-4 py-2 text-sm transition-colors ${isActive ? 'bg-rose-50 text-rose-600' : 'text-gray-700 hover:bg-gray-100 hover:text-rose-600'}`}
-                          onClick={() => setMobileOpen(false)}
+                          onClick={() => setMoreMenuOpen(false)}
                         >
                           <Icon className="w-5 h-5" />
                           <span>{t(`menu:${nameKey.split('.')[1]}`)}</span>

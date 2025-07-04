@@ -12,8 +12,11 @@ import { supabase } from '../lib/supabase';
 import { useWedding } from '../hooks/useWedding';
 import { useAuth } from '../context/AuthContext';
 import { getReminderTemplate, getSignatureTemplate } from '../templates/emailTemplates';
+import { useTranslation } from 'react-i18next';
 
 function RsvpsSkeleton() {
+  const { t } = useTranslation('rsvps');
+
   return (
     <div className="space-y-6">
       {/* Header skeleton */}
@@ -41,11 +44,11 @@ function RsvpsSkeleton() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Invitado</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Estado</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Mesa</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Restricciones</th>
-                  <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Acciones</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.guest')}</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.status')}</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.table')}</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.restrictions')}</th>
+                  <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.actions')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -94,12 +97,13 @@ export function RsvpsPage() {
   const [sendingReminder, setSendingReminder] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'declined'>('all');
+  const { t } = useTranslation('rsvps');
   
   const filteredAttendees = attendees.filter((attendee) => {
     const fullName = `${attendee.first_name} ${attendee.last_name}`.toLowerCase();
     const searchTermLower = searchTerm.toLowerCase();
     const matchesSearch = fullName.includes(searchTermLower) || 
-           attendee.email.toLowerCase().includes(searchTermLower) ||
+           (attendee.email && attendee.email.toLowerCase().includes(searchTermLower)) ||
            (attendee.plus_one_name && attendee.plus_one_name.toLowerCase().includes(searchTermLower));
     
     const matchesStatus = statusFilter === 'all' || attendee.rsvp_status === statusFilter;
@@ -150,14 +154,14 @@ export function RsvpsPage() {
 
       await sendEmail(
         attendee.id,
-        'Recordatorio de invitación',
+        t('reminder.subject'),
         message
       );
 
-      toast.success('Recordatorio enviado correctamente');
+      toast.success(t('reminder.success'));
     } catch (error) {
       console.error('Error sending reminder:', error);
-      toast.error('Error al enviar el recordatorio');
+      toast.error(t('reminder.error'));
     } finally {
       setSendingReminder(null);
     }
@@ -166,7 +170,7 @@ export function RsvpsPage() {
   const exportToExcel = () => {
     try {
       const csvContent = [
-        ['Nombre', 'Email', 'Teléfono', 'Estado', 'Restricciones Alimentarias', 'Mesa', 'Acompañante', 'Estado Acompañante', 'Restricciones Acompañante'].join(','),
+        [t('export.headers.name'), t('export.headers.email'), t('export.headers.phone'), t('export.headers.status'), t('export.headers.dietary_restrictions'), t('export.headers.table'), t('export.headers.plus_one'), t('export.headers.plus_one_status'), t('export.headers.plus_one_restrictions')].join(','),
         ...filteredAttendees.map(attendee => {
           const currentTable = tables.find(t => t.id === attendee.table_id);
           return [
@@ -175,7 +179,7 @@ export function RsvpsPage() {
             `"${attendee.phone || ''}"`,
             `"${attendee.rsvp_status}"`,
             `"${attendee.dietary_restrictions || ''}"`,
-            `"${currentTable?.name || 'Sin mesa'}"`,
+            `"${currentTable?.name || t('no_table')}"`,
             `"${attendee.plus_one_name || ''}"`,
             `"${attendee.plus_one_rsvp_status || ''}"`,
             `"${attendee.plus_one_dietary_restrictions || ''}"`,
@@ -187,15 +191,15 @@ export function RsvpsPage() {
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
       link.setAttribute('href', url);
-      link.setAttribute('download', 'confirmaciones.csv');
+      link.setAttribute('download', t('export.filename'));
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       
-      toast.success('Lista de confirmaciones exportada correctamente');
+      toast.success(t('export.success'));
     } catch (error) {
       console.error('Error exporting confirmations:', error);
-      toast.error('Error al exportar la lista de confirmaciones');
+      toast.error(t('export.error'));
     }
   };
 
@@ -207,9 +211,9 @@ export function RsvpsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Confirmaciones</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
           <p className="text-gray-500 mt-1">
-            {totalStats.total} invitados en total
+            {t('total_guests', { count: totalStats.total })}
           </p>
         </div>
         <Button
@@ -217,7 +221,7 @@ export function RsvpsPage() {
           leftIcon={<Download className="h-4 w-4" />}
           className="bg-primary text-primary-contrast hover:bg-primary-dark"
         >
-          Exportar Lista
+                      {t('export_list')}
         </Button>
       </div>
 
@@ -226,7 +230,7 @@ export function RsvpsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-4">
               <Input
-                placeholder="Buscar invitado..."
+                placeholder={t('search_placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 leftIcon={<Search className="h-4 w-4 text-gray-400" />}
@@ -243,10 +247,10 @@ export function RsvpsPage() {
                   onChange={(e) => setStatusFilter(e.target.value as any)}
                   className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent sm:text-sm"
                 >
-                  <option value="all">Todos</option>
-                  <option value="pending">Pendientes</option>
-                  <option value="confirmed">Confirmados</option>
-                  <option value="declined">No asistirán</option>
+                                  <option value="all">{t('filter_all')}</option>
+                <option value="pending">{t('filter_pending')}</option>
+                <option value="confirmed">{t('filter_confirmed')}</option>
+                <option value="declined">{t('filter_declined')}</option>
                 </select>
                 <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               </div>
@@ -258,11 +262,11 @@ export function RsvpsPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Invitado</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Estado</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Mesa</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Restricciones</th>
-                  <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Acciones</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.guest')}</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.status')}</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.table')}</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.restrictions')}</th>
+                  <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">{t('table_headers.actions')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -276,27 +280,27 @@ export function RsvpsPage() {
                         </div>
                         {attendee.has_plus_one && attendee.plus_one_name && (
                           <div className="text-sm text-gray-600 mt-1 truncate">
-                            + {attendee.plus_one_name}
+                            {t('plus_one_prefix')} {attendee.plus_one_name}
                           </div>
                         )}
                       </td>
                       <td className="py-3 px-2 sm:px-4">
                         <div className="inline-flex items-center justify-center w-24">
                           {attendee.rsvp_status === 'confirmed' && (
-                            <span className="w-full px-4 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">Confirmado</span>
+                            <span className="w-full px-4 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">{t('status_labels.confirmed')}</span>
                           )}
                           {attendee.rsvp_status === 'declined' && (
-                            <span className="w-full px-4 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">No asistirá</span>
+                            <span className="w-full px-4 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">{t('status_labels.declined')}</span>
                           )}
                           {attendee.rsvp_status === 'pending' && (
-                            <span className="w-full px-4 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Pendiente</span>
+                            <span className="w-full px-4 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">{t('status_labels.pending')}</span>
                           )}
                         </div>
                       </td>
                       <td className="py-3 px-2 sm:px-4 whitespace-nowrap max-w-[110px]">
                         <div className="flex items-center text-sm text-gray-600 truncate">
                           <Table2 className="h-4 w-4 mr-2 flex-shrink-0" />
-                          <span className="truncate">{currentTable ? currentTable.name : 'sin mesa'}</span>
+                                                      <span className="truncate">{currentTable ? currentTable.name : t('no_table')}</span>
                         </div>
                       </td>
                       <td className="py-3 px-2 sm:px-4">
@@ -304,11 +308,11 @@ export function RsvpsPage() {
                           {attendee.dietary_restrictions ? (
                             <div>{attendee.dietary_restrictions}</div>
                           ) : (
-                            <div className="text-gray-400">Ninguna</div>
+                            <div className="text-gray-400">{t('no_restrictions')}</div>
                           )}
                           {attendee.has_plus_one && attendee.plus_one_dietary_restrictions && (
                             <div className="text-xs text-gray-500 mt-1">
-                              Acompañante: {attendee.plus_one_dietary_restrictions}
+                              {t('plus_one_restrictions', { restrictions: attendee.plus_one_dietary_restrictions })}
                             </div>
                           )}
                         </div>
@@ -322,7 +326,7 @@ export function RsvpsPage() {
                             isLoading={sendingReminder === attendee.id}
                             className="bg-primary text-primary-contrast hover:bg-primary-dark"
                           >
-                            Recordar
+                            {t('remind_button')}
                           </Button>
                         )}
                       </td>

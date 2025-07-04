@@ -1,0 +1,67 @@
+{
+  "wishlist": {
+    "title": "Lista de deseos",
+    "loading_error": "Error al cargar la lista de deseos",
+    "save_success": "Lista de deseos guardada",
+    "save_error": "Error al guardar la lista",
+    "login_required": "Debes iniciar sesión para guardar tu lista de deseos"
+  },
+  "music": {
+    "title": "Canciones Sugeridas",
+    "subtitle": "Lista de canciones recomendadas por tus invitados",
+    "songs_title": "Canciones",
+    "search_placeholder": "Buscar canciones...",
+    "export_button": "Exportar",
+    "export_success": "Lista de canciones exportada correctamente",
+    "export_error": "Error al exportar la lista de canciones",
+    "no_songs": "Aún no hay canciones sugeridas por tus invitados",
+    "no_search_results": "No se encontraron canciones que coincidan con tu búsqueda",
+    "csv_filename": "canciones_sugeridas.csv"
+  },
+  "reminders": {
+    "title": "Recordatorios",
+    "subtitle": "Envía recordatorios personalizados a tus invitados",
+    "guests_title": "Invitados",
+    "search_placeholder": "Buscar invitados...",
+    "filter_all": "Todos",
+    "filter_pending": "Pendientes",
+    "filter_confirmed": "Confirmados",
+    "filter_declined": "No asistirán",
+    "select_all": "Seleccionar todos",
+    "deselect_all": "Deseleccionar todos",
+    "selected_count": "{{count}} seleccionados",
+    "compose_title": "Componer mensaje",
+    "subject_label": "Asunto",
+    "subject_placeholder": "Ej: Recordatorio para {nombre} - Nuestra boda",
+    "message_label": "Mensaje",
+    "message_placeholder": "Ej: Hola {nombre}, esperamos verte junto a {acompañante} en nuestra boda el {fecha} en {lugar_ceremonia}...",
+    "variables_label": "Variables disponibles",
+    "send_button": "Enviar recordatorios",
+    "send_success": "Recordatorios enviados a {{count}} invitados",
+    "send_error": "Error al enviar los recordatorios",
+    "send_partial_error": "Error al enviar {{count}} recordatorios",
+    "validation_subject_message": "Por favor completa el asunto y el mensaje",
+    "validation_attendees": "Por favor selecciona al menos un invitado",
+    "missing_fields_warning": "Algunos datos de la invitación no están definidos: {{fields}}. Los recordatorios mostrarán valores por defecto para estos campos.",
+    "load_error": "Error al cargar los datos de la invitación",
+    "variables": {
+      "name": "Nombre del invitado",
+      "companion": "Nombre del acompañante",
+      "table": "Mesa asignada",
+      "date": "Fecha de la boda",
+      "ceremony_time": "Hora de la ceremonia",
+      "party_time": "Hora de la fiesta",
+      "ceremony_location": "Lugar de la ceremonia",
+      "party_location": "Lugar de la fiesta",
+      "ceremony_address": "Dirección de la ceremonia",
+      "party_address": "Dirección de la fiesta"
+    },
+    "default_values": {
+      "date_not_defined": "[Fecha no definida]",
+      "time_not_defined": "[Hora no definida]",
+      "location_not_defined": "[Lugar no definido]",
+      "address_not_defined": "[Dirección no definida]",
+      "no_table": "Sin mesa"
+    }
+  }
+} 

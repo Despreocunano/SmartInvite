@@ -1,0 +1,58 @@
+{
+  "title": "Tables",
+  "description": "Organize the distribution of your guests at the tables",
+  "add_table": "Add Table",
+  "add_table_title": "Add Table",
+  "edit_table": "Edit Table",
+  "delete_table": "Delete Table",
+  "no_tables": "No tables created yet",
+  "save": "Save",
+  "create_first_table": "Create First Table",
+  "unassigned_guests": {
+    "title": "Unassigned Guests",
+    "stats": "{{confirmed}} confirmed, {{pending}} pending",
+    "all_assigned": "All guests have been assigned to tables"
+  },
+  "table_card": {
+    "edit_table": "Edit Table",
+    "delete_table": "Delete Table",
+    "seats_available": "{{count}} seats available",
+    "table_full": "Table full",
+    "search_placeholder": "Search guests...",
+    "assign_to_table": "Assign to this table",
+    "remove_from_table": "Remove from this table",
+    "delete_modal": {
+      "title": "Delete Table",
+      "message": "Are you sure you want to delete the table {{name}}?",
+      "confirm": "Delete"
+    }
+  },
+  "table_form": {
+    "name_label": "Table Name",
+    "name_required": "Table name is required",
+    "capacity_label": "Capacity",
+    "capacity_required": "Capacity is required",
+    "capacity_min": "Capacity must be at least 1",
+    "capacity_max": "Capacity cannot exceed 20",
+    "cancel": "Cancel",
+    "save": "Save",
+    "add_table": "Add Table"
+  },
+  "table_assignment_modal": {
+    "title": "Assign Table",
+    "assign": "Assign",
+    "assign_for": "Assign table for {{name}}{{plus_one}}",
+    "select_table": "Select Table",
+    "no_table": "No table",
+    "table_full": " - Table full",
+    "guest_not_confirmed": "The guest must confirm their attendance before assigning a table",
+    "assign_error": "Error assigning table",
+    "edit_table": "Edit Table",
+    "create_table": "Create Table",
+    "table_name_label": "Table Name",
+    "table_name_placeholder": "Ex: Table 1",
+    "capacity_label": "Capacity",
+    "capacity_error": "Capacity must be a number greater than 0",
+    "name_required": "Table name is required"
+  }
+} 

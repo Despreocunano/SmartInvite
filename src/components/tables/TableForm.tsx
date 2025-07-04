@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { GuestTable } from '../../types/supabase';
+import { useTranslation } from 'react-i18next';
 
 type FormData = {
   name: string;
@@ -22,28 +23,29 @@ export function TableForm({ onSubmit, onCancel, isLoading, table }: TableFormPro
       capacity: table?.capacity || 8,
     },
   });
+  const { t } = useTranslation('tables');
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <Input
-        label="Nombre de la Mesa"
+        label={t('table_form.name_label')}
         error={errors.name?.message}
-        {...register('name', { required: 'El nombre de la mesa es requerido' })}
+        {...register('name', { required: t('table_form.name_required') })}
       />
       <Input
-        label="Capacidad"
+        label={t('table_form.capacity_label')}
         type="number"
         error={errors.capacity?.message}
         {...register('capacity', {
-          required: 'La capacidad es requerida',
+          required: t('table_form.capacity_required'),
           valueAsNumber: true,
           min: {
             value: 1,
-            message: 'La capacidad debe ser al menos 1',
+            message: t('table_form.capacity_min'),
           },
           max: {
             value: 20,
-            message: 'La capacidad no puede exceder 20',
+            message: t('table_form.capacity_max'),
           },
         })}
       />
@@ -55,11 +57,11 @@ export function TableForm({ onSubmit, onCancel, isLoading, table }: TableFormPro
           disabled={isLoading}
           className='border border-primary text-primary hover:bg-primary-dark hover:text-primary-contrast'
         >
-          Cancelar
+          {t('table_form.cancel')}
         </Button>
         <Button type="submit" isLoading={isLoading}
         className="flex-1 bg-primary hover:bg-primary-dark text-primary-contrast">
-          {table ? 'Guardar' : 'Agregar Mesa'}
+          {table ? t('table_form.save') : t('table_form.add_table')}
         </Button>
       </div>
     </form>

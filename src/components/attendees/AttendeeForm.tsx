@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
@@ -15,6 +16,7 @@ interface AttendeeFormProps {
 }
 
 export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: AttendeeFormProps) {
+  const { t } = useTranslation('landing');
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
     defaultValues: {
       first_name: attendee?.first_name || '',
@@ -82,13 +84,11 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
             </div>
             <div className="ml-3">
               <h3 className="text-sm font-medium text-blue-800">
-                Invitación Digital
+                {t('attendee_form.digital_invitation_title')}
               </h3>
               <div className="mt-2 text-sm text-blue-700">
                 <p>
-                  Al agregar este invitado, se enviará automáticamente un correo electrónico con una invitación digital personalizada. 
-                  El invitado podrá ver la invitación con sus datos precargados, incluir información de acompañante si lo desea, 
-                  y confirmar su asistencia de forma sencilla.
+                  {t('attendee_form.digital_invitation_description')}
                 </p>
               </div>
             </div>
@@ -99,9 +99,9 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
       <div className="space-y-4">
         <div className="grid grid-cols-1 gap-4">
           <Input
-            label="Nombre"
+            label={t('attendee_form.name_label')}
             {...register('first_name', { 
-              required: 'El nombre es requerido' 
+              required: t('attendee_form.name_required')
             })}
             error={errors.first_name?.message}
           />
@@ -109,38 +109,38 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
-            label="Correo Electrónico"
+            label={t('attendee_form.email_label')}
             type="email"
             {...register('email', {
-              required: 'El correo electrónico es requerido',
+              required: t('attendee_form.email_required'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Correo electrónico inválido'
+                message: t('attendee_form.email_invalid')
               }
             })}
             error={errors.email?.message}
           />
           <Input
-            label="Teléfono"
+            label={t('attendee_form.phone_label')}
             {...register('phone')}
             error={errors.phone?.message}
           />
         </div>
 
         <Select
-          label="Estado de Confirmación"
+          label={t('attendee_form.confirmation_status_label')}
           {...register('rsvp_status')}
           options={[
-            { value: 'pending', label: 'Pendiente' },
-            { value: 'confirmed', label: 'Confirmado' },
-            { value: 'declined', label: 'No Asistirá' }
+            { value: 'pending', label: t('attendee_form.pending') },
+            { value: 'confirmed', label: t('attendee_form.confirmed') },
+            { value: 'declined', label: t('attendee_form.declined') }
           ]}
         />
 
         {rsvpStatus !== 'declined' && (
           <Textarea
-            label="Restricciones Alimentarias"
-            placeholder="Ingrese cualquier restricción alimentaria o alergia"
+            label={t('attendee_form.dietary_restrictions_label')}
+            placeholder={t('attendee_form.dietary_restrictions_placeholder')}
             {...register('dietary_restrictions')}
           />
         )}
@@ -148,7 +148,7 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
         <div className="space-y-4 border-t border-gray-200 pt-4">
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium text-gray-700">
-              ¿Viene con Acompañante?
+              {t('attendee_form.has_plus_one_label')}
             </label>
             <Switch
               checked={hasPlusOne}
@@ -168,17 +168,17 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
           {hasPlusOne && rsvpStatus !== 'declined' && (
             <div className="space-y-4">
               <Input
-                label="Nombre del Acompañante"
+                label={t('attendee_form.plus_one_name_label')}
                 {...register('plus_one_name', {
-                  required: hasPlusOne ? 'El nombre del acompañante es requerido' : false
+                  required: hasPlusOne ? t('attendee_form.plus_one_name_required') : false
                 })}
                 error={errors.plus_one_name?.message}
               />
 
               {watch('plus_one_rsvp_status') !== 'declined' && (
                 <Textarea
-                  label="Restricciones Alimentarias del Acompañante"
-                  placeholder="Ingrese cualquier restricción alimentaria o alergia del acompañante"
+                  label={t('attendee_form.plus_one_dietary_restrictions_label')}
+                  placeholder={t('attendee_form.plus_one_dietary_restrictions_placeholder')}
                   {...register('plus_one_dietary_restrictions')}
                 />
               )}
@@ -195,14 +195,14 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
           disabled={isLoading}
           className='border border-primary text-primary hover:bg-primary-dark hover:text-primary-contrast'
         >
-          Cancelar
+          {t('attendee_form.cancel')}
         </Button>
         <Button
           type="submit"
           isLoading={isLoading}
           className='bg-primary hover:bg-primary-dark text-primary-contrast'
         >
-          {attendee ? 'Guardar Cambios' : 'Agregar Asistente'}
+          {attendee ? t('attendee_form.save_changes') : t('attendee_form.add_attendee')}
         </Button>
       </div>
     </form>

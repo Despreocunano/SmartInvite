@@ -1,0 +1,58 @@
+{
+  "title": "Mesas",
+  "description": "Organiza la distribución de tus invitados en las mesas",
+  "add_table": "Agregar Mesa",
+  "add_table_title": "Agregar Mesa",
+  "edit_table": "Editar Mesa",
+  "delete_table": "Eliminar Mesa",
+  "no_tables": "No hay mesas creadas aún",
+  "save": "Guardar",
+  "create_first_table": "Crear Primera Mesa",
+  "unassigned_guests": {
+    "title": "Invitados sin Mesa",
+    "stats": "{{confirmed}} confirmados, {{pending}} pendientes",
+    "all_assigned": "Todos los invitados tienen mesa asignada"
+  },
+  "table_card": {
+    "edit_table": "Editar Mesa",
+    "delete_table": "Eliminar Mesa",
+    "seats_available": "{{count}} asientos disponibles",
+    "table_full": "Mesa llena",
+    "search_placeholder": "Buscar invitados...",
+    "assign_to_table": "Asignar a esta mesa",
+    "remove_from_table": "Remover de esta mesa",
+    "delete_modal": {
+      "title": "Eliminar Mesa",
+      "message": "¿Estás seguro de que deseas eliminar la mesa {{name}}?",
+      "confirm": "Eliminar"
+    }
+  },
+  "table_form": {
+    "name_label": "Nombre de la Mesa",
+    "name_required": "El nombre de la mesa es requerido",
+    "capacity_label": "Capacidad",
+    "capacity_required": "La capacidad es requerida",
+    "capacity_min": "La capacidad debe ser al menos 1",
+    "capacity_max": "La capacidad no puede exceder 20",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "add_table": "Agregar Mesa"
+  },
+  "table_assignment_modal": {
+    "title": "Asignar Mesa",
+    "assign": "Asignar",
+    "assign_for": "Asignar mesa para {{name}}{{plus_one}}",
+    "select_table": "Seleccionar Mesa",
+    "no_table": "Sin mesa",
+    "table_full": " - Mesa llena",
+    "guest_not_confirmed": "El invitado debe confirmar su asistencia antes de asignar una mesa",
+    "assign_error": "Error al asignar mesa",
+    "edit_table": "Editar Mesa",
+    "create_table": "Crear Mesa",
+    "table_name_label": "Nombre de la Mesa",
+    "table_name_placeholder": "Ej: Mesa 1",
+    "capacity_label": "Capacidad",
+    "capacity_error": "La capacidad debe ser un número mayor a 0",
+    "name_required": "El nombre de la mesa es requerido"
+  }
+} 

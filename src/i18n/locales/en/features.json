@@ -1,0 +1,67 @@
+{
+  "wishlist": {
+    "title": "Wish List",
+    "loading_error": "Error loading wish list",
+    "save_success": "Wish list saved",
+    "save_error": "Error saving list",
+    "login_required": "You must be logged in to save your wish list"
+  },
+  "music": {
+    "title": "Song Recommendations",
+    "subtitle": "List of songs recommended by your guests",
+    "songs_title": "Songs",
+    "search_placeholder": "Search songs...",
+    "export_button": "Export",
+    "export_success": "Song list exported successfully",
+    "export_error": "Error exporting song list",
+    "no_songs": "No songs have been suggested by your guests yet",
+    "no_search_results": "No songs found matching your search",
+    "csv_filename": "song_recommendations.csv"
+  },
+  "reminders": {
+    "title": "Reminders",
+    "subtitle": "Send personalized reminders to your guests",
+    "guests_title": "Guests",
+    "search_placeholder": "Search guests...",
+    "filter_all": "All",
+    "filter_pending": "Pending",
+    "filter_confirmed": "Confirmed",
+    "filter_declined": "Not attending",
+    "select_all": "Select all",
+    "deselect_all": "Deselect all",
+    "selected_count": "{{count}} selected",
+    "compose_title": "Compose message",
+    "subject_label": "Subject",
+    "subject_placeholder": "Ex: Reminder for {name} - Our wedding",
+    "message_label": "Message",
+    "message_placeholder": "Ex: Hello {name}, we hope to see you along with {companion} at our wedding on {date} at {ceremony_location}...",
+    "variables_label": "Available variables",
+    "send_button": "Send reminders",
+    "send_success": "Reminders sent to {{count}} guests",
+    "send_error": "Error sending reminders",
+    "send_partial_error": "Error sending {{count}} reminders",
+    "validation_subject_message": "Please complete the subject and message",
+    "validation_attendees": "Please select at least one guest",
+    "missing_fields_warning": "Some invitation data is not defined: {{fields}}. Reminders will show default values for these fields.",
+    "load_error": "Error loading invitation data",
+    "variables": {
+      "name": "Guest name",
+      "companion": "Companion name",
+      "table": "Assigned table",
+      "date": "Wedding date",
+      "ceremony_time": "Ceremony time",
+      "party_time": "Party time",
+      "ceremony_location": "Ceremony location",
+      "party_location": "Party location",
+      "ceremony_address": "Ceremony address",
+      "party_address": "Party address"
+    },
+    "default_values": {
+      "date_not_defined": "[Date not defined]",
+      "time_not_defined": "[Time not defined]",
+      "location_not_defined": "[Location not defined]",
+      "address_not_defined": "[Address not defined]",
+      "no_table": "No table"
+    }
+  }
+} 

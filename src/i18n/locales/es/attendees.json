@@ -1,0 +1,71 @@
+{
+  "title": "Invitados",
+  "description": "Gestiona la lista de invitados y sus confirmaciones",
+  "search_placeholder": "Buscar invitados...",
+  "filter_all": "Todos",
+  "filter_confirmed": "Confirmados",
+  "filter_pending": "Pendientes",
+  "filter_declined": "No Asistirán",
+  "add_attendee": "Agregar Invitado",
+  "add_attendee_title": "Agregar Invitado",
+  "edit_attendee_title": "Editar Invitado",
+  "no_attendees_found": "No se encontraron invitados",
+  "no_attendees_registered": "No hay invitados registrados",
+  "add_first_attendee": "Agregar Primer Invitado",
+  "reminder_sent": "Recordatorio enviado",
+  "reminder_error": "Error al enviar el recordatorio",
+  "feature_lock": {
+    "title": "Función no disponible",
+    "description": "Para agregar invitados manualmente y enviar tu invitación por correo, necesitas tener publicada tu invitación.",
+    "action": "Publicar"
+  },
+  "card": {
+    "no_table": "Sin mesa",
+    "send_invitation": "Enviar invitación",
+    "send_reminder": "Enviar recordatorio",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "delete_modal": {
+      "title": "Eliminar Asistente",
+      "message": "¿Estás seguro de que deseas eliminar a {{name}}?",
+      "confirm": "Eliminar"
+    },
+    "invitation": {
+      "no_email": "El invitado no tiene email registrado",
+      "sent_success": "Invitación enviada correctamente",
+      "sent_error": "Error al enviar la invitación"
+    }
+  },
+  "status": {
+    "confirmed": "Confirmado",
+    "declined": "No Asistirá",
+    "pending": "Pendiente"
+  },
+  "feature_lock_title": "Función Bloqueada",
+  "feature_lock_description": "Esta función está disponible solo para usuarios premium. Actualiza tu plan para desbloquear todas las funciones.",
+  "upgrade_plan": "Actualizar Plan",
+  "form": {
+    "digital_invitation_title": "Invitación Digital",
+    "digital_invitation_description": "Al agregar este invitado, se enviará automáticamente un correo electrónico con una invitación digital personalizada. El invitado podrá ver la invitación con sus datos precargados, incluir información de acompañante si lo desea, y confirmar su asistencia de forma sencilla.",
+    "name_label": "Nombre",
+    "name_required": "El nombre es requerido",
+    "email_label": "Correo Electrónico",
+    "email_required": "El correo electrónico es requerido",
+    "email_invalid": "Correo electrónico inválido",
+    "phone_label": "Teléfono",
+    "confirmation_status_label": "Estado de Confirmación",
+    "pending": "Pendiente",
+    "confirmed": "Confirmado",
+    "declined": "No Asistirá",
+    "dietary_restrictions_label": "Restricciones Alimentarias",
+    "dietary_restrictions_placeholder": "Ingrese cualquier restricción alimentaria o alergia",
+    "has_plus_one_label": "¿Viene con Acompañante?",
+    "plus_one_name_label": "Nombre del Acompañante",
+    "plus_one_name_required": "El nombre del acompañante es requerido",
+    "plus_one_dietary_restrictions_label": "Restricciones Alimentarias del Acompañante",
+    "plus_one_dietary_restrictions_placeholder": "Ingrese cualquier restricción alimentaria o alergia del acompañante",
+    "cancel": "Cancelar",
+    "save_changes": "Guardar Cambios",
+    "add_attendee": "Agregar Asistente"
+  }
+} 

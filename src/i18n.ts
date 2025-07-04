@@ -11,6 +11,16 @@ import esSettings from './i18n/locales/es/settings.json';
 import enSettings from './i18n/locales/en/settings.json';
 import esLanding from './i18n/locales/es/landing.json';
 import enLanding from './i18n/locales/en/landing.json';
+import esDashboard from './i18n/locales/es/dashboard.json';
+import enDashboard from './i18n/locales/en/dashboard.json';
+import esAttendees from './i18n/locales/es/attendees.json';
+import enAttendees from './i18n/locales/en/attendees.json';
+import esRsvps from './i18n/locales/es/rsvps.json';
+import enRsvps from './i18n/locales/en/rsvps.json';
+import esTables from './i18n/locales/es/tables.json';
+import enTables from './i18n/locales/en/tables.json';
+import esFeatures from './i18n/locales/es/features.json';
+import enFeatures from './i18n/locales/en/features.json';
 
 const resources = {
   es: {
@@ -83,7 +93,12 @@ const resources = {
     menu: esMenu,
     contact: esContact,
     settings: esSettings,
-    landing: esLanding
+    landing: esLanding,
+    dashboard: esDashboard,
+    attendees: esAttendees,
+    rsvps: esRsvps,
+    tables: esTables,
+    features: esFeatures
   },
   en: {
     translation: {
@@ -155,7 +170,12 @@ const resources = {
     menu: enMenu,
     contact: enContact,
     settings: enSettings,
-    landing: enLanding
+    landing: enLanding,
+    dashboard: enDashboard,
+    attendees: enAttendees,
+    rsvps: enRsvps,
+    tables: enTables,
+    features: enFeatures
   }
 };
 
@@ -165,7 +185,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'es',
-    ns: ['auth', 'menu', 'contact', 'settings', 'landing'],
+    ns: ['auth', 'menu', 'contact', 'settings', 'landing', 'dashboard', 'attendees', 'rsvps', 'tables', 'features'],
     defaultNS: 'auth',
     interpolation: {
       escapeValue: false,

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal } from '../ui/Modal';
 import { Select } from '../ui/Select';
 import { Input } from '../ui/Input';
@@ -32,6 +33,7 @@ export function TableAssignmentModal({
   onAssign,
   onSave,
 }: TableAssignmentModalProps) {
+  const { t } = useTranslation('tables');
   const [selectedTableId, setSelectedTableId] = useState<string>(guest?.table_id || '');
   const [tableName, setTableName] = useState(table?.name || '');
   const [tableCapacity, setTableCapacity] = useState(table?.capacity?.toString() || '8');
@@ -41,7 +43,7 @@ export function TableAssignmentModal({
     if (!guest || !onAssign) return;
 
     if (guest.rsvp_status !== 'confirmed') {
-      toast.error('El invitado debe confirmar su asistencia antes de asignar una mesa');
+      toast.error(t('table_assignment_modal.guest_not_confirmed'));
       return;
     }
 
@@ -49,12 +51,12 @@ export function TableAssignmentModal({
     try {
       const result = await onAssign(guest.id, selectedTableId || null);
       if (!result.success) {
-        toast.error('Error al asignar mesa');
+        toast.error(t('table_assignment_modal.assign_error'));
       }
       onClose();
     } catch (error) {
       console.error('Error assigning table:', error);
-      toast.error('Error al asignar mesa');
+      toast.error(t('table_assignment_modal.assign_error'));
     } finally {
       setIsLoading(false);
     }
@@ -65,12 +67,12 @@ export function TableAssignmentModal({
 
     const capacity = parseInt(tableCapacity);
     if (isNaN(capacity) || capacity < 1) {
-      toast.error('La capacidad debe ser un número mayor a 0');
+      toast.error(t('table_assignment_modal.capacity_error'));
       return;
     }
 
     if (!tableName.trim()) {
-      toast.error('El nombre de la mesa es requerido');
+      toast.error(t('table_assignment_modal.name_required'));
       return;
     }
 
@@ -110,7 +112,7 @@ export function TableAssignmentModal({
     
     return {
       value: table.id,
-      label: `${table.name} (${assignedSeats}/${table.capacity})${isFull ? ' - Mesa llena' : ''}`,
+      label: `${table.name} (${assignedSeats}/${table.capacity})${isFull ? t('table_assignment_modal.table_full') : ''}`,
       disabled: isFull,
     };
   });
@@ -121,19 +123,19 @@ export function TableAssignmentModal({
         isOpen={isOpen}
         onClose={onClose}
         onConfirm={handleSave}
-        title={`${table.id ? 'Editar' : 'Crear'} Mesa`}
-        confirmText={table.id ? 'Guardar' : 'Crear'}
+        title={table.id ? t('table_assignment_modal.edit_table') : t('table_assignment_modal.create_table')}
+        confirmText={table.id ? t('save') : t('table_assignment_modal.create_table')}
       >
         <div className="space-y-4">
           <Input
-            label="Nombre de la Mesa"
+            label={t('table_assignment_modal.table_name_label')}
             value={tableName}
             onChange={(e) => setTableName(e.target.value)}
-            placeholder="Ej: Mesa 1"
+            placeholder={t('table_assignment_modal.table_name_placeholder')}
           />
 
           <Input
-            label="Capacidad"
+            label={t('table_assignment_modal.capacity_label')}
             type="number"
             min="1"
             value={tableCapacity}
@@ -149,33 +151,35 @@ export function TableAssignmentModal({
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={handleAssign}
-      title="Asignar Mesa"
-      confirmText="Asignar"
+      title={t('table_assignment_modal.title')}
+      confirmText={t('table_assignment_modal.assign')}
       isDanger={false}
       isLoading={isLoading}
     >
       <div className="space-y-4">
         {guest && (
           <p className="text-sm text-gray-500">
-            Asignar mesa para {guest.first_name} {guest.last_name}
-            {guest.has_plus_one && ' (+1)'}
+            {t('table_assignment_modal.assign_for', {
+              name: `${guest.first_name} ${guest.last_name}`,
+              plus_one: guest.has_plus_one ? ' (+1)' : ''
+            })}
           </p>
         )}
 
         {guest?.rsvp_status !== 'confirmed' && (
           <div className="p-3 bg-amber-50 border border-amber-200 rounded-md">
             <p className="text-sm text-amber-700">
-              El invitado debe confirmar su asistencia antes de asignar una mesa
+              {t('table_assignment_modal.guest_not_confirmed')}
             </p>
           </div>
         )}
 
         <Select
-          label="Seleccionar Mesa"
+          label={t('table_assignment_modal.select_table')}
           value={selectedTableId}
           onChange={(e) => setSelectedTableId(e.target.value)}
           options={[
-            { value: '', label: 'Sin mesa', disabled: false },
+            { value: '', label: t('table_assignment_modal.no_table'), disabled: false },
             ...availableTables
           ]}
         />

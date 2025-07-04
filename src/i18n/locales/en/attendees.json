@@ -1,0 +1,71 @@
+{
+  "title": "Guests",
+  "description": "Manage the guest list and their confirmations",
+  "search_placeholder": "Search guests...",
+  "filter_all": "All",
+  "filter_confirmed": "Confirmed",
+  "filter_pending": "Pending",
+  "filter_declined": "Not Attending",
+  "add_attendee": "Add Guest",
+  "add_attendee_title": "Add Guest",
+  "edit_attendee_title": "Edit Guest",
+  "no_attendees_found": "No guests found",
+  "no_attendees_registered": "No guests registered",
+  "add_first_attendee": "Add First Guest",
+  "reminder_sent": "Reminder sent",
+  "reminder_error": "Error sending reminder",
+  "feature_lock": {
+    "title": "Feature not available",
+    "description": "To manually add guests and send your invitation by email, you need to have your invitation published.",
+    "action": "Publish"
+  },
+  "card": {
+    "no_table": "No table",
+    "send_invitation": "Send invitation",
+    "send_reminder": "Send reminder",
+    "edit": "Edit",
+    "delete": "Delete",
+    "delete_modal": {
+      "title": "Delete Guest",
+      "message": "Are you sure you want to delete {{name}}?",
+      "confirm": "Delete"
+    },
+    "invitation": {
+      "no_email": "The guest does not have a registered email",
+      "sent_success": "Invitation sent successfully",
+      "sent_error": "Error sending invitation"
+    }
+  },
+  "status": {
+    "confirmed": "Confirmed",
+    "declined": "Not Attending",
+    "pending": "Pending"
+  },
+  "feature_lock_title": "Feature Locked",
+  "feature_lock_description": "This feature is only available for premium users. Upgrade your plan to unlock all features.",
+  "upgrade_plan": "Upgrade Plan",
+  "form": {
+    "digital_invitation_title": "Digital Invitation",
+    "digital_invitation_description": "When adding this guest, an email will be automatically sent with a personalized digital invitation. The guest will be able to view the invitation with their preloaded data, include companion information if desired, and confirm their attendance easily.",
+    "name_label": "Name",
+    "name_required": "Name is required",
+    "email_label": "Email",
+    "email_required": "Email is required",
+    "email_invalid": "Invalid email",
+    "phone_label": "Phone",
+    "confirmation_status_label": "Confirmation Status",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "declined": "Will Not Attend",
+    "dietary_restrictions_label": "Dietary Restrictions",
+    "dietary_restrictions_placeholder": "Enter any dietary restrictions or allergies",
+    "has_plus_one_label": "Coming with Companion?",
+    "plus_one_name_label": "Companion Name",
+    "plus_one_name_required": "Companion name is required",
+    "plus_one_dietary_restrictions_label": "Companion Dietary Restrictions",
+    "plus_one_dietary_restrictions_placeholder": "Enter any dietary restrictions or allergies for the companion",
+    "cancel": "Cancel",
+    "save_changes": "Save Changes",
+    "add_attendee": "Add Attendee"
+  }
+} 

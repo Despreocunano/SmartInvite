@@ -1,0 +1,48 @@
+{
+  "title": "Confirmations",
+  "total_guests": "{{count}} guests total",
+  "export_list": "Export List",
+  "search_placeholder": "Search guest...",
+  "filter_all": "All",
+  "filter_pending": "Pending",
+  "filter_confirmed": "Confirmed",
+  "filter_declined": "Not attending",
+  "table_headers": {
+    "guest": "Guest",
+    "status": "Status",
+    "table": "Table",
+    "restrictions": "Restrictions",
+    "actions": "Actions"
+  },
+  "status_labels": {
+    "confirmed": "Confirmed",
+    "declined": "Not attending",
+    "pending": "Pending"
+  },
+  "no_table": "no table",
+  "no_restrictions": "None",
+  "plus_one_prefix": "+",
+  "plus_one_restrictions": "Plus one: {{restrictions}}",
+  "remind_button": "Remind",
+  "export": {
+    "success": "Confirmation list exported successfully",
+    "error": "Error exporting confirmation list",
+    "filename": "confirmations.csv",
+    "headers": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "status": "Status",
+      "dietary_restrictions": "Dietary Restrictions",
+      "table": "Table",
+      "plus_one": "Plus One",
+      "plus_one_status": "Plus One Status",
+      "plus_one_restrictions": "Plus One Restrictions"
+    }
+  },
+  "reminder": {
+    "success": "Reminder sent successfully",
+    "error": "Error sending reminder",
+    "subject": "Invitation reminder"
+  }
+} 

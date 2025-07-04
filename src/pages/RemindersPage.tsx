@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -54,6 +55,7 @@ function RemindersAttendeesSkeleton() {
 }
 
 export function RemindersPage() {
+  const { t } = useTranslation('features');
   const { attendees, loading: attendeesLoading } = useAttendees();
   const { tables } = useTables();
   const { groomName, brideName, profileImage } = useWedding();
@@ -99,16 +101,16 @@ export function RemindersPage() {
 
         // Check for missing fields and warn user
         const missingFields = [];
-        if (!data?.wedding_date) missingFields.push('fecha de la boda');
-        if (!data?.ceremony_time) missingFields.push('hora de la ceremonia');
-        if (!data?.party_time) missingFields.push('hora de la fiesta');
-        if (!data?.ceremony_location) missingFields.push('lugar de la ceremonia');
-        if (!data?.party_location) missingFields.push('lugar de la fiesta');
-        if (!data?.ceremony_address) missingFields.push('dirección de la ceremonia');
-        if (!data?.party_address) missingFields.push('dirección de la fiesta');
+        if (!data?.wedding_date) missingFields.push(t('reminders.variables.date'));
+        if (!data?.ceremony_time) missingFields.push(t('reminders.variables.ceremony_time'));
+        if (!data?.party_time) missingFields.push(t('reminders.variables.party_time'));
+        if (!data?.ceremony_location) missingFields.push(t('reminders.variables.ceremony_location'));
+        if (!data?.party_location) missingFields.push(t('reminders.variables.party_location'));
+        if (!data?.ceremony_address) missingFields.push(t('reminders.variables.ceremony_address'));
+        if (!data?.party_address) missingFields.push(t('reminders.variables.party_address'));
 
         if (missingFields.length > 0) {
-          toast(`Algunos datos de la invitación no están definidos: ${missingFields.join(', ')}. Los recordatorios mostrarán valores por defecto para estos campos.`, {
+          toast(t('reminders.missing_fields_warning', { fields: missingFields.join(', ') }), {
             icon: '⚠️',
             style: {
               background: '#FEF3C7',
@@ -119,25 +121,25 @@ export function RemindersPage() {
       } catch (error) {
         if (error && typeof error === 'object' && 'code' in error && error.code !== 'PGRST116') {
           console.error('Error fetching landing page:', error);
-          toast.error('Error al cargar los datos de la invitación');
+          toast.error(t('reminders.load_error'));
         }
       }
     };
 
     fetchLandingPage();
-  }, []);
+  }, [t]);
 
   const variables = [
-    { name: '{nombre}', description: 'Nombre del invitado' },
-    { name: '{acompañante}', description: 'Nombre del acompañante' },
-    { name: '{mesa}', description: 'Mesa asignada' },
-    { name: '{fecha}', description: 'Fecha de la boda' },
-    { name: '{hora_ceremonia}', description: 'Hora de la ceremonia' },
-    { name: '{hora_fiesta}', description: 'Hora de la fiesta' },
-    { name: '{lugar_ceremonia}', description: 'Lugar de la ceremonia' },
-    { name: '{lugar_fiesta}', description: 'Lugar de la fiesta' },
-    { name: '{direccion_ceremonia}', description: 'Dirección de la ceremonia' },
-    { name: '{direccion_fiesta}', description: 'Dirección de la fiesta' }
+    { name: '{nombre}', description: t('reminders.variables.name') },
+    { name: '{acompañante}', description: t('reminders.variables.companion') },
+    { name: '{mesa}', description: t('reminders.variables.table') },
+    { name: '{fecha}', description: t('reminders.variables.date') },
+    { name: '{hora_ceremonia}', description: t('reminders.variables.ceremony_time') },
+    { name: '{hora_fiesta}', description: t('reminders.variables.party_time') },
+    { name: '{lugar_ceremonia}', description: t('reminders.variables.ceremony_location') },
+    { name: '{lugar_fiesta}', description: t('reminders.variables.party_location') },
+    { name: '{direccion_ceremonia}', description: t('reminders.variables.ceremony_address') },
+    { name: '{direccion_fiesta}', description: t('reminders.variables.party_address') }
   ];
 
   const signature = `
@@ -197,19 +199,19 @@ export function RemindersPage() {
       month: 'long',
       day: 'numeric'
         })
-      : '[Fecha no definida]';
+      : t('reminders.default_values.date_not_defined');
 
     const replacements = {
       '{nombre}': attendee.first_name || '',
       '{acompañante}': attendee.has_plus_one ? attendee.plus_one_name : '',
-      '{mesa}': currentTable?.name || 'Sin mesa',
+      '{mesa}': currentTable?.name || t('reminders.default_values.no_table'),
       '{fecha}': weddingDate,
-      '{hora_ceremonia}': landingPage?.ceremony_time || '[Hora no definida]',
-      '{hora_fiesta}': landingPage?.party_time || '[Hora no definida]',
-      '{lugar_ceremonia}': landingPage?.ceremony_location || '[Lugar no definido]',
-      '{lugar_fiesta}': landingPage?.party_location || '[Lugar no definido]',
-      '{direccion_ceremonia}': landingPage?.ceremony_address || '[Dirección no definida]',
-      '{direccion_fiesta}': landingPage?.party_address || '[Dirección no definida]'
+      '{hora_ceremonia}': landingPage?.ceremony_time || t('reminders.default_values.time_not_defined'),
+      '{hora_fiesta}': landingPage?.party_time || t('reminders.default_values.time_not_defined'),
+      '{lugar_ceremonia}': landingPage?.ceremony_location || t('reminders.default_values.location_not_defined'),
+      '{lugar_fiesta}': landingPage?.party_location || t('reminders.default_values.location_not_defined'),
+      '{direccion_ceremonia}': landingPage?.ceremony_address || t('reminders.default_values.address_not_defined'),
+      '{direccion_fiesta}': landingPage?.party_address || t('reminders.default_values.address_not_defined')
     };
 
     return text.replace(
@@ -242,12 +244,12 @@ export function RemindersPage() {
 
   const handleSendReminders = async () => {
     if (!subject.trim() || !message.trim()) {
-      toast.error('Por favor completa el asunto y el mensaje');
+      toast.error(t('reminders.validation_subject_message'));
       return;
     }
 
     if (selectedAttendees.length === 0) {
-      toast.error('Por favor selecciona al menos un invitado');
+      toast.error(t('reminders.validation_attendees'));
       return;
     }
 
@@ -277,16 +279,16 @@ export function RemindersPage() {
       }
 
       if (successCount > 0) {
-        toast.success(`Recordatorios enviados a ${successCount} invitados`);
+        toast.success(t('reminders.send_success', { count: successCount }));
         setSelectedAttendees([]);
       }
       
       if (errorCount > 0) {
-        toast.error(`Error al enviar ${errorCount} recordatorios`);
+        toast.error(t('reminders.send_partial_error', { count: errorCount }));
       }
     } catch (error) {
       console.error('Error sending reminders:', error);
-      toast.error('Error al enviar los recordatorios');
+      toast.error(t('reminders.send_error'));
     } finally {
       setIsSending(false);
     }
@@ -307,9 +309,9 @@ export function RemindersPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Recordatorios</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('reminders.title')}</h1>
           <p className="text-gray-500 mt-1">
-            Envía recordatorios personalizados a tus invitados
+            {t('reminders.subtitle')}
           </p>
         </div>
       </div>
@@ -319,7 +321,7 @@ export function RemindersPage() {
         <div className="lg:col-span-1 space-y-4">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle>Invitados</CardTitle>
+              <CardTitle>{t('reminders.guests_title')}</CardTitle>
             </CardHeader>
             <CardContent>
               {attendeesLoading ? (
@@ -328,7 +330,7 @@ export function RemindersPage() {
                 <div className="space-y-4">
                   <div className="flex gap-2">
                     <Input
-                      placeholder="Buscar invitados..."
+                      placeholder={t('reminders.search_placeholder')}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       leftIcon={<Search className="h-4 w-4 text-gray-400" />}
@@ -344,10 +346,10 @@ export function RemindersPage() {
                         onChange={(e) => setStatusFilter(e.target.value as any)}
                         className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent sm:text-sm"
                       >
-                        <option value="all">Todos</option>
-                        <option value="pending">Pendientes</option>
-                        <option value="confirmed">Confirmados</option>
-                        <option value="declined">No asistirán</option>
+                        <option value="all">{t('reminders.filter_all')}</option>
+                        <option value="pending">{t('reminders.filter_pending')}</option>
+                        <option value="confirmed">{t('reminders.filter_confirmed')}</option>
+                        <option value="declined">{t('reminders.filter_declined')}</option>
                       </select>
                       <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     </div>
@@ -361,11 +363,11 @@ export function RemindersPage() {
                       className="text-sm"
                     >
                       {selectedAttendees.length === filteredAttendees.length
-                        ? 'Deseleccionar todos'
-                        : 'Seleccionar todos'}
+                        ? t('reminders.deselect_all')
+                        : t('reminders.select_all')}
                     </Button>
                     <span className="text-sm text-gray-500">
-                      {selectedAttendees.length} seleccionados
+                      {t('reminders.selected_count', { count: selectedAttendees.length })}
                     </span>
                   </div>
 
@@ -412,40 +414,40 @@ export function RemindersPage() {
         <div className="lg:col-span-2 space-y-4">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle>Componer mensaje</CardTitle>
+              <CardTitle>{t('reminders.compose_title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Asunto
+                    {t('reminders.subject_label')}
                   </label>
                   <Input
                     ref={subjectRef}
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
                     onFocus={() => setActiveInput('subject')}
-                    placeholder="Ej: Recordatorio para {nombre} - Nuestra boda"
+                    placeholder={t('reminders.subject_placeholder')}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Mensaje
+                    {t('reminders.message_label')}
                   </label>
                   <Textarea
                     ref={messageRef}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onFocus={() => setActiveInput('message')}
-                    placeholder="Ej: Hola {nombre}, esperamos verte junto a {acompañante} en nuestra boda el {fecha} en {lugar_ceremonia}..."
+                    placeholder={t('reminders.message_placeholder')}
                     rows={8}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Variables disponibles
+                    {t('reminders.variables_label')}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {variables.map((variable) => (
@@ -469,7 +471,7 @@ export function RemindersPage() {
                     disabled={selectedAttendees.length === 0}
                     className="bg-primary text-primary-contrast hover:bg-primary-dark"
                   >
-                    Enviar recordatorios
+                    {t('reminders.send_button')}
                   </Button>
                 </div>
               </div>

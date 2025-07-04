@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
 import { sendInvitationEmail } from '../../lib/api';
 import type { Attendee } from '../../types/supabase';
+import { useTranslation } from 'react-i18next';
 
 interface AttendeeCardProps {
   attendee: Attendee;
@@ -35,6 +36,7 @@ export function AttendeeCard({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showTableModal, setShowTableModal] = useState(false);
   const [sendingInvitation, setSendingInvitation] = useState(false);
+  const { t } = useTranslation('landing');
 
   const currentTable = tables.find(t => t.id === attendee.table_id);
 
@@ -51,7 +53,7 @@ export function AttendeeCard({
 
   const handleSendInvitation = async () => {
     if (!attendee.email) {
-      toast.error('El invitado no tiene email registrado');
+      toast.error(t('attendees.card.invitation.no_email'));
       return;
     }
 
@@ -72,10 +74,10 @@ export function AttendeeCard({
       }
 
       await sendInvitationEmail(attendee.id, landingPage.slug);
-      toast.success('Invitación enviada correctamente');
+      toast.success(t('attendees.card.invitation.sent_success'));
     } catch (error) {
       console.error('Error sending invitation:', error);
-      toast.error('Error al enviar la invitación');
+      toast.error(t('attendees.card.invitation.sent_error'));
     } finally {
       setSendingInvitation(false);
     }
@@ -120,7 +122,7 @@ export function AttendeeCard({
               <div className="flex p-2 rounded-md bg-gray-100 text-gray-800">
                 <Table2 className="h-4 w-4 mr-2 text-gray-500" />
                 <span className="text-sm font-medium">
-                  {currentTable ? currentTable.name : 'Sin mesa'}
+                  {currentTable ? currentTable.name : t('attendees.card.no_table')}
                 </span>
               </div>
             </div>
@@ -133,7 +135,7 @@ export function AttendeeCard({
                   onClick={handleSendInvitation}
                   className="text-blue-600 hover:text-blue-900"
                   isLoading={sendingInvitation}
-                  title="Enviar invitación"
+                  title={t('attendees.card.send_invitation')}
                 >
                   <Mail className="h-4 w-4" />
                 </Button>
@@ -144,7 +146,7 @@ export function AttendeeCard({
                 onClick={() => onSendReminder(attendee)}
                 className="text-gray-600 hover:text-gray-900"
                 isLoading={sendingReminder === attendee.id}
-                title="Enviar recordatorio"
+                title={t('attendees.card.send_reminder')}
               >
                 <Send className="h-4 w-4" />
               </Button>
@@ -156,7 +158,7 @@ export function AttendeeCard({
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 className="text-gray-600 hover:text-gray-900"
-                title="Editar"
+                title={t('attendees.card.edit')}
               >
                 <Edit2 className="h-4 w-4" />
               </Button>
@@ -165,7 +167,7 @@ export function AttendeeCard({
                 size="sm"
                 onClick={() => setShowDeleteModal(true)}
                 className="text-red-500 hover:text-red-700"
-                title="Eliminar"
+                title={t('attendees.card.delete')}
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -181,12 +183,12 @@ export function AttendeeCard({
           onDelete(attendee.id);
           setShowDeleteModal(false);
         }}
-        title="Eliminar Asistente"
-        confirmText="Eliminar"
+        title={t('attendees.card.delete_modal.title')}
+        confirmText={t('attendees.card.delete_modal.confirm')}
         isDanger
       >
         <p className="text-sm text-gray-500">
-          ¿Estás seguro de que deseas eliminar a {attendee.first_name}?
+          {t('attendees.card.delete_modal.message', { name: attendee.first_name })}
         </p>
       </Modal>
 

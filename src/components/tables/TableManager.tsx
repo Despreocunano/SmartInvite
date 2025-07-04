@@ -5,6 +5,7 @@ import { Button } from '../ui/Button';
 import { GuestTable, Attendee } from '../../types/supabase';
 import { TableForm } from './TableForm';
 import { Modal } from '../ui/Modal';
+import { useTranslation } from 'react-i18next';
 
 interface TableManagerProps {
   tables: GuestTable[];
@@ -27,6 +28,7 @@ export function TableManager({
 }: TableManagerProps) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [localAttendees, setLocalAttendees] = useState<Attendee[]>([]);
+  const { t } = useTranslation('tables');
 
   useEffect(() => {
     setLocalAttendees(attendees);
@@ -92,10 +94,10 @@ export function TableManager({
           {tables.length === 0 && (
             <div className="md:col-span-2 lg:col-span-2 flex items-center justify-center h-[400px] border-2 border-dashed border-gray-300 rounded-lg">
               <div className="text-center">
-                <p className="text-gray-500 mb-4">No hay mesas creadas aún</p>
+                <p className="text-gray-500 mb-4">{t('no_tables')}</p>
                 <Button onClick={() => setShowAddModal(true)}
                   className='bg-primary text-primary-contrast hover:bg-primary-dark'>
-                  Crear Primera Mesa
+                  {t('create_first_table')}
                 </Button>
               </div>
             </div>
@@ -107,7 +109,7 @@ export function TableManager({
         <Modal
           isOpen={true}
           onClose={() => setShowAddModal(false)}
-          title="Agregar Mesa"
+          title={t('add_table_title')}
         >
           <TableForm
             onSubmit={handleAddTable}

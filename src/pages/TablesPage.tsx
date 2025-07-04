@@ -6,6 +6,79 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Modal } from '../components/ui/Modal';
 import { TableForm } from '../components/tables/TableForm';
+import { useTranslation } from 'react-i18next';
+
+export function TablesPage() {
+  const { attendees, loading: attendeesLoading } = useAttendees();
+  const { 
+    tables, 
+    loading: tablesLoading, 
+    addTable, 
+    updateTable, 
+    deleteTable,
+    assignGuestToTable
+  } = useTables();
+  const [showAddModal, setShowAddModal] = useState(false);
+  const { t } = useTranslation('tables');
+
+  const isLoading = attendeesLoading || tablesLoading;
+
+  const handleAddTable = async (data: any) => {
+    const result = await addTable(data);
+    if (result.success) {
+      setShowAddModal(false);
+    }
+  };
+
+  if (isLoading) {
+    return <TablesSkeleton />;
+  }
+
+  return (
+    <div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <div className="mt-1 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <p className="text-gray-500">
+            {t('description')}
+          </p>
+          <Button
+            onClick={() => setShowAddModal(true)}
+            leftIcon={<Plus className="h-4 w-4" />}
+            className='bg-primary hover:bg-primary-dark text-primary-contrast w-full md:w-auto'
+          >
+            {t('add_table')}
+          </Button>
+        </div>
+      </div>
+      
+      <TableManager 
+        tables={tables}
+        attendees={attendees}
+        isLoading={isLoading}
+        onAddTable={addTable}
+        onUpdateTable={updateTable}
+        onDeleteTable={deleteTable}
+        onAssignGuest={assignGuestToTable}
+      />
+
+      {showAddModal && (
+        <Modal
+          isOpen={true}
+          onClose={() => setShowAddModal(false)}
+          title={t('add_table_title')}
+          panelClassName='w-full md:w-[40%]'
+        >
+          <TableForm
+            onSubmit={handleAddTable}
+            onCancel={() => setShowAddModal(false)}
+            isLoading={false}
+          />
+        </Modal>
+      )}
+    </div>
+  );
+}
 
 function TablesSkeleton() {
   return (
@@ -91,77 +164,6 @@ function TablesSkeleton() {
           </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-export function TablesPage() {
-  const { attendees, loading: attendeesLoading } = useAttendees();
-  const { 
-    tables, 
-    loading: tablesLoading, 
-    addTable, 
-    updateTable, 
-    deleteTable,
-    assignGuestToTable
-  } = useTables();
-  const [showAddModal, setShowAddModal] = useState(false);
-
-  const isLoading = attendeesLoading || tablesLoading;
-
-  const handleAddTable = async (data: any) => {
-    const result = await addTable(data);
-    if (result.success) {
-      setShowAddModal(false);
-    }
-  };
-
-  if (isLoading) {
-    return <TablesSkeleton />;
-  }
-
-  return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Mesas</h1>
-        <div className="mt-1 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <p className="text-gray-500">
-            Organiza la distribución de tus invitados en las mesas
-          </p>
-          <Button
-            onClick={() => setShowAddModal(true)}
-            leftIcon={<Plus className="h-4 w-4" />}
-            className='bg-primary hover:bg-primary-dark text-primary-contrast w-full md:w-auto'
-          >
-            Agregar Mesa
-          </Button>
-        </div>
-      </div>
-      
-      <TableManager 
-        tables={tables}
-        attendees={attendees}
-        isLoading={isLoading}
-        onAddTable={addTable}
-        onUpdateTable={updateTable}
-        onDeleteTable={deleteTable}
-        onAssignGuest={assignGuestToTable}
-      />
-
-      {showAddModal && (
-        <Modal
-          isOpen={true}
-          onClose={() => setShowAddModal(false)}
-          title="Agregar Mesa"
-          panelClassName='w-full md:w-[40%]'
-        >
-          <TableForm
-            onSubmit={handleAddTable}
-            onCancel={() => setShowAddModal(false)}
-            isLoading={false}
-          />
-        </Modal>
-      )}
     </div>
   );
 }
