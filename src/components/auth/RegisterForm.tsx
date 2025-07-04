@@ -70,7 +70,6 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
         const { success: loginSuccess } = await signIn(data.email, data.password);
         if (loginSuccess) {
           // Navegar directamente sin enviar email de bienvenida
-          window.scrollTo(0, 0);
           navigate('/', { replace: true });
           trackSignUp(data.email);
         } else {
