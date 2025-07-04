@@ -56,7 +56,7 @@ serve(async (req)=>{
       landingPage: {
         isPublished: !!landingPage?.published_at,
         slug: landingPage?.slug || null,
-        publishedUrl: landingPage?.slug ? `https://smartinvite.me/invitacion/${landingPage.slug}` : null
+        publishedUrl: landingPage?.slug ? `https://tuparte.digital/invitacion/${landingPage.slug}` : null
       }
     }), {
       headers: {

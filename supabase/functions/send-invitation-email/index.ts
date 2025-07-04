@@ -91,7 +91,7 @@ serve(async (req) => {
     }
 
     // Create invitation URL with token
-    const invitationUrl = `https://smartinvite.me/invitacion/${landingSlug}?token=${invitationToken}`;
+    const invitationUrl = `https://tuparte.digital/invitacion/${landingSlug}?token=${invitationToken}`;
 
     // Create email content
     const emailContent = createInvitationEmail({
@@ -211,8 +211,8 @@ function createInvitationEmail({ attendee, landingPage, invitationUrl }: {
         </div>
 
         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-          <a href="https://smartinvite.me" style="text-decoration: none; color: #666;">
-            <img src="https://app.smartinvite.me/assets/logo-dark-Cd7SJvdg.svg" 
+          <a href="https://tuparte.digital" style="text-decoration: none; color: #666;">
+            <img src="https://app.tuparte.digital/assets/logo-dark-Cd7SJvdg.svg" 
                  alt="TuParte Digital" 
                  style="height: 30px; width: auto; margin-bottom: 8px;">
             <p style="color: #666; font-size: 12px; margin: 0;">

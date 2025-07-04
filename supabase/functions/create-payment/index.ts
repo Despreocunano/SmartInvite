@@ -113,7 +113,7 @@ serve(async (req)=>{
       throw new Error(`Error creating payment record: ${paymentError.message}`);
     }
     // Create Stripe Checkout Session
-    const FRONTEND_URL = Deno.env.get("FRONTEND_URL") ?? "https://app.smartinvite.me";
+    const FRONTEND_URL = Deno.env.get("FRONTEND_URL") ?? "https://app.tuparte.digital";
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [

@@ -23,7 +23,7 @@ serve(async (req)=>{
     
     // Get environment variables
     const senderEmail = Deno.env.get('RESEND_SENDER_EMAIL');
-    const adminEmail = Deno.env.get('ADMIN_EMAIL') || 'contacto@smartinvite.me';
+    const adminEmail = Deno.env.get('ADMIN_EMAIL') || 'contacto@tuparte.digital';
     const resendApiKey = Deno.env.get('RESEND_API_KEY');
     
     if (!senderEmail) {
