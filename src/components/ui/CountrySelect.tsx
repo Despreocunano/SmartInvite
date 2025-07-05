@@ -117,7 +117,7 @@ export function CountrySelect({
                 <img 
                   src={`https://flagcdn.com/${selectedOption.flagCode}.svg`} 
                   alt={selectedOption.label}
-                  className="w-4 h-4 mr-2 rounded-sm"
+                  className="h-4 w-auto mr-2 rounded-sm"
                 />
                 <span>{selectedOption.label}</span>
               </>
@@ -140,7 +140,7 @@ export function CountrySelect({
                 <img 
                   src={`https://flagcdn.com/${option.flagCode}.svg`} 
                   alt={option.label}
-                  className="w-4 h-4 mr-2 rounded-sm"
+                  className="h-4 w-auto mr-2 rounded-sm"
                 />
                 <span>{option.label}</span>
               </button>
