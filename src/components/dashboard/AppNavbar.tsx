@@ -29,8 +29,8 @@ const profileNavItems = [
 
 // Configuración de idiomas disponibles
 const languages = [
-  { code: 'es', name: 'Español', flag: 'https://flagcdn.com/es.svg' },
-  { code: 'en', name: 'English', flag: 'https://flagcdn.com/us.svg' },
+  { code: 'es', name: 'Español', flag: 'https://flagicons.lipis.dev/flags/4x3/es.svg' },
+  { code: 'en', name: 'English', flag: 'https://flagicons.lipis.dev/flags/4x3/us.svg' },
 ];
 
 export function AppNavbar() {

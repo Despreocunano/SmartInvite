@@ -115,7 +115,7 @@ export function CountrySelect({
             {selectedOption ? (
               <>
                 <img 
-                  src={`https://flagcdn.com/${selectedOption.flagCode}.svg`} 
+                  src={`https://flagicons.lipis.dev/flags/4x3/${selectedOption.flagCode}.svg`} 
                   alt={selectedOption.label}
                   className="h-4 w-auto mr-2 rounded-sm"
                 />
@@ -138,7 +138,7 @@ export function CountrySelect({
                 className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-center"
               >
                 <img 
-                  src={`https://flagcdn.com/${option.flagCode}.svg`} 
+                  src={`https://flagicons.lipis.dev/flags/4x3/${option.flagCode}.svg`} 
                   alt={option.label}
                   className="h-4 w-auto mr-2 rounded-sm"
                 />
