@@ -16,7 +16,7 @@ interface AttendeeFormProps {
 }
 
 export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: AttendeeFormProps) {
-  const { t } = useTranslation('landing');
+  const { t } = useTranslation('attendees');
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
     defaultValues: {
       first_name: attendee?.first_name || '',
@@ -84,11 +84,11 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
             </div>
             <div className="ml-3">
               <h3 className="text-sm font-medium text-blue-800">
-                {t('attendee_form.digital_invitation_title')}
+                {t('form.digital_invitation_title')}
               </h3>
               <div className="mt-2 text-sm text-blue-700">
                 <p>
-                  {t('attendee_form.digital_invitation_description')}
+                  {t('form.digital_invitation_description')}
                 </p>
               </div>
             </div>
@@ -99,9 +99,9 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
       <div className="space-y-4">
         <div className="grid grid-cols-1 gap-4">
           <Input
-            label={t('attendee_form.name_label')}
+            label={t('form.name_label')}
             {...register('first_name', { 
-              required: t('attendee_form.name_required')
+              required: t('form.name_required')
             })}
             error={errors.first_name?.message}
           />
@@ -109,38 +109,38 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
-            label={t('attendee_form.email_label')}
+            label={t('form.email_label')}
             type="email"
             {...register('email', {
-              required: t('attendee_form.email_required'),
+              required: t('form.email_required'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: t('attendee_form.email_invalid')
+                message: t('form.email_invalid')
               }
             })}
             error={errors.email?.message}
           />
           <Input
-            label={t('attendee_form.phone_label')}
+            label={t('form.phone_label')}
             {...register('phone')}
             error={errors.phone?.message}
           />
         </div>
 
         <Select
-          label={t('attendee_form.confirmation_status_label')}
+          label={t('form.confirmation_status_label')}
           {...register('rsvp_status')}
           options={[
-            { value: 'pending', label: t('attendee_form.pending') },
-            { value: 'confirmed', label: t('attendee_form.confirmed') },
-            { value: 'declined', label: t('attendee_form.declined') }
+            { value: 'pending', label: t('form.pending') },
+            { value: 'confirmed', label: t('form.confirmed') },
+            { value: 'declined', label: t('form.declined') }
           ]}
         />
 
         {rsvpStatus !== 'declined' && (
           <Textarea
-            label={t('attendee_form.dietary_restrictions_label')}
-            placeholder={t('attendee_form.dietary_restrictions_placeholder')}
+            label={t('form.dietary_restrictions_label')}
+            placeholder={t('form.dietary_restrictions_placeholder')}
             {...register('dietary_restrictions')}
           />
         )}
@@ -148,7 +148,7 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
         <div className="space-y-4 border-t border-gray-200 pt-4">
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium text-gray-700">
-              {t('attendee_form.has_plus_one_label')}
+              {t('form.has_plus_one_label')}
             </label>
             <Switch
               checked={hasPlusOne}
@@ -168,17 +168,17 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
           {hasPlusOne && rsvpStatus !== 'declined' && (
             <div className="space-y-4">
               <Input
-                label={t('attendee_form.plus_one_name_label')}
+                label={t('form.plus_one_name_label')}
                 {...register('plus_one_name', {
-                  required: hasPlusOne ? t('attendee_form.plus_one_name_required') : false
+                  required: hasPlusOne ? t('form.plus_one_name_required') : false
                 })}
                 error={errors.plus_one_name?.message}
               />
 
               {watch('plus_one_rsvp_status') !== 'declined' && (
                 <Textarea
-                  label={t('attendee_form.plus_one_dietary_restrictions_label')}
-                  placeholder={t('attendee_form.plus_one_dietary_restrictions_placeholder')}
+                  label={t('form.plus_one_dietary_restrictions_label')}
+                  placeholder={t('form.plus_one_dietary_restrictions_placeholder')}
                   {...register('plus_one_dietary_restrictions')}
                 />
               )}
@@ -195,14 +195,14 @@ export function AttendeeForm({ onSubmit, onCancel, isLoading, attendee }: Attend
           disabled={isLoading}
           className='border border-primary text-primary hover:bg-primary-dark hover:text-primary-contrast'
         >
-          {t('attendee_form.cancel')}
+          {t('form.cancel')}
         </Button>
         <Button
           type="submit"
           isLoading={isLoading}
           className='bg-primary hover:bg-primary-dark text-primary-contrast'
         >
-          {attendee ? t('attendee_form.save_changes') : t('attendee_form.add_attendee')}
+          {attendee ? t('form.save_changes') : t('form.add_attendee')}
         </Button>
       </div>
     </form>

@@ -10,14 +10,14 @@ interface AttendeeStatusProps {
 }
 
 export function AttendeeStatus({ status, className = '' }: AttendeeStatusProps) {
-  const { t } = useTranslation('landing');
+  const { t } = useTranslation('attendees');
   const baseClasses = "flex items-center";
 
   if (status === 'confirmed') {
     return (
       <div className={cn(baseClasses, "text-green-600", className)}>
         <Check className="w-4 h-4 mr-1" />
-        <span className="text-sm font-medium">{t('attendees.status.confirmed')}</span>
+        <span className="text-sm font-medium">{t('status.confirmed')}</span>
       </div>
     );
   }
@@ -26,7 +26,7 @@ export function AttendeeStatus({ status, className = '' }: AttendeeStatusProps) 
     return (
       <div className={cn(baseClasses, "text-red-600", className)}>
         <X className="w-4 h-4 mr-1" />
-        <span className="text-sm font-medium">{t('attendees.status.declined')}</span>
+        <span className="text-sm font-medium">{t('status.declined')}</span>
       </div>
     );
   }
@@ -34,7 +34,7 @@ export function AttendeeStatus({ status, className = '' }: AttendeeStatusProps) 
   return (
     <div className={cn(baseClasses, "text-amber-600", className)}>
       <Clock className="w-4 h-4 mr-1" />
-      <span className="text-sm font-medium">{t('attendees.status.pending')}</span>
+              <span className="text-sm font-medium">{t('status.pending')}</span>
     </div>
   );
 }
