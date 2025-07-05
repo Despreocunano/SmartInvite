@@ -14,6 +14,10 @@ interface CountrySelectProps {
   options?: CountryOption[];
   error?: string;
   defaultValue?: string;
+  name?: string;
+  value?: string;
+  onChange?: (event: any) => void;
+  onBlur?: () => void;
   [key: string]: any;
 }
 
@@ -25,12 +29,21 @@ export function CountrySelect({
   defaultValue, 
   onChange,
   value,
+  name,
+  onBlur,
   ...props 
 }: CountrySelectProps) {
   const { t } = useTranslation('auth');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value || defaultValue || '');
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Update selectedValue when value prop changes (from react-hook-form)
+  useEffect(() => {
+    if (value !== undefined) {
+      setSelectedValue(value);
+    }
+  }, [value]);
 
   const defaultOptions: CountryOption[] = [
     { value: 'MX', label: t('register.mx'), flagCode: 'mx' },
@@ -56,12 +69,27 @@ export function CountrySelect({
     setSelectedValue(option.value);
     setIsOpen(false);
     if (onChange) {
-      onChange({ target: { value: option.value } } as any);
+      // Create a proper event object that react-hook-form expects
+      const event = {
+        target: { 
+          name: name || 'country',
+          value: option.value 
+        }
+      };
+      onChange(event as any);
     }
   };
 
   return (
     <div className="space-y-1" ref={dropdownRef}>
+      {/* Hidden input for react-hook-form */}
+      <input
+        type="hidden"
+        name={name}
+        value={selectedValue}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
       {label && (
         <label htmlFor={id} className="block text-sm font-medium text-gray-700">
           {label}
@@ -71,6 +99,7 @@ export function CountrySelect({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
+          onBlur={onBlur}
           className={`
             w-full px-3 py-2 text-left border rounded-md shadow-sm 
             focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 
