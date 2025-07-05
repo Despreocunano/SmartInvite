@@ -60,6 +60,20 @@ serve(async (req) => {
       throw new Error('Attendee not found or unauthorized');
     }
 
+    // Get user's language preference
+    const { data: userProfile, error: userError } = await supabase
+      .from('users')
+      .select('language')
+      .eq('id', user.id)
+      .single();
+    
+    if (userError) {
+      console.error('Error fetching user language:', userError);
+    }
+    
+    // Default to Spanish if no language is set
+    const userLanguage = userProfile?.language || 'es';
+    
     // Get landing page details
     const { data: landingPage, error: landingError } = await supabase
       .from('landing_pages')
@@ -97,7 +111,8 @@ serve(async (req) => {
     const emailContent = createInvitationEmail({
       attendee,
       landingPage,
-      invitationUrl
+      invitationUrl,
+      language: userLanguage
     });
 
     // Send email using Resend
@@ -110,7 +125,9 @@ serve(async (req) => {
       body: JSON.stringify({
         from: senderEmail,
         to: attendee.email,
-        subject: `¡Nos casamos! 🎉 ${landingPage.groom_name} y ${landingPage.bride_name}`,
+        subject: userLanguage === 'en' 
+          ? `We're getting married! 🎉 ${landingPage.groom_name} & ${landingPage.bride_name}`
+          : `¡Nos casamos! 🎉 ${landingPage.groom_name} y ${landingPage.bride_name}`,
         html: emailContent
       })
     });
@@ -126,7 +143,9 @@ serve(async (req) => {
       {
         user_id: user.id,
         guest_id: attendeeId,
-        subject: `Invitación a la boda de ${landingPage.groom_name} y ${landingPage.bride_name}`,
+        subject: userLanguage === 'en' 
+          ? `Wedding invitation from ${landingPage.groom_name} & ${landingPage.bride_name}`
+          : `Invitación a la boda de ${landingPage.groom_name} y ${landingPage.bride_name}`,
         content: emailContent
       }
     ]);
@@ -160,18 +179,79 @@ serve(async (req) => {
   }
 });
 
-function createInvitationEmail({ attendee, landingPage, invitationUrl }: {
+function createInvitationEmail({ attendee, landingPage, invitationUrl, language }: {
   attendee: any;
   landingPage: any;
   invitationUrl: string;
+  language: string;
 }) {
-  const weddingDate = new Date(landingPage.wedding_date).toLocaleDateString('es-ES', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  const isEnglish = language === 'en';
+  
+  const weddingDate = new Date(landingPage.wedding_date).toLocaleDateString(
+    isEnglish ? 'en-US' : 'es-ES', 
+    {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }
+  );
 
+  if (isEnglish) {
+    return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f9fa;">
+      <div style="background-color: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        <div style="margin-bottom: 35px;">
+          <p style="font-size: 16px; line-height: 1.7; color: #333; margin-bottom: 20px; font-weight: 500;">
+            Dear ${attendee.first_name} ${attendee.last_name},
+          </p>
+          <p style="font-size: 16px; line-height: 1.7; color: #333; margin-bottom: 20px;">
+           We're excited to tell you that we're getting married! We are ${landingPage.groom_name} & ${landingPage.bride_name} and it would be an honor for us to have you join us on one of the most important days of our lives.
+          </p>
+          <p style="font-size: 16px; line-height: 1.7; color: #333; margin-bottom: 20px;">
+            The ceremony will take place on <strong>${weddingDate}</strong>, and we couldn't imagine that moment without you.
+          </p>
+          <p style="font-size: 16px; line-height: 1.7; color: #333; margin-bottom: 30px;">
+            We've prepared a digital invitation with all the event details.
+          </p>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 35px;">
+          <a href="${invitationUrl}" 
+             style="color: #8B5A96; text-decoration: underline; font-weight: 600; font-size: 16px;">
+            View Digital Invitation →
+          </a>
+        </div>
+
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 40px; border-left: 4px solid #8B5A96;">
+          <p style="font-size: 14px; color: #666; margin: 0; text-align: center; line-height: 1.5;">
+            <strong>Important note:</strong> When you click the link, your data will be automatically preloaded 
+            in the confirmation form to make it easier for you to respond.
+          </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid #e5e7eb;">
+          <p style="color: #666; font-size: 14px; margin: 0; font-style: italic;">
+            Thank you for being part of our story!
+          </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+          <a href="https://tuparte.digital" style="text-decoration: none; color: #666;">
+            <img src="https://app.tuparte.digital/assets/logo-dark-Cd7SJvdg.svg" 
+                 alt="TuParte Digital" 
+                 style="height: 30px; width: auto; margin-bottom: 8px;">
+            <p style="color: #666; font-size: 12px; margin: 0;">
+              Created with ❤️ by TuParte Digital
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+  }
+
+  // Spanish template (default)
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f9fa;">
       <div style="background-color: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
@@ -223,4 +303,4 @@ function createInvitationEmail({ attendee, landingPage, invitationUrl }: {
       </div>
     </div>
   `;
-} 
+}

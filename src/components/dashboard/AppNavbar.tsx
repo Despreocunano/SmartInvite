@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import { useState, useRef, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
 
 const mainNavItems = [
   { nameKey: 'menu.dashboard', href: '/', icon: Heart },
@@ -94,8 +95,39 @@ export function AppNavbar() {
     };
   }, [languageMenuOpen]);
 
+  // Obtener el idioma del usuario desde la base de datos
+  const [userLanguage, setUserLanguage] = useState(i18n.language);
+  
+  // Cargar el idioma del usuario al montar el componente
+  useEffect(() => {
+    const loadUserLanguage = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data: userProfile } = await supabase
+            .from('users')
+            .select('language')
+            .eq('id', user.id)
+            .single();
+          
+          if (userProfile?.language) {
+            setUserLanguage(userProfile.language);
+            // También actualizar i18n si es diferente
+            if (i18n.language !== userProfile.language) {
+              i18n.changeLanguage(userProfile.language);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error loading user language:', error);
+      }
+    };
+    
+    loadUserLanguage();
+  }, []);
+  
   // Obtener el idioma actual
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const currentLanguage = languages.find(lang => lang.code === userLanguage) || languages[0];
 
   return (
     <header className="w-full bg-white shadow flex items-center px-2 md:px-8 py-2 z-30 sticky top-0">
@@ -206,12 +238,27 @@ export function AppNavbar() {
                 {languages.map((language) => (
                   <button
                     key={language.code}
-                    onClick={() => {
+                    onClick={async () => {
                       i18n.changeLanguage(language.code);
                       setLanguageMenuOpen(false);
+                      
+                      // Update user's language preference in database
+                      try {
+                        const { data: { user } } = await supabase.auth.getUser();
+                        if (user) {
+                          await supabase
+                            .from('users')
+                            .update({ language: language.code })
+                            .eq('id', user.id);
+                          // Update local state
+                          setUserLanguage(language.code);
+                        }
+                      } catch (error) {
+                        console.error('Error updating user language:', error);
+                      }
                     }}
                     className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
-                      i18n.language === language.code 
+                      userLanguage === language.code 
                         ? 'bg-rose-50 text-rose-600' 
                         : 'text-gray-700 hover:bg-gray-50 hover:text-rose-600'
                     }`}
@@ -222,7 +269,7 @@ export function AppNavbar() {
                       className="rounded-sm object-cover border border-white shadow-sm w-6 h-auto" 
                     />
                     <span className="font-medium">{language.name}</span>
-                    {i18n.language === language.code && (
+                    {userLanguage === language.code && (
                       <div className="ml-auto w-2 h-2 bg-rose-500 rounded-full"></div>
                     )}
                   </button>
@@ -295,9 +342,26 @@ export function AppNavbar() {
                 {languages.map((language) => (
                   <button
                     key={language.code}
-                    onClick={() => i18n.changeLanguage(language.code)}
+                    onClick={async () => {
+                      i18n.changeLanguage(language.code);
+                      
+                      // Update user's language preference in database
+                      try {
+                        const { data: { user } } = await supabase.auth.getUser();
+                        if (user) {
+                          await supabase
+                            .from('users')
+                            .update({ language: language.code })
+                            .eq('id', user.id);
+                          // Update local state
+                          setUserLanguage(language.code);
+                        }
+                      } catch (error) {
+                        console.error('Error updating user language:', error);
+                      }
+                    }}
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                      i18n.language === language.code 
+                      userLanguage === language.code 
                         ? 'border-rose-500 bg-rose-50 text-rose-600' 
                         : 'border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'
                     }`}

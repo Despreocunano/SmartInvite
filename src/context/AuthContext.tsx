@@ -10,7 +10,7 @@ type AuthContextType = {
     success: boolean;
     error: Error | null;
   }>;
-  signUp: (email: string, password: string, groomName: string, brideName: string, country: string) => Promise<{
+  signUp: (email: string, password: string, groomName: string, brideName: string, country: string, language: string) => Promise<{
     success: boolean;
     error: Error | null;
   }>;
@@ -75,7 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signUp = async (email: string, password: string, groomName: string, brideName: string, country: string) => {
+  const signUp = async (email: string, password: string, groomName: string, brideName: string, country: string, language: string) => {
     try {
       const { data: { user }, error: signUpError } = await supabase.auth.signUp({
         email,
@@ -89,16 +89,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         };
       }
 
-      const { error: profileError } = await supabase
-        .from('users')
-        .insert([
-          {
-            id: user.id,
-            groom_name: groomName,
-            bride_name: brideName,
-            country: country,
-          },
-        ]);
+              const { error: profileError } = await supabase
+          .from('users')
+          .insert([
+            {
+              id: user.id,
+              groom_name: groomName,
+              bride_name: brideName,
+              country: country,
+              language: language,
+            },
+          ]);
 
       if (profileError) {
         return {

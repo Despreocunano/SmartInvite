@@ -18,6 +18,7 @@ type FormData = {
   groomName: string;
   brideName: string;
   country: string;
+  language: string;
 };
 
 interface RegisterFormProps {
@@ -31,12 +32,15 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
+  const { t, i18n } = useTranslation();
   const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors } = useForm<FormData>({
-    defaultValues: { country: '' }
+    defaultValues: { 
+      country: '',
+      language: i18n.language.startsWith('en') ? 'en' : 'es'
+    }
   });
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
-  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (confirmPassword) {
@@ -63,7 +67,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
       setErrorMessage(null);
       setSuccessMessage(null);
       
-      const { success, error } = await signUp(data.email, data.password, data.groomName, data.brideName, data.country);
+      const { success, error } = await signUp(data.email, data.password, data.groomName, data.brideName, data.country, i18n.language);
       
       if (success) {
         // Intentar hacer login automático después del registro exitoso
