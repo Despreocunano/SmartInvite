@@ -1,5 +1,6 @@
 import { Button } from '../../../../ui/Button';
 import { Music } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface WelcomeModalProps {
   groomName: string;
@@ -14,6 +15,7 @@ export function WelcomeModal({
   onEnterWithMusic,
   onEnterWithoutMusic
 }: WelcomeModalProps) {
+  const { t } = useTranslation('templates');
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#303D5D]">
       <div className="relative w-full max-w-3xl px-12 py-12 text-center text-[#F8F6F2]">
@@ -38,7 +40,7 @@ export function WelcomeModal({
 
           <div className="space-y-6">
             <p className="text-lg font-sans text-white">
-              La música de fondo es parte de la experiencia
+              {t('welcome_modal.background_music')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -47,7 +49,7 @@ export function WelcomeModal({
                 leftIcon={<Music className="h-4 w-4" />}
                 className="bg-[#E3E3DE] text-[#000] hover:bg-[#E3E3DE]/80 hover:text-[#000] rounded-full border border-[#E3E3DE] hover:border-[#E3E3DE]"
               >
-                Ingresar con música
+                {t('welcome_modal.enter_with_music')}
               </Button>
               <Button
                 type="button"
@@ -55,7 +57,7 @@ export function WelcomeModal({
                 onClick={onEnterWithoutMusic}
                 className="border-[#E3E3DE] text-[#fff] hover:bg-[#E3E3DE] hover:text-[#000] rounded-full"
               >
-                Ingresar sin música
+                {t('welcome_modal.enter_without_music')}
               </Button>
             </div>
           </div>
