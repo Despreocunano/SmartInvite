@@ -10,6 +10,7 @@ import { translateAuthError } from '../../lib/authErrors';
 import { trackSignUp } from '../../lib/analytics';
 import { CountrySelect } from '../ui/CountrySelect';
 import { useTranslation } from 'react-i18next';
+import { detectCountryFromURL as detectCountryFromURLUtil, detectLanguageFromCountry } from '../../lib/countryDetection';
 
 type FormData = {
   email: string;
@@ -34,37 +35,8 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   
   const { t, i18n } = useTranslation();
 
-  // Detect country from URL
-  const detectCountryFromURL = () => {
-    const hostname = window.location.hostname;
-    const pathname = window.location.pathname;
-    
-    console.log('Detecting country from URL:', { hostname, pathname });
-    
-    // Check pathname patterns (folders in the same domain)
-    if (pathname.startsWith('/mx')) {
-      console.log('Detected MX from pathname');
-      return 'MX';
-    }
-    if (pathname.startsWith('/pa')) {
-      console.log('Detected PA from pathname');
-      return 'PA';
-    }
-    if (pathname.startsWith('/us')) {
-      console.log('Detected US from pathname');
-      return 'US';
-    }
-    
-    // Default for smartinvite.me (root domain) is US
-    if (hostname === 'smartinvite.me' && pathname === '/') {
-      console.log('Detected US from root domain');
-      return 'US';
-    }
-    
-    console.log('No country detected, defaulting to empty');
-    // Default to empty (user will select)
-    return '';
-  };
+  // Use the utility function for country detection
+  const detectCountryFromURL = detectCountryFromURLUtil;
 
   const detectedCountry = detectCountryFromURL();
   console.log('Setting default country:', detectedCountry);
@@ -84,13 +56,13 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   // Update language based on detected country
   useEffect(() => {
     const detectedCountry = detectCountryFromURL();
-    if (detectedCountry === 'US') {
-      i18n.changeLanguage('en');
-      setValue('language', 'en');
-    } else if (detectedCountry === 'MX' || detectedCountry === 'PA') {
-      i18n.changeLanguage('es');
-      setValue('language', 'es');
-    }
+    const detectedLanguage = detectLanguageFromCountry(detectedCountry);
+    
+    console.log('Detected country for language setting:', detectedCountry);
+    console.log('Detected language:', detectedLanguage);
+    
+    i18n.changeLanguage(detectedLanguage);
+    setValue('language', detectedLanguage);
   }, [i18n, setValue]);
 
   useEffect(() => {
@@ -118,7 +90,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
       setErrorMessage(null);
       setSuccessMessage(null);
       
-      const { success, error } = await signUp(data.email, data.password, data.groomName, data.brideName, data.country, i18n.language);
+      const { success, error } = await signUp(data.email, data.password, data.groomName, data.brideName, data.country, i18n.language.substring(0, 2));
       
       if (success) {
         // Intentar hacer login automático después del registro exitoso

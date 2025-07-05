@@ -96,7 +96,7 @@ export function AppNavbar() {
   }, [languageMenuOpen]);
 
   // Obtener el idioma del usuario desde la base de datos
-  const [userLanguage, setUserLanguage] = useState(i18n.language);
+  const [userLanguage, setUserLanguage] = useState(i18n.language.substring(0, 2));
   
   // Cargar el idioma del usuario al montar el componente
   useEffect(() => {
