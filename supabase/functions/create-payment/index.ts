@@ -101,11 +101,47 @@ serve(async (req)=>{
     const stripe = new Stripe(STRIPE_SECRET_KEY, {
       apiVersion: "2022-11-15"
     });
+    // Get user's country to determine pricing
+    const { data: userProfile, error: userError } = await supabase
+      .from("users")
+      .select("country")
+      .eq("id", user.id)
+      .single();
+    
+    if (userError) {
+      console.error("Error fetching user profile:", userError);
+    }
+
+    // Determine pricing based on country
+    const country = userProfile?.country || 'default';
+    let currency = 'clp';
+    let amount = 39990;
+    let description = "Publicación de invitación digital";
+
+    switch (country.toUpperCase()) {
+      case 'US':
+      case 'PA':
+        currency = 'usd';
+        amount = 4999; // $49.99 in cents
+        description = "Digital invitation publication";
+        break;
+      case 'MX':
+        currency = 'mxn';
+        amount = 89900; // $899.00 in cents
+        description = "Publicación de invitación digital";
+        break;
+      default:
+        currency = 'clp';
+        amount = 39990;
+        description = "Publicación de invitación digital";
+    }
+
     // Create payment in database first
     const { data: payment, error: paymentError } = await supabase.from("payments").insert({
       user_id: user.id,
-      amount: 39990,
-      description: "Publicación de invitación digital",
+      amount: amount,
+      currency: currency,
+      description: description,
       type: "publication",
       status: "pending"
     }).select().single();
@@ -119,11 +155,11 @@ serve(async (req)=>{
       line_items: [
         {
           price_data: {
-            currency: "clp",
+            currency: currency,
             product_data: {
-              name: "Publicación de invitación digital"
+              name: description
             },
-            unit_amount: 39990
+            unit_amount: amount
           },
           quantity: 1
         }
@@ -133,7 +169,8 @@ serve(async (req)=>{
       cancel_url: `${FRONTEND_URL}/payment/failure`,
       metadata: {
         userId: user.id,
-        paymentId: payment.id
+        paymentId: payment.id,
+        country: country
       }
     });
     // Update payment record with Stripe session info

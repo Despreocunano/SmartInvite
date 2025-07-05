@@ -153,5 +153,17 @@
   "reminder_publish_description": "Your invitation has been created and is ready for you to view. But you must publish it to share it with your guests and enjoy all the features.",
   "welcome_modal_title": "Welcome to Your Digital Invite ❤️",
   "welcome_modal_description": "First, create your invitation. It's quick and easy! Then you can enjoy the full experience.",
-  "welcome_modal_action": "Create invitation"
+  "welcome_modal_action": "Create invitation",
+  "payment_title": "Online payment",
+  "payment_one_time": "One-time payment to publish your digital invitation and share it with your guests.",
+  "payment_description": "To publish your invitation, complete the payment with your bank card:",
+  "payment_benefits": [
+    "One-time payment (no recurring charges)",
+    "Secure payment through your bank",
+    "You can pay with credit or debit card"
+  ],
+  "payment_button": "Pay",
+  "payment_loading": "Loading...",
+  "payment_manual_check": "I already made the payment",
+  "payment_modal_title": "Publish your digital invitation"
 } 

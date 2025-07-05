@@ -8,6 +8,7 @@ import { Modal } from '../ui/Modal';
 import { trackBeginCheckout, trackPurchase } from '../../lib/analytics';
 import { openPaymentWindow } from '../../lib/utils';
 import { useTranslation } from 'react-i18next';
+import { useUserCountry } from '../../hooks/useUserCountry';
 
 interface PublishSectionProps {
   previewUrl: string;
@@ -87,6 +88,7 @@ export function PublishSection({
   const [checkAttempts, setCheckAttempts] = React.useState(0);
   const maxCheckAttempts = 12; // Máximo 1 minuto de verificación (12 * 5 segundos)
   const { t } = useTranslation('landing');
+  const { pricing, loading: pricingLoading } = useUserCountry();
 
   const handleCopy = async () => {
     if (!publishedUrl) return;
@@ -446,20 +448,26 @@ export function PublishSection({
       <Modal
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
-        title="Publica tu invitación digital"
+        title={t('payment_modal_title')}
         panelClassName="sm:max-w-md"
       >
         <div className="space-y-6">
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-gray-700 font-medium text-lg">Pago online</span>
+              <span className="text-gray-700 font-medium text-lg">{t('payment_title')}</span>
             </div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl font-bold text-gray-900">$39.990</span>
-              <span className="text-xs text-gray-500">CLP</span>
+              {pricingLoading ? (
+                <div className="h-8 w-24 bg-gray-200 rounded animate-pulse"></div>
+              ) : (
+                <>
+                  <span className="text-2xl font-bold text-gray-900">{pricing?.formattedPrice}</span>
+                  <span className="text-xs text-gray-500">{pricing?.name}</span>
+                </>
+              )}
             </div>
             <p className="text-sm text-gray-500 text-center">
-              Pago único para publicar tu invitación digital y compartirla con tus invitados.
+              {t('payment_one_time')}
             </p>
           </div>
 
@@ -467,12 +475,12 @@ export function PublishSection({
             <>
               <div className="space-y-4">
                 <p className="text-gray-700">
-                  Para publicar tu invitación, completa el pago con tarjeta bancaria:
+                  {t('payment_description')}
                 </p>
                 <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-                  <li>Pago único (no hay cargos recurrentes)</li>
-                  <li>Pago seguro a través de tu banco</li>
-                  <li>Puedes pagar con tarjeta de crédito o débito</li>
+                  {(t('payment_benefits', { returnObjects: true }) as string[]).map((benefit: string, index: number) => (
+                    <li key={index}>{benefit}</li>
+                  ))}
                 </ul>
               </div>
 
@@ -492,7 +500,7 @@ export function PublishSection({
                   className="bg-[#635bff] hover:bg-[#5546d6] text-white"
                   disabled={!paymentUrl}
                 >
-                  Pagar
+                  {pricingLoading ? t('payment_loading') : `${t('payment_button')} ${pricing?.formattedPrice}`}
                 </Button>
                 <Button
                 className='bg-primary text-primary-contrast hover:bg-primary-dark'
@@ -502,7 +510,7 @@ export function PublishSection({
                   }}
                   disabled={!preferenceId}
                 >
-                  Ya realicé el pago
+                  {t('payment_manual_check')}
                 </Button>
               </div>
             </>

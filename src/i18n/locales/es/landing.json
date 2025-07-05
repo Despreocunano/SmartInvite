@@ -153,5 +153,17 @@
   "reminder_publish_description": "Tu invitación ha sido creada y está lista para que la veas. Pero debes publicarla para poder compartirla con tus invitados y disfrutar de todas las funcionalidades.",
   "welcome_modal_title": "¡Bienvenid@ a Tu Parte Digital ❤️",
   "welcome_modal_description": "Primero crea tu invitación. ¡Es rápido y fácil! Luego podrás vivir la experiencia completa.",
-  "welcome_modal_action": "Crear invitación"
+  "welcome_modal_action": "Crear invitación",
+  "payment_title": "Pago online",
+  "payment_one_time": "Pago único para publicar tu invitación digital y compartirla con tus invitados.",
+  "payment_description": "Para publicar tu invitación, completa el pago con tarjeta bancaria:",
+  "payment_benefits": [
+    "Pago único (no hay cargos recurrentes)",
+    "Pago seguro a través de tu banco",
+    "Puedes pagar con tarjeta de crédito o débito"
+  ],
+  "payment_button": "Pagar",
+  "payment_loading": "Cargando...",
+  "payment_manual_check": "Ya realicé el pago",
+  "payment_modal_title": "Publica tu invitación digital"
 } 
