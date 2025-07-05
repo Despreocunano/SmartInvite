@@ -1,5 +1,6 @@
 import { Baby, PawPrint } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface KidsAndPetsProps {
   acceptsKids: boolean;
@@ -8,6 +9,8 @@ interface KidsAndPetsProps {
 }
 
 export function KidsAndPets({ acceptsKids, acceptsPets, className = '' }: KidsAndPetsProps) {
+  const { t } = useTranslation('templates');
+  
   if (!acceptsKids && !acceptsPets) return null;
 
   const container = {
@@ -47,9 +50,9 @@ export function KidsAndPets({ acceptsKids, acceptsPets, className = '' }: KidsAn
           >
             <Baby className="w-8 h-8 text-[#CFD6BA]" />
           </motion.div>
-          <h3 className="text-xl font-serif mb-4 text-[#CFD6BA]">Los Niños Bienvenidos</h3>
+          <h3 className="text-xl font-serif mb-4 text-[#CFD6BA]">{t('kids_and_pets.kids_title')}</h3>
           <p className="text-[#CFD6BA]/80 text-lg leading-relaxed">
-            Los más pequeños de la familia son bienvenidos a nuestra celebración
+            {t('kids_and_pets.kids_description')}
           </p>
         </motion.div>
       )}
@@ -66,9 +69,9 @@ export function KidsAndPets({ acceptsKids, acceptsPets, className = '' }: KidsAn
           >
             <PawPrint className="w-8 h-8 text-[#CFD6BA]" />
           </motion.div>
-          <h3 className="text-xl font-serif mb-4 text-[#CFD6BA]">Pet Friendly</h3>
+          <h3 className="text-xl font-serif mb-4 text-[#CFD6BA]">{t('kids_and_pets.pets_title')}</h3>
           <p className="text-[#CFD6BA]/80 text-lg leading-relaxed">
-            Tu mascota es parte de la familia y es bienvenida a nuestra celebración
+            {t('kids_and_pets.pets_description')}
           </p>
         </motion.div>
       )}
@@ -86,7 +89,7 @@ export function KidsAndPets({ acceptsKids, acceptsPets, className = '' }: KidsAn
       >
         <motion.div className="text-center mb-12" variants={item}>
           <h2 className="text-5xl md:text-6xl font-parisienne text-white mb-2">
-            Todos son bienvenidos
+            {t('kids_and_pets.title')}
           </h2>
         </motion.div>
         {content}

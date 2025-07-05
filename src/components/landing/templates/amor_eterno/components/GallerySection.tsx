@@ -1,5 +1,6 @@
 import { Gallery } from '../../../shared/Gallery';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 
 interface GallerySectionProps {
@@ -8,6 +9,8 @@ interface GallerySectionProps {
 }
 
 export function GallerySection({ images, className = '' }: GallerySectionProps) {
+  const { t } = useTranslation('templates');
+  
   if (!images?.length) return null;
 
   const container = {
@@ -43,10 +46,10 @@ export function GallerySection({ images, className = '' }: GallerySectionProps) 
       <div className="max-w-6xl mx-auto">
         <motion.div className="text-center mb-12" variants={item}>
           <h2 className="text-5xl md:text-6xl font-parisienne text-white mb-6">
-          Retratos de Nuestro Amor
+            {t('gallery.title')}
           </h2>
           <p className="text-xl text-center text-[#cfd6bb]">
-          Un minuto, un segundo, un instante que queda en la eternidad.
+            {t('gallery.subtitle')}
           </p>
         </motion.div>
 

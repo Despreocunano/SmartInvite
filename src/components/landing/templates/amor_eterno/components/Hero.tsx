@@ -26,7 +26,7 @@ export function Hero({
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 100]);
 
-  const formattedDate = new Date(weddingDate).toLocaleDateString('es-ES', {
+  const formattedDate = new Date(weddingDate).toLocaleDateString('en-US', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric'

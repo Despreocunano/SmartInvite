@@ -22,7 +22,11 @@
     "music": "Música",
     "additional_info": "Info Adicional",
     "suggest_song": "Sugerir canción",
-    "suggest_songs": "Sugerir Canciones"
+    "suggest_songs": "Sugerir Canciones",
+    "dress_code_description": "Elegante y sofisticado",
+    "music_description": "Ayúdanos a crear la playlist perfecta",
+    "additional_info_description": "Información importante para la celebración",
+    "see_more": "Ver más"
   },
   "welcome_modal": {
     "background_music": "La música de fondo es parte de la experiencia",
@@ -30,6 +34,7 @@
     "enter_without_music": "Ingresar sin música"
   },
   "countdown": {
+    "title": "Falta",
     "days": "días",
     "hours": "horas",
     "minutes": "minutos",
@@ -47,7 +52,8 @@
     "subtitle": "Un minuto, un segundo, un instante que queda en la eternidad."
   },
   "social": {
-    "share_photos": "Comparte tus Fotos"
+    "share_photos": "Comparte tus Fotos",
+    "view_on_instagram": "Ver en Instagram"
   },
   "rsvp_form": {
     "loading_data": "Cargando tus datos...",
@@ -108,7 +114,37 @@
     "wishlist": {
       "title": "Lista de Deseos",
       "subtitle": "Regalos que nos harían muy felices",
-      "button_text": "Haz clic para ver nuestra lista de deseos"
+      "button_text": "Haz clic para ver nuestra lista de deseos",
+      "modal_title": "Lista de Deseos",
+      "modal_subtitle": "Regalos que nos harían muy felices",
+      "name_placeholder": "Nombre",
+      "email_placeholder": "Correo electrónico",
+      "privacy_notice": "Tu nombre y email solo se usará para procesar el pago y no será compartido ni guardado.",
+      "demo_notice": "Este es un ejemplo de la funcionalidad de lista de deseos. Los pagos están deshabilitados en esta vista de demostración.",
+      "no_gifts_title": "No hay regalos en la lista",
+      "no_gifts_subtitle": "Pronto agregaremos nuestros deseos aquí",
+      "gifted": "Regalado",
+      "example": "Ejemplo",
+      "processing": "Procesando...",
+      "pending": "Pendiente",
+      "sent": "Enviado!",
+      "retry": "Reintentar",
+      "gift": "Regalar",
+      "footer_message": "Tu presencia es nuestro mejor regalo. Si deseas hacernos un obsequio, puedes elegir algo de esta lista o sorprendernos con tu creatividad.",
+      "payment_errors": {
+        "no_price": "Este regalo no tiene precio definido",
+        "missing_info": "Por favor ingresa tu nombre y correo electrónico.",
+        "invalid_email": "Por favor ingresa un correo electrónico válido.",
+        "processing_error": "Error al procesar el pago",
+        "init_error": "Error al iniciar el pago",
+        "payment_completed": "¡Pago completado! El regalo ha sido enviado.",
+        "payment_marked": "¡Pago completado! El regalo ha sido marcado como enviado",
+        "payment_not_completed": "El pago no ha sido completado aún",
+        "verification_error": "Error al verificar el pago",
+        "popup_blocked": "El navegador bloqueó la ventana de pago. Por favor, permite popups e intenta nuevamente.",
+        "redirecting": "Redirigiendo a Stripe...",
+        "popup_opened": "Ventana de pago abierta. Completa el pago y regresa aquí."
+      }
     },
     "couple_code": {
       "title": "Lista de Regalos",

@@ -24,8 +24,8 @@ export function Footer({
           {groomName} & {brideName}
         </h2>
         
-        <p className="text-white">
-          {new Date(weddingDate).toLocaleDateString('es-ES', {
+        <p className="text-white text-2xl">
+          {new Date(weddingDate).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'

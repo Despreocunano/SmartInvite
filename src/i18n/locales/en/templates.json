@@ -22,7 +22,11 @@
     "music": "Music",
     "additional_info": "Additional Info",
     "suggest_song": "Suggest song",
-    "suggest_songs": "Suggest Songs"
+    "suggest_songs": "Suggest Songs",
+    "dress_code_description": "Elegant and sophisticated",
+    "music_description": "Help us create the perfect playlist",
+    "additional_info_description": "Important information for the celebration",
+    "see_more": "See more"
   },
   "welcome_modal": {
     "background_music": "Background music is part of the experience",
@@ -30,6 +34,7 @@
     "enter_without_music": "Enter without music"
   },
   "countdown": {
+    "title": "Time left",
     "days": "days",
     "hours": "hours",
     "minutes": "minutes",
@@ -47,7 +52,8 @@
     "subtitle": "A minute, a second, an instant that remains in eternity."
   },
   "social": {
-    "share_photos": "Share Your Photos"
+    "share_photos": "Share Your Photos",
+    "view_on_instagram": "View on Instagram"
   },
   "rsvp_form": {
     "loading_data": "Loading your data...",
@@ -108,7 +114,37 @@
     "wishlist": {
       "title": "Wish List",
       "subtitle": "Gifts that would make us very happy",
-      "button_text": "Click to see our wish list"
+      "button_text": "Click to see our wish list",
+      "modal_title": "Wish List",
+      "modal_subtitle": "Gifts that would make us very happy",
+      "name_placeholder": "Name",
+      "email_placeholder": "Email",
+      "privacy_notice": "Your name and email will only be used to process the payment and will not be shared or stored.",
+      "demo_notice": "This is an example of the wish list functionality. Payments are disabled in this demo view.",
+      "no_gifts_title": "No gifts in the list",
+      "no_gifts_subtitle": "We'll add our wishes here soon",
+      "gifted": "Gifted",
+      "example": "Example",
+      "processing": "Processing...",
+      "pending": "Pending",
+      "sent": "Sent!",
+      "retry": "Retry",
+      "gift": "Gift",
+      "footer_message": "Your presence is our best gift. If you would like to give us a gift, you can choose something from this list or surprise us with your creativity.",
+      "payment_errors": {
+        "no_price": "This gift has no defined price",
+        "missing_info": "Please enter your name and email.",
+        "invalid_email": "Please enter a valid email.",
+        "processing_error": "Error processing payment",
+        "init_error": "Error starting payment",
+        "payment_completed": "Payment completed! The gift has been sent.",
+        "payment_marked": "Payment completed! The gift has been marked as sent",
+        "payment_not_completed": "Payment has not been completed yet",
+        "verification_error": "Error verifying payment",
+        "popup_blocked": "Browser blocked the payment window. Please allow popups and try again.",
+        "redirecting": "Redirecting to Stripe...",
+        "popup_opened": "Payment window opened. Complete the payment and return here."
+      }
     },
     "couple_code": {
       "title": "Gift List",

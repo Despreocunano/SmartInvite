@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BaseTemplate } from '../BaseTemplate';
 import { Hero } from './components/Hero';
 import { Events } from './components/Events';
@@ -12,6 +12,7 @@ import { WelcomeModal } from './components/WelcomeModal';
 import { KidsAndPets } from './components/KidsAndPets';
 import type { TemplateProps } from '../types';
 import { InfiniteGallery } from '../../shared/InfiniteGallery';
+import { useTranslation } from 'react-i18next';
 
 export function AmorEternoTemplate({
   groomName,
@@ -45,10 +46,19 @@ export function AmorEternoTemplate({
   wishListItems,
   bank_info_enabled,
   wish_list_enabled,
-  couple_code_enabled
+  couple_code_enabled,
+  userLanguage
 }: TemplateProps) {
   const [showWelcomeModal, setShowWelcomeModal] = useState(musicEnabled);
   const [autoplayMusic, setAutoplayMusic] = useState(false);
+  const { i18n } = useTranslation('templates');
+
+  // Change language when userLanguage is provided
+  useEffect(() => {
+    if (userLanguage) {
+      i18n.changeLanguage(userLanguage);
+    }
+  }, [userLanguage, i18n]);
 
   const handleEnterWithMusic = () => {
     setAutoplayMusic(true);

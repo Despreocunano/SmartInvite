@@ -5,6 +5,7 @@ import { SpotifySearch } from '../../../shared/SpotifySearch';
 import { motion } from 'framer-motion';
 import rosas from '../assets/cover.webp'
 import { InfoModal } from '../../../shared/InfoModal';
+import { useTranslation } from 'react-i18next';
 
 interface PartyInfoProps {
   dresscode: string;
@@ -20,6 +21,7 @@ export function PartyInfo({
   className = '',
   userId
 }: PartyInfoProps) {
+  const { t } = useTranslation('templates');
   const [showMusicModal, setShowMusicModal] = useState(false);
   const [showDressCodeModal, setShowDressCodeModal] = useState(false);
   const [showTipsModal, setShowTipsModal] = useState(false);
@@ -61,10 +63,10 @@ export function PartyInfo({
             variants={item}
           >
             <h2 className="text-5xl md:text-6xl font-parisienne text-white mb-2">
-              Información de la Fiesta
+              {t('party_info.title')}
             </h2>
             <p className="text-xl text-center text-[#cfd6bb]">
-            Hagamos juntos una fiesta épica. Aquí algunos detalles a tener en cuenta.
+              {t('party_info.subtitle')}
             </p>
           </motion.div>
           
@@ -90,19 +92,19 @@ export function PartyInfo({
                 className="bg-[#575756] rounded-2xl p-8 text-center shadow-lg relative z-10 min-h-[450px] flex flex-col gap-8"
                 variants={item}
               >
-                <h3 className="text-5xl font-parisienne text-white">Dress Code</h3>
+                <h3 className="text-4xl font-parisienne text-white">{t('party_info.dress_code')}</h3>
                 <motion.div 
                   className="flex items-center justify-center mx-auto my-4"
                   whileHover={{ rotate: 15 }}
                 >
                   <Shirt className="w-16 h-16 text-white" />
                 </motion.div>
-                <h3 className="text-xl text-[#cfd6bb] font-parisienne mb-4">Una orientación para que elijas tu mejor vestuario</h3>
+                <h3 className="text-xl text-[#cfd6bb] font-sans mb-4">{t('party_info.dress_code_description')}</h3>
                 <Button
                   onClick={() => setShowDressCodeModal(true)}
                   className="w-full rounded-lg bg-[#B87600] hover:bg-[#6F6F6E] text-[#2B2B2B] hover:text-white mt-4 font-sans"
                 >
-                  Ver más
+                  {t('party_info.see_more')}
                 </Button>
               </motion.div>
             </div>
@@ -113,19 +115,19 @@ export function PartyInfo({
                 className="bg-[#575756] rounded-2xl p-8 text-center shadow-lg relative z-10 min-h-[450px] flex flex-col gap-8"
                 variants={item}
               >
-                <h3 className="text-5xl font-parisienne text-white">Música</h3>
+                <h3 className="text-4xl font-parisienne text-white">{t('party_info.music')}</h3>
                 <motion.div 
                   className="flex items-center justify-center mx-auto my-4"
                   whileHover={{ rotate: 15 }}
                 >
                   <Music2 className="w-16 h-16 text-white" />
                 </motion.div>
-                <h3 className="text-xl text-[#cfd6bb] font-parisienne mb-4">¿Cuál es la canción que no debe faltar en la playlist de la fiesta?</h3>
+                <h3 className="text-xl text-[#cfd6bb] font-sans mb-4">{t('party_info.music_description')}</h3>
                 <Button
                   onClick={() => setShowMusicModal(true)}
                   className="w-full rounded-lg bg-[#B87600] hover:bg-[#6F6F6E] text-[#2B2B2B] hover:text-white mt-4 font-sans"
                 >
-                  Sugerir canción
+                  {t('party_info.suggest_song')}
                 </Button>
               </motion.div>
             </div>
@@ -136,19 +138,19 @@ export function PartyInfo({
                 className="bg-[#575756] rounded-2xl p-8 text-center shadow-lg relative z-10 min-h-[450px] flex flex-col gap-8"
                 variants={item}
               >
-                <h3 className="text-5xl font-parisienne text-white">Info Adicional</h3>
+                <h3 className="text-4xl font-parisienne text-white">{t('party_info.additional_info')}</h3>
                 <motion.div 
                   className="flex items-center justify-center mx-auto my-4"
                   whileHover={{ rotate: 15 }}
                 >
                   <Lightbulb className="w-16 h-16 text-white" />
                 </motion.div>
-                <h3 className="text-xl text-[#cfd6bb] font-parisienne mb-4">Información adicional para tener en cuenta</h3>
+                <h3 className="text-xl text-[#cfd6bb] font-sans mb-4">{t('party_info.additional_info_description')}</h3>
                 <Button
                   onClick={() => setShowTipsModal(true)}
                   className="w-full rounded-lg bg-[#B87600] hover:bg-[#6F6F6E] text-[#2B2B2B] hover:text-white mt-4 font-sans"
                 >
-                  Ver más
+                  {t('party_info.see_more')}
                 </Button>
               </motion.div>
             </div>
@@ -160,7 +162,7 @@ export function PartyInfo({
       <InfoModal
         isOpen={showMusicModal}
         onClose={() => setShowMusicModal(false)}
-        title="Sugerir Canciones"
+        title={t('party_info.suggest_songs')}
         icon={Music2}
         iconColor="#B87600"
         overlayColor="#2B2B2B"
@@ -177,7 +179,7 @@ export function PartyInfo({
       <InfoModal
         isOpen={showDressCodeModal}
         onClose={() => setShowDressCodeModal(false)}
-        title="Código de Vestimenta"
+        title={t('party_info.dress_code')}
         icon={Shirt}
         iconColor="#B87600"
         overlayColor="#2B2B2B"
@@ -191,7 +193,7 @@ export function PartyInfo({
       <InfoModal
         isOpen={showTipsModal}
         onClose={() => setShowTipsModal(false)}
-        title="Información Adicional"
+        title={t('party_info.additional_info')}
         icon={Lightbulb}
         iconColor="#B87600"
         overlayColor="#2B2B2B"

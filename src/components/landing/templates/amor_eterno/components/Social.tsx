@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import rosa_c from '../assets/side_a.webp'
 import rosa_b from '../assets/side_b.webp'
 import rosa_a from '../assets/side_c.webp'
+import { useTranslation } from 'react-i18next';
 
 
 interface SocialProps {
@@ -17,6 +18,8 @@ interface SocialProps {
 }
 
 export function Social({ hashtag, instagramPosts = [], className = '' }: SocialProps) {
+  const { t } = useTranslation('templates');
+  
   const handleInstagramClick = () => {
     window.open(`https://www.instagram.com/explore/tags/${hashtag?.toLowerCase()}`, '_blank');
   };
@@ -94,7 +97,7 @@ export function Social({ hashtag, instagramPosts = [], className = '' }: SocialP
             <Instagram className="w-16 h-16 text-white" />
         
         </motion.div>
-          <h2 className="text-5xl md:text-6xl font-parisienne text-white mb-6">Comparte tus Fotos</h2>
+          <h2 className="text-5xl md:text-6xl font-parisienne text-white mb-6">{t('social.share_photos')}</h2>
           
 
         
@@ -115,7 +118,7 @@ export function Social({ hashtag, instagramPosts = [], className = '' }: SocialP
               className="bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 text-white"
               leftIcon={<Instagram className="w-5 h-5" />}
             >
-              Ver en Instagram
+              {t('social.view_on_instagram')}
             </Button>
           </motion.div>
         </motion.div>

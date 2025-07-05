@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Gift, X, Heart, Home, Plane, Umbrella, Utensils, CreditCard, Check, Clock, PawPrint, Building2, GraduationCap, Baby, Users, TreePine, Stethoscope, Car, BookOpen, Camera, Music } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { createGiftPayment, checkGiftPaymentStatus } from '../../../lib/giftPayment';
 import { openPaymentWindow } from '../../../lib/utils';
 
@@ -42,6 +43,7 @@ const ICON_MAP = {
 };
 
 export function WishListModal({ isOpen, onClose, wishListItems, className = '', isDemo = false }: WishListModalProps) {
+  const { t } = useTranslation('templates');
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
   const [paymentStatus, setPaymentStatus] = useState<Record<string, string>>({});
   const [buyerName, setBuyerName] = useState('');
@@ -54,15 +56,15 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
 
   const handleGiftPayment = async (item: WishListItem) => {
     if (!item.id || !item.price) {
-      toast.error('Este regalo no tiene precio definido');
+      toast.error(t('gifts.wishlist.payment_errors.no_price'));
       return;
     }
     if (!buyerName.trim() || !buyerEmail.trim()) {
-      setFormError('Por favor ingresa tu nombre y correo electrónico.');
+      setFormError(t('gifts.wishlist.payment_errors.missing_info'));
       return;
     }
     if (!validateEmail(buyerEmail)) {
-      setFormError('Por favor ingresa un correo electrónico válido.');
+      setFormError(t('gifts.wishlist.payment_errors.invalid_email'));
       return;
     }
     setFormError(null);
@@ -80,20 +82,20 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
         if (result.initPoint) {
           openPaymentWindow(
             result.initPoint,
-            () => toast.success('Ventana de pago abierta. Completa el pago y regresa aquí.'),
-            () => toast.success('Redirigiendo a Stripe...'),
-            () => toast.error('El navegador bloqueó la ventana de pago. Por favor, permite popups e intenta nuevamente.')
+            () => toast.success(t('gifts.wishlist.payment_errors.popup_opened')),
+            () => toast.success(t('gifts.wishlist.payment_errors.redirecting')),
+            () => toast.error(t('gifts.wishlist.payment_errors.popup_blocked'))
           );
         }
         startPaymentVerification(item.id!, result.preferenceId);
-      } else {
+              } else {
+          setPaymentStatus(prev => ({ ...prev, [item.id!]: 'failed' }));
+          toast.error(result.error || t('gifts.wishlist.payment_errors.processing_error'));
+        }
+      } catch (error) {
         setPaymentStatus(prev => ({ ...prev, [item.id!]: 'failed' }));
-        toast.error(result.error || 'Error al procesar el pago');
-      }
-    } catch (error) {
-      setPaymentStatus(prev => ({ ...prev, [item.id!]: 'failed' }));
-      toast.error('Error al iniciar el pago');
-    } finally {
+        toast.error(t('gifts.wishlist.payment_errors.init_error'));
+      } finally {
       setProcessingPayment(null);
     }
   };
@@ -111,7 +113,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
         if (result.success) {
           if (result.payment.status === 'approved') {
             setPaymentStatus(prev => ({ ...prev, [itemId]: 'success' }));
-            toast.success('¡Pago completado! El regalo ha sido enviado.');
+            toast.success(t('gifts.wishlist.payment_errors.payment_completed'));
             // Recargar la página para actualizar el estado
             setTimeout(() => window.location.reload(), 1500);
             return;
@@ -149,15 +151,15 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
       
       if (result.success && result.payment.status === 'approved') {
         setPaymentStatus(prev => ({ ...prev, [itemId]: 'success' }));
-        toast.success('¡Pago completado! El regalo ha sido marcado como enviado');
+        toast.success(t('gifts.wishlist.payment_errors.payment_marked'));
         setTimeout(() => window.location.reload(), 1500);
       } else {
         setPaymentStatus(prev => ({ ...prev, [itemId]: 'failed' }));
-        toast.error('El pago no ha sido completado aún');
+        toast.error(t('gifts.wishlist.payment_errors.payment_not_completed'));
       }
     } catch (error) {
       setPaymentStatus(prev => ({ ...prev, [itemId]: 'failed' }));
-      toast.error('Error al verificar el pago');
+      toast.error(t('gifts.wishlist.payment_errors.verification_error'));
     }
   };
 
@@ -181,7 +183,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
       return (
         <div className="flex items-center gap-2 text-green-600 bg-green-50 px-3 py-2 rounded-lg">
           <Check className="h-4 w-4" />
-          <span className="text-sm font-medium">Regalado</span>
+          <span className="text-sm font-medium">{t('gifts.wishlist.gifted')}</span>
         </div>
       );
     }
@@ -191,7 +193,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
       return (
         <div className="flex items-center gap-2 text-gray-400 bg-gray-100 px-3 py-2 rounded-lg cursor-not-allowed">
           <CreditCard className="h-4 w-4" />
-          <span className="text-sm font-medium">Ejemplo</span>
+          <span className="text-sm font-medium">{t('gifts.wishlist.example')}</span>
         </div>
       );
     }
@@ -200,7 +202,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
       return (
         <div className="flex items-center gap-2 text-blue-600">
           <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-600"></div>
-          <span className="text-sm">Procesando...</span>
+          <span className="text-sm">{t('gifts.wishlist.processing')}</span>
         </div>
       );
     }
@@ -209,7 +211,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
       return (
         <div className="flex items-center gap-2 text-yellow-600">
           <Clock className="h-4 w-4" />
-          <span className="text-sm">Pendiente</span>
+          <span className="text-sm">{t('gifts.wishlist.pending')}</span>
         </div>
       );
     }
@@ -218,7 +220,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
       return (
         <div className="flex items-center gap-2 text-green-600">
           <Check className="h-4 w-4" />
-          <span className="text-sm font-medium">Enviado!</span>
+          <span className="text-sm font-medium">{t('gifts.wishlist.sent')}</span>
         </div>
       );
     }
@@ -229,7 +231,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
           onClick={() => handleGiftPayment(item)}
           className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
         >
-          Reintentar
+          {t('gifts.wishlist.retry')}
         </button>
       );
     }
@@ -240,7 +242,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
         className="px-3 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm font-medium flex items-center gap-2"
       >
         <CreditCard className="h-4 w-4" />
-        Regalar
+        {t('gifts.wishlist.gift')}
       </button>
     );
   };
@@ -264,8 +266,8 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
               <Gift className="h-4 w-4 text-slate-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900 font-sans">Lista de Deseos</h2>
-              <p className="text-xs text-gray-500 font-sans">Regalos que nos harían muy felices</p>
+              <h2 className="text-xl font-bold text-gray-900 font-sans">{t('gifts.wishlist.modal_title')}</h2>
+              <p className="text-xs text-gray-500 font-sans">{t('gifts.wishlist.modal_subtitle')}</p>
             </div>
           </div>
           <button
@@ -286,7 +288,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
                 <input
                   type="text"
                   className="w-1/2 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                  placeholder="Nombre"
+                  placeholder={t('gifts.wishlist.name_placeholder')}
                   value={buyerName}
                   onChange={e => setBuyerName(e.target.value)}
                   disabled={processingPayment !== null}
@@ -294,19 +296,19 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
                 <input
                   type="email"
                   className="w-1/2 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                  placeholder="Correo electrónico"
+                  placeholder={t('gifts.wishlist.email_placeholder')}
                   value={buyerEmail}
                   onChange={e => setBuyerEmail(e.target.value)}
                   disabled={processingPayment !== null}
                 />
               </div>
-              <p className="text-xs text-gray-500 mb-2">Tu nombre y email solo se usará para procesar el pago y no será compartido ni guardado.</p>
+              <p className="text-xs text-gray-500 mb-2">{t('gifts.wishlist.privacy_notice')}</p>
               {formError && <p className="text-xs text-red-600 mb-2">{formError}</p>}
             </>
           )}
           {isDemo && (
             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-xs text-blue-700 font-medium">Este es un ejemplo de la funcionalidad de lista de deseos. Los pagos están deshabilitados en esta vista de demostración.</p>
+              <p className="text-xs text-blue-700 font-medium">{t('gifts.wishlist.demo_notice')}</p>
             </div>
           )}
           </div>
@@ -315,8 +317,8 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
           {wishListItems.length === 0 ? (
             <div className="text-center py-8">
               <Gift className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-              <h3 className="text-base font-medium text-gray-900 mb-1 font-sans">No hay regalos en la lista</h3>
-              <p className="text-sm text-gray-500 font-sans">Pronto agregaremos nuestros deseos aquí</p>
+              <h3 className="text-base font-medium text-gray-900 mb-1 font-sans">{t('gifts.wishlist.no_gifts_title')}</h3>
+              <p className="text-sm text-gray-500 font-sans">{t('gifts.wishlist.no_gifts_subtitle')}</p>
             </div>
           ) : (
               // Ordenar: disponibles para pago primero, luego pagados, y por precio ascendente
@@ -371,8 +373,7 @@ export function WishListModal({ isOpen, onClose, wishListItems, className = '', 
         {/* Footer */}
         <div className="p-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
           <p className="text-xs text-gray-600 text-center font-sans leading-relaxed">
-            Tu presencia es nuestro mejor regalo. Si deseas hacernos un obsequio, 
-            puedes elegir algo de esta lista o sorprendernos con tu creatividad.
+            {t('gifts.wishlist.footer_message')}
           </p>
         </div>
       </div>

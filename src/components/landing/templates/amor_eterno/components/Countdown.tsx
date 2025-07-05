@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import Curva01 from '../assets/curva01.svg';
 import FloresContador from '../assets/flores_contador_gris.png';
+import { useTranslation } from 'react-i18next';
 
 interface TimeLeft {
   days: number;
@@ -24,6 +25,7 @@ export function Countdown({
   secondaryColor = '#AF7000',
   textColor = 'white'
 }: CountdownProps) {
+  const { t } = useTranslation('templates');
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -132,14 +134,14 @@ export function Countdown({
             variants={itemVariants}
           >
             <h2 className="text-5xl font-bold font-fraunces mb-4" style={{ color: textColor }}>
-              Falta
+              {t('countdown.title')}
             </h2>
 
             <div className="relative flex items-center justify-center mb-4">
-              {renderTimeUnit(timeLeft.days, 'DÍAS')}
-              {renderTimeUnit(timeLeft.hours, 'HS')}
-              {renderTimeUnit(timeLeft.minutes, 'MIN')}
-              {renderTimeUnit(timeLeft.seconds, 'SEG')}
+              {renderTimeUnit(timeLeft.days, t('countdown.days'))}
+              {renderTimeUnit(timeLeft.hours, t('countdown.hours'))}
+              {renderTimeUnit(timeLeft.minutes, t('countdown.minutes'))}
+              {renderTimeUnit(timeLeft.seconds, t('countdown.seconds'))}
             </div>
 
             <motion.div 
