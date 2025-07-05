@@ -6,6 +6,7 @@ import { useWedding } from '../hooks/useWedding';
 import toast from 'react-hot-toast';
 import { sendEmail, sendInvitationEmail } from '../lib/api';
 import { getReminderTemplate, getSignatureTemplate } from '../templates/emailTemplates';
+import { useTranslation } from 'react-i18next';
 
 export function useAttendees() {
   const [attendees, setAttendees] = useState<Attendee[]>([]);
@@ -13,6 +14,7 @@ export function useAttendees() {
   const [error, setError] = useState<Error | null>(null);
   const { user } = useAuth();
   const { groomName, brideName, profileImage } = useWedding();
+  const { t } = useTranslation('attendees');
 
   const fetchAttendees = async () => {
     if (!user) return;
@@ -71,7 +73,7 @@ export function useAttendees() {
       if (error) throw error;
 
       setAttendees(prev => [...prev, newAttendee]);
-      toast.success('Invitado agregado correctamente');
+      toast.success(t('toast.attendee_added'));
 
       // Send invitation email automatically if email is provided
       if (data.email) {
@@ -85,7 +87,7 @@ export function useAttendees() {
 
           if (!landingError && landingPage?.slug) {
             await sendInvitationEmail(newAttendee.id, landingPage.slug);
-            toast.success('Invitación enviada por Email');
+            toast.success(t('toast.invitation_sent'));
           }
         } catch (emailError) {
           console.error('Error sending invitation email:', emailError);
@@ -96,7 +98,7 @@ export function useAttendees() {
       return { success: true, data: newAttendee };
     } catch (err) {
       console.error('Error adding attendee:', err);
-      toast.error('Error al agregar invitado');
+      toast.error(t('toast.error_adding'));
       return { success: false };
     }
   };
@@ -121,11 +123,11 @@ export function useAttendees() {
         )
       );
       
-      toast.success('Invitado actualizado correctamente');
+      toast.success(t('toast.attendee_updated'));
       return { success: true, data };
     } catch (err) {
       console.error('Error updating attendee:', err);
-      toast.error('Error al actualizar invitado');
+      toast.error(t('toast.error_updating'));
       return { success: false };
     }
   };
@@ -164,11 +166,11 @@ export function useAttendees() {
         )
       );
       
-      toast.success('Estado actualizado correctamente');
+      toast.success(t('toast.status_updated'));
       return { success: true, data };
     } catch (err) {
       console.error('Error updating RSVP status:', err);
-      toast.error('Error al actualizar estado');
+      toast.error(t('toast.error_updating_status'));
       return { success: false };
     }
   };
@@ -186,11 +188,11 @@ export function useAttendees() {
       if (error) throw error;
 
       setAttendees(prev => prev.filter(attendee => attendee.id !== id));
-      toast.success('Invitado eliminado correctamente');
+      toast.success(t('toast.attendee_deleted'));
       return { success: true };
     } catch (err) {
       console.error('Error deleting attendee:', err);
-      toast.error('Error al eliminar invitado');
+      toast.error(t('toast.error_deleting'));
       return { success: false };
     }
   };

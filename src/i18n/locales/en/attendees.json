@@ -67,5 +67,16 @@
     "cancel": "Cancel",
     "save_changes": "Save Changes",
     "add_attendee": "Add Attendee"
+  },
+  "toast": {
+    "attendee_added": "Guest added successfully",
+    "attendee_updated": "Guest updated successfully",
+    "attendee_deleted": "Guest deleted successfully",
+    "status_updated": "Status updated successfully",
+    "invitation_sent": "Invitation sent by Email",
+    "error_adding": "Error adding guest",
+    "error_updating": "Error updating guest",
+    "error_deleting": "Error deleting guest",
+    "error_updating_status": "Error updating status"
   }
 } 

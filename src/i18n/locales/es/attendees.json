@@ -67,5 +67,16 @@
     "cancel": "Cancelar",
     "save_changes": "Guardar Cambios",
     "add_attendee": "Agregar Asistente"
+  },
+  "toast": {
+    "attendee_added": "Invitado agregado correctamente",
+    "attendee_updated": "Invitado actualizado correctamente",
+    "attendee_deleted": "Invitado eliminado correctamente",
+    "status_updated": "Estado actualizado correctamente",
+    "invitation_sent": "Invitación enviada por Email",
+    "error_adding": "Error al agregar invitado",
+    "error_updating": "Error al actualizar invitado",
+    "error_deleting": "Error al eliminar invitado",
+    "error_updating_status": "Error al actualizar estado"
   }
 } 
