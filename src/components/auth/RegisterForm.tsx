@@ -10,7 +10,6 @@ import { translateAuthError } from '../../lib/authErrors';
 import { trackSignUp } from '../../lib/analytics';
 import { CountrySelect } from '../ui/CountrySelect';
 import { useTranslation } from 'react-i18next';
-import { detectCountryFromURL as detectCountryFromURLUtil, detectLanguageFromCountry } from '../../lib/countryDetection';
 
 type FormData = {
   email: string;
@@ -35,35 +34,15 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   
   const { t, i18n } = useTranslation();
 
-  // Use the utility function for country detection
-  const detectCountryFromURL = detectCountryFromURLUtil;
-
-  const detectedCountry = detectCountryFromURL();
-  console.log('Setting default country:', detectedCountry);
-  
   const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors, setValue } = useForm<FormData>({
     defaultValues: { 
-      country: detectedCountry,
+      country: '',
       language: i18n.language.startsWith('en') ? 'en' : 'es'
     }
   });
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
   const currentCountry = watch('country');
-  
-  console.log('Current country value:', currentCountry);
-
-  // Update language based on detected country
-  useEffect(() => {
-    const detectedCountry = detectCountryFromURL();
-    const detectedLanguage = detectLanguageFromCountry(detectedCountry);
-    
-    console.log('Detected country for language setting:', detectedCountry);
-    console.log('Detected language:', detectedLanguage);
-    
-    i18n.changeLanguage(detectedLanguage);
-    setValue('language', detectedLanguage);
-  }, [i18n, setValue]);
 
   useEffect(() => {
     if (confirmPassword) {
@@ -180,11 +159,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
               defaultValue=""
               {...register('country', { required: t('validation.required') })}
             />
-            {detectCountryFromURL() && (
-              <p className="text-xs text-green-600">
-                {t('register.country_detected', 'País detectado automáticamente')}
-              </p>
-            )}
+
           </div>
           <Input
             label={t('register.email')}
