@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, UserPlus, ListChecks, Grid, Settings, LogOut, Globe, Music, Send, MessageCircle, Gift, MoreHorizontal, Menu, X } from 'lucide-react';
+import { Heart, UserPlus, ListChecks, Grid, Settings, LogOut, Globe, Music, Send, MessageCircle, Gift, MoreHorizontal, Menu, X, ChevronDown } from 'lucide-react';
 import logoDark from '../../assets/images/logo-dark.svg';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -26,14 +26,22 @@ const profileNavItems = [
   { nameKey: 'menu.contact', href: '/contact', icon: MessageCircle },
 ];
 
+// Configuración de idiomas disponibles
+const languages = [
+  { code: 'es', name: 'Español', flag: 'https://flagcdn.com/es.svg' },
+  { code: 'en', name: 'English', flag: 'https://flagcdn.com/us.svg' },
+];
+
 export function AppNavbar() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const { signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const moreMenuRef = useRef<HTMLDivElement>(null);
+  const languageMenuRef = useRef<HTMLDivElement>(null);
 
   // Cerrar el menú mobile al hacer click fuera
   useEffect(() => {
@@ -68,6 +76,26 @@ export function AppNavbar() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [moreMenuOpen]);
+
+  // Cerrar el menú de idiomas al hacer click fuera
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
+        setLanguageMenuOpen(false);
+      }
+    }
+    if (languageMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [languageMenuOpen]);
+
+  // Obtener el idioma actual
+  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
 
   return (
     <header className="w-full bg-white shadow flex items-center px-2 md:px-8 py-2 z-30 sticky top-0">
@@ -155,21 +183,53 @@ export function AppNavbar() {
         >
           <LogOut className="w-5 h-5" />
         </button>
-        <div className="flex gap-1 ml-2">
+        {/* Selector de idioma con desplegable */}
+        <div className="relative ml-2" ref={languageMenuRef}>
           <button
-            onClick={() => i18n.changeLanguage('es')}
-            className={`p-1 rounded-full border-2 ${i18n.language.startsWith('es') ? 'border-rose-500' : 'border-gray-200'} hover:border-rose-400`}
-            aria-label="Español"
+            onClick={() => setLanguageMenuOpen((v) => !v)}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors"
+            aria-haspopup="true"
+            aria-expanded={languageMenuOpen}
           >
-            <img src="https://flagcdn.com/es.svg" alt="Español" width={28} height={28} className="rounded-full object-cover border border-white shadow-sm" style={{aspectRatio: '1/1'}} />
+            <img 
+              src={currentLanguage.flag} 
+              alt={currentLanguage.name} 
+              className="rounded-sm object-cover border border-white shadow-sm w-6 h-auto" 
+            />
+            <span className="text-sm font-medium text-gray-700">{currentLanguage.name}</span>
+            <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${languageMenuOpen ? 'rotate-180' : ''}`} />
           </button>
-          <button
-            onClick={() => i18n.changeLanguage('en')}
-            className={`p-1 rounded-full border-2 ${i18n.language.startsWith('en') ? 'border-rose-500' : 'border-gray-200'} hover:border-rose-400`}
-            aria-label="English"
-          >
-            <img src="https://flagcdn.com/us.svg" alt="English" width={28} height={28} className="rounded-full object-cover border border-white shadow-sm" style={{aspectRatio: '1/1'}} />
-          </button>
+          
+          {languageMenuOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-sm shadow-lg z-50">
+              <div className="py-1">
+                {languages.map((language) => (
+                  <button
+                    key={language.code}
+                    onClick={() => {
+                      i18n.changeLanguage(language.code);
+                      setLanguageMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+                      i18n.language === language.code 
+                        ? 'bg-rose-50 text-rose-600' 
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-rose-600'
+                    }`}
+                  >
+                    <img 
+                      src={language.flag} 
+                      alt={language.name} 
+                      className="rounded-sm object-cover border border-white shadow-sm w-6 h-auto" 
+                    />
+                    <span className="font-medium">{language.name}</span>
+                    {i18n.language === language.code && (
+                      <div className="ml-auto w-2 h-2 bg-rose-500 rounded-full"></div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {/* Menú mobile desplegable */}
@@ -230,20 +290,27 @@ export function AppNavbar() {
               >
                 <LogOut className="w-5 h-5" />
               </button>
-              <button
-                onClick={() => i18n.changeLanguage('es')}
-                className={`p-1 rounded-full border-2 ${i18n.language.startsWith('es') ? 'border-rose-500' : 'border-gray-200'} hover:border-rose-400`}
-                aria-label="Español"
-              >
-                <img src="https://flagcdn.com/es.svg" alt="Español" width={28} height={28} className="rounded-full object-cover border border-white shadow-sm" style={{aspectRatio: '1/1'}} />
-              </button>
-              <button
-                onClick={() => i18n.changeLanguage('en')}
-                className={`p-1 rounded-full border-2 ${i18n.language.startsWith('en') ? 'border-rose-500' : 'border-gray-200'} hover:border-rose-400`}
-                aria-label="English"
-              >
-                <img src="https://flagcdn.com/us.svg" alt="English" width={28} height={28} className="rounded-full object-cover border border-white shadow-sm" style={{aspectRatio: '1/1'}} />
-              </button>
+              {/* Selector de idioma móvil */}
+              <div className="flex gap-2">
+                {languages.map((language) => (
+                  <button
+                    key={language.code}
+                    onClick={() => i18n.changeLanguage(language.code)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
+                      i18n.language === language.code 
+                        ? 'border-rose-500 bg-rose-50 text-rose-600' 
+                        : 'border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    <img 
+                      src={language.flag} 
+                      alt={language.name} 
+                      className="rounded-sm object-cover border border-white shadow-sm w-6 h-auto" 
+                    />
+                    <span className="text-sm font-medium">{language.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </nav>
         </div>
