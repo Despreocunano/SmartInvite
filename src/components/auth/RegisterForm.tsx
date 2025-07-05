@@ -8,7 +8,7 @@ import { Mail, Lock, User, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { translateAuthError } from '../../lib/authErrors';
 import { trackSignUp } from '../../lib/analytics';
-import { Select } from '../ui/Select';
+import { CountrySelect } from '../ui/CountrySelect';
 import { useTranslation } from 'react-i18next';
 
 type FormData = {
@@ -32,7 +32,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors } = useForm<FormData>({
-    defaultValues: { country: 'US' }
+    defaultValues: { country: '' }
   });
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
@@ -145,16 +145,11 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
               })}
             />
           </div>
-          <Select
+          <CountrySelect
             id="country"
             label={t('register.country')}
-            options={[
-              { value: '', label: t('register.select_country') },
-              { value: 'US', label: t('register.us') },
-              { value: 'MX', label: t('register.mx') },
-            ]}
             error={errors.country?.message}
-            defaultValue="US"
+            defaultValue=""
             {...register('country', { required: t('validation.required') })}
           />
           <Input
