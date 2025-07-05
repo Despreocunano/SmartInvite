@@ -17,7 +17,7 @@ interface CountrySelectProps {
   name?: string;
   value?: string;
   onChange?: (event: any) => void;
-  onBlur?: () => void;
+  onBlur?: (event?: any) => void;
   [key: string]: any;
 }
 

@@ -33,14 +33,52 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   const { t, i18n } = useTranslation();
-  const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors } = useForm<FormData>({
+
+  // Detect country from URL
+  const detectCountryFromURL = () => {
+    const hostname = window.location.hostname;
+    const pathname = window.location.pathname;
+    
+    // Check pathname patterns (folders in the same domain)
+    if (pathname.startsWith('/mx')) {
+      return 'MX';
+    }
+    if (pathname.startsWith('/pa')) {
+      return 'PA';
+    }
+    if (pathname.startsWith('/us')) {
+      return 'US';
+    }
+    
+    // Default for smartinvite.me (root domain) is US
+    if (hostname === 'smartinvite.me' && pathname === '/') {
+      return 'US';
+    }
+    
+    // Default to empty (user will select)
+    return '';
+  };
+
+  const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors, setValue } = useForm<FormData>({
     defaultValues: { 
-      country: '',
+      country: detectCountryFromURL(),
       language: i18n.language.startsWith('en') ? 'en' : 'es'
     }
   });
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
+
+  // Update language based on detected country
+  useEffect(() => {
+    const detectedCountry = detectCountryFromURL();
+    if (detectedCountry === 'US') {
+      i18n.changeLanguage('en');
+      setValue('language', 'en');
+    } else if (detectedCountry === 'MX' || detectedCountry === 'PA') {
+      i18n.changeLanguage('es');
+      setValue('language', 'es');
+    }
+  }, [i18n, setValue]);
 
   useEffect(() => {
     if (confirmPassword) {
@@ -149,13 +187,20 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
               })}
             />
           </div>
-          <CountrySelect
-            id="country"
-            label={t('register.country')}
-            error={errors.country?.message}
-            defaultValue=""
-            {...register('country', { required: t('validation.required') })}
-          />
+          <div className="space-y-1">
+            <CountrySelect
+              id="country"
+              label={t('register.country')}
+              error={errors.country?.message}
+              defaultValue=""
+              {...register('country', { required: t('validation.required') })}
+            />
+            {detectCountryFromURL() && (
+              <p className="text-xs text-green-600">
+                {t('register.country_detected', 'País detectado automáticamente')}
+              </p>
+            )}
+          </div>
           <Input
             label={t('register.email')}
             type="email"
