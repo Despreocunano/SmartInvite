@@ -49,6 +49,7 @@ export function CountrySelect({
     { value: 'MX', label: t('register.mx'), flagCode: 'mx' },
     { value: 'PA', label: t('register.pa'), flagCode: 'pa' },
     { value: 'US', label: t('register.us'), flagCode: 'us' },
+    { value: 'CA', label: t('register.ca'), flagCode: 'ca' },
   ];
 
   const countryOptions = options.length > 0 ? options : defaultOptions;

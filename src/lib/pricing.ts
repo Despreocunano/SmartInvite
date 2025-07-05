@@ -24,6 +24,12 @@ export const PRICING_CONFIG: Record<string, PricingConfig> = {
     symbol: '$',
     name: 'USD'
   },
+  CA: {
+    currency: 'cad',
+    amount: 67.99,
+    symbol: '$',
+    name: 'CAD'
+  },
   // Default fallback
   default: {
     currency: 'clp',
@@ -42,6 +48,7 @@ export function formatPrice(price: number, currency: string, symbol: string): st
   switch (currency.toLowerCase()) {
     case 'usd':
     case 'mxn':
+    case 'cad':
       return `${symbol}${price.toFixed(2)}`;
     case 'clp':
       return `${symbol}${price.toLocaleString('es-CL')}`;
@@ -55,6 +62,7 @@ export function getStripeAmount(price: number, currency: string): number {
   switch (currency.toLowerCase()) {
     case 'usd':
     case 'mxn':
+    case 'cad':
       return Math.round(price * 100); // Convert to cents
     case 'clp':
       return Math.round(price); // CLP is already in smallest unit
