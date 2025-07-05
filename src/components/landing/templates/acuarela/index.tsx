@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BaseTemplate } from '../BaseTemplate';
 import { Hero } from './components/Hero';
 import { Events } from './components/Events';
@@ -12,6 +12,7 @@ import { WelcomeModal } from './components/WelcomeModal';
 import { KidsAndPets } from './components/KidsAndPets';
 import type { TemplateProps } from '../types';
 import { Branding } from '../../shared/Branding';
+import { useTranslation } from 'react-i18next';
 
 export function AcuarelaTemplate({
   groomName,
@@ -35,6 +36,7 @@ export function AcuarelaTemplate({
   coverImage,
   galleryImages = [],
   userId,
+  userLanguage,
   bankInfo,
   dress_code,
   additional_info,
@@ -50,6 +52,14 @@ export function AcuarelaTemplate({
 }: TemplateProps) {
   const [showWelcomeModal, setShowWelcomeModal] = useState(musicEnabled);
   const [autoplayMusic, setAutoplayMusic] = useState(false);
+  const { i18n } = useTranslation();
+
+  // Change language when userLanguage is provided
+  useEffect(() => {
+    if (userLanguage) {
+      i18n.changeLanguage(userLanguage);
+    }
+  }, [userLanguage, i18n]);
 
   const handleEnterWithMusic = () => {
     setAutoplayMusic(true);
@@ -96,6 +106,7 @@ export function AcuarelaTemplate({
             welcomeMessage={welcomeMessage}
             backgroundImage={coverImage}
             showWelcomeModal={showWelcomeModal}
+            userLanguage={userLanguage}
           />
 
           <Countdown 
@@ -116,6 +127,7 @@ export function AcuarelaTemplate({
             partyPlaceId={partyPlaceId}
             groomName={groomName}
             brideName={brideName}
+            userLanguage={userLanguage}
           />
 
           <KidsAndPets
@@ -128,10 +140,12 @@ export function AcuarelaTemplate({
             musicInfo="¿Cuál es la canción que no debe faltar en la playlist de la fiesta?"
             tips={additional_info || ''}
             userId={userId}
+            userLanguage={userLanguage}
           />
 
           <GallerySection
             images={galleryImages}
+            userLanguage={userLanguage}
           />
 
           {/* Mesa de Regalos solo si hay alguna sección activa */}
@@ -153,12 +167,14 @@ export function AcuarelaTemplate({
 
           <Social
             hashtag={hashtag || defaultHashtag}
+            userLanguage={userLanguage}
           />
           <Footer
             groomName={groomName}
             brideName={brideName}
             weddingDate={weddingDate}
             className="bg-[#303D5D]"
+            userLanguage={userLanguage}
           />
 
           <div className="w-full max-w-3xl mx-auto">

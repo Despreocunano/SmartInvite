@@ -21,6 +21,8 @@ import esTables from './i18n/locales/es/tables.json';
 import enTables from './i18n/locales/en/tables.json';
 import esFeatures from './i18n/locales/es/features.json';
 import enFeatures from './i18n/locales/en/features.json';
+import esTemplates from './i18n/locales/es/templates.json';
+import enTemplates from './i18n/locales/en/templates.json';
 
 const resources = {
   es: {
@@ -99,7 +101,8 @@ const resources = {
     attendees: esAttendees,
     rsvps: esRsvps,
     tables: esTables,
-    features: esFeatures
+    features: esFeatures,
+    templates: esTemplates
   },
   en: {
     translation: {
@@ -177,7 +180,8 @@ const resources = {
     attendees: enAttendees,
     rsvps: enRsvps,
     tables: enTables,
-    features: enFeatures
+    features: enFeatures,
+    templates: enTemplates
   }
 };
 
@@ -187,7 +191,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'es',
-    ns: ['auth', 'menu', 'contact', 'settings', 'landing', 'dashboard', 'attendees', 'rsvps', 'tables', 'features'],
+    ns: ['auth', 'menu', 'contact', 'settings', 'landing', 'dashboard', 'attendees', 'rsvps', 'tables', 'features', 'templates'],
     defaultNS: 'auth',
     interpolation: {
       escapeValue: false,

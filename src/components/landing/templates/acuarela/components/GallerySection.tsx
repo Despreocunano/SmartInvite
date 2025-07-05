@@ -1,13 +1,16 @@
 import { Gallery } from '../../../shared/Gallery';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 
 interface GallerySectionProps {
   images: string[];
   className?: string;
+  userLanguage?: string;
 }
 
-export function GallerySection({ images, className = '' }: GallerySectionProps) {
+export function GallerySection({ images, className = '', userLanguage = 'es' }: GallerySectionProps) {
+  const { t } = useTranslation('templates');
   if (!images?.length) return null;
 
   const container = {
@@ -43,10 +46,10 @@ export function GallerySection({ images, className = '' }: GallerySectionProps) 
       <div className="bg-[#FBFAF8] w-full max-w-3xl mx-auto flex flex-col items-center justify-center px-8 py-16">
         <motion.div className="text-center mb-12" variants={item}>
           <h2 className="text-6xl font-libre text-[#303D5D] mb-4">
-          Retratos de Nuestro Amor
+            {t('gallery.title')}
           </h2>
           <p className="text-2xl text-center font-sans text-[#303D5D]">
-          Un minuto, un segundo, un instante que queda en la eternidad.
+            {t('gallery.subtitle')}
           </p>
         </motion.div>
 

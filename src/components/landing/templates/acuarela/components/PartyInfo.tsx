@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Music2, Shirt, Lightbulb, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../../../ui/Button';
 import { SpotifySearch } from '../../../shared/SpotifySearch';
 import { motion } from 'framer-motion';
@@ -12,14 +13,17 @@ interface PartyInfoProps {
   tips: string;
   className?: string;
   userId?: string;
+  userLanguage?: string;
 }
 
 export function PartyInfo({
   dresscode = 'Formal',
   tips = 'La celebración será al aire libre',
   className = '',
-  userId
+  userId,
+  userLanguage = 'es'
 }: PartyInfoProps) {
+  const { t } = useTranslation('templates');
   const [showMusicModal, setShowMusicModal] = useState(false);
 
   const container = {
@@ -68,10 +72,10 @@ export function PartyInfo({
             variants={item}
           >
             <h2 className="text-6xl font-libre text-[#303D5D] mb-4">
-              Información de la Fiesta
+              {t('party_info.title')}
             </h2>
             <p className="text-2xl text-center font-sans text-[#303D5D]">
-            Hagamos juntos una fiesta épica. Aquí algunos detalles a tener en cuenta.
+              {t('party_info.subtitle')}
             </p>
           </motion.div>
           
@@ -90,7 +94,7 @@ export function PartyInfo({
               </motion.div>
               {/* Contenido */}
               <div className="flex-1 flex flex-col justify-center items-center md:items-start gap-4">
-                <h3 className="text-2xl font-sans text-[#BE8750]">Dress Code</h3>
+                <h3 className="text-2xl font-sans text-[#BE8750]">{t('party_info.dress_code')}</h3>
                 <p className="text-sm font-sans text-white mb-4 uppercase">{dresscode}</p>
               </div>
             </motion.div>
@@ -109,13 +113,13 @@ export function PartyInfo({
               </motion.div>
               {/* Contenido */}
               <div className="flex-1 flex flex-col justify-center items-center md:items-start gap-4">
-                <h3 className="text-2xl font-sans text-[#BE8750]">Música</h3>
+                <h3 className="text-2xl font-sans text-[#BE8750]">{t('party_info.music')}</h3>
                 <Button
                   onClick={() => setShowMusicModal(true)}
                   variant="secondary"
                   className="hover:bg-[#F7F6F2]/80 border-[#F7F6F2] text-white hover:text-[#985E4C] px-3 py-1 w-36 rounded-xl font-sans"
                 >
-                  Sugerir canción
+                  {t('party_info.suggest_song')}
                 </Button>
               </div>
             </motion.div>
@@ -134,7 +138,7 @@ export function PartyInfo({
               </motion.div>
               {/* Contenido */}
               <div className="flex-1 flex flex-col justify-center items-center md:items-start gap-4">
-                <h3 className="text-2xl font-sans text-[#BE8750]">Info Adicional</h3>
+                <h3 className="text-2xl font-sans text-[#BE8750]">{t('party_info.additional_info')}</h3>
                 <p className="text-sm font-sans text-white mb-4 uppercase">{tips}</p>
               </div>
             </motion.div>
@@ -146,10 +150,10 @@ export function PartyInfo({
       <InfoModal
         isOpen={showMusicModal}
         onClose={() => setShowMusicModal(false)}
-        title="Sugerir Canciones"
+        title={t('party_info.suggest_songs')}
         icon={Music2}
-        iconColor="#708565"
-        overlayColor="#708565"
+        iconColor="#303D5D"
+        overlayColor="#303D5D"
       >
         <div className="space-y-6">
           <SpotifySearch

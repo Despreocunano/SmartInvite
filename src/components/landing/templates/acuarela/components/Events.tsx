@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { UserPlus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../../../ui/Button';
 import { PublicRsvpForm } from '../../../../forms/PublicRsvpForm';
 import { InfoModal } from '../../../shared/InfoModal';
@@ -19,7 +20,8 @@ interface EventProps {
   icon?: React.ReactNode;
 }
 
-function Event({ title, date, time, location, address, placeId, className = '', variants, onRsvp, icon }: EventProps) {
+function Event({ title, date, time, location, address, placeId, className = '', variants, onRsvp, icon, userLanguage = 'es' }: EventProps & { userLanguage?: string }) {
+  const { t } = useTranslation('templates');
   const handleOpenMaps = () => {
     if (placeId) {
       window.open(`https://www.google.com/maps/place/?q=place_id:${placeId}`, '_blank');
@@ -43,21 +45,24 @@ function Event({ title, date, time, location, address, placeId, className = '', 
       </div>
         <div className="p-0 md:p-2 pt-0 space-y-8">
           <div className="space-y-4 text-center">
-            <h4 className="text-3xl font-sans text-[#303D5D] mb-2">Lugar</h4>
+            <h4 className="text-3xl font-sans text-[#303D5D] mb-2">{t('events.location')}</h4>
             <div className="flex flex-col items-center">
               <p className="text-sm md:text-lg font-sans text-[#303D5D]">{location}</p>
             </div>
           </div>
 
           <div className="space-y-2 text-center">
-            <h4 className="text-5xl font-sans text-[#303D5D] mb-2">Día</h4>
+            <h4 className="text-3xl font-sans text-[#303D5D] mb-2">{t('events.day')}</h4>
             <div className="flex items-center justify-center gap-4">
               <p className="text-sm md:text-lg font-sans text-[#303D5D]">
-                {new Date(date).toLocaleDateString('es-ES', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
+                {new Date(date).toLocaleDateString(
+                  userLanguage === 'en' ? 'en-US' : 'es-ES', 
+                  {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  }
+                )}
               </p>
               {time && (
                 <span className="font-lora text-[#303D5D]">•</span>
@@ -70,7 +75,7 @@ function Event({ title, date, time, location, address, placeId, className = '', 
 
           {address && (
           <div className="space-y-4 text-center">
-            <h4 className="text-5xl font-sans text-[#303D5D] mb-2">Dirección</h4>
+            <h4 className="text-3xl font-sans text-[#303D5D] mb-2">{t('events.address')}</h4>
               <div className="flex flex-col items-center">
                 <p className="text-sm md:text-lg font-sans text-[#303D5D]">{address}</p>
               </div>
@@ -78,7 +83,7 @@ function Event({ title, date, time, location, address, placeId, className = '', 
               onClick={handleOpenMaps}
               className="bg-[#303D5D] hover:bg-[#303D5D]/80 text-white px-6 py-2 w-48 mx-auto rounded-xl font-sans"
             >
-              ¿Cómo llegar?
+              {t('events.how_to_get_there')}
             </Button>
           </div>
           )}
@@ -102,6 +107,7 @@ interface EventsProps {
   className?: string;
   groomName?: string;
   brideName?: string;
+  userLanguage?: string;
 }
 
 export function Events({
@@ -118,8 +124,10 @@ export function Events({
   partyPlaceId,
   className = '',
   groomName = '',
-  brideName = ''
+  brideName = '',
+  userLanguage = 'es'
 }: EventsProps) {
+  const { t } = useTranslation('templates');
   const [showRsvpModal, setShowRsvpModal] = useState(false);
   const [invitationToken, setInvitationToken] = useState<string | null>(null);
   const [showCalendarOptions, setShowCalendarOptions] = useState(false);
@@ -245,7 +253,7 @@ END:VCALENDAR`;
           <div className="bg-[#FBFAF8] w-full max-w-3xl mx-auto items-center justify-center px-8 grid md:grid-cols-2 gap-8">
             {ceremonyLocation && ceremonyDate && (
               <Event
-                title="Ceremonia"
+                title={t('events.ceremony')}
                 date={ceremonyDate}
                 time={ceremonyTime}
                 location={ceremonyLocation}
@@ -256,12 +264,13 @@ END:VCALENDAR`;
                   setSelectedEvent('ceremony');
                   setShowRsvpModal(true);
                 }}
+                userLanguage={userLanguage}
               />
             )}
 
             {partyLocation && partyDate && (
               <Event
-                title="Recepción"
+                title={t('events.reception')}
                 date={partyDate}
                 time={partyTime}
                 location={partyLocation}
@@ -272,6 +281,7 @@ END:VCALENDAR`;
                   setSelectedEvent('party');
                   setShowRsvpModal(true);
                 }}
+                userLanguage={userLanguage}
               />
             )}
           </div>
@@ -286,7 +296,7 @@ END:VCALENDAR`;
                     onClick={() => setShowRsvpModal(true)}
                     className="bg-[#303D5D] hover:bg-[#303D5D]/80 text-white px-2 py-2 w-full mx-auto rounded-xl font-sans"
                   >
-                    Confirmar Asistencia
+                    {t('events.confirm_attendance')}
                   </Button>
 
                   <Button
@@ -296,7 +306,7 @@ END:VCALENDAR`;
                     }}
                     className="bg-[#303D5D] hover:bg-[#303D5D]/80 text-white px-2 py-2 w-full mx-auto rounded-xl font-sans"
                   >
-                    Agendar Evento
+                    {t('events.schedule_event')}
                   </Button>
                   
                   <AnimatePresence>
@@ -314,7 +324,7 @@ END:VCALENDAR`;
                           className="block w-full text-left px-4 py-2 text-[#FFF] hover:bg-[#CFD6BA]/10 rounded-md"
                           whileHover={{ x: 5 }}
                         >
-                          Google Calendar
+                          {t('events.google_calendar')}
                         </motion.a>
                         <motion.a
                           href={generateCalendarLink('apple')}
@@ -322,7 +332,7 @@ END:VCALENDAR`;
                           className="block w-full text-left px-4 py-2 text-[#FFF] hover:bg-[#CFD6BA]/10 rounded-md"
                           whileHover={{ x: 5 }}
                         >
-                          Apple Calendar
+                          {t('events.apple_calendar')}
                         </motion.a>
                         <motion.a
                           href={generateCalendarLink('outlook')}
@@ -331,7 +341,7 @@ END:VCALENDAR`;
                           className="block w-full text-left px-4 py-2 text-[#FFF] hover:bg-[#CFD6BA]/10 rounded-md"
                           whileHover={{ x: 5 }}
                         >
-                          Outlook
+                          {t('events.outlook')}
                         </motion.a>
                       </motion.div>
                     )}
@@ -346,10 +356,10 @@ END:VCALENDAR`;
       <InfoModal
         isOpen={showRsvpModal}
         onClose={() => setShowRsvpModal(false)}
-        title="Confirmar Asistencia"
+        title={t('events.confirm_attendance')}
         icon={UserPlus}
-        iconColor="#708565"
-        overlayColor="#708565"
+        iconColor="#303D5D"
+        overlayColor="#303D5D"
       >
         <div className="space-y-6">
           <div>

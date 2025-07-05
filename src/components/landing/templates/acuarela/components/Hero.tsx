@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import topRight from '../assets/top_right.png';
 import topLeft from '../assets/top_left.png';
 
@@ -11,6 +12,7 @@ interface HeroProps {
   backgroundImage?: string;
   className?: string;
   showWelcomeModal?: boolean;
+  userLanguage?: string;
 }
 
 export function Hero({
@@ -19,16 +21,23 @@ export function Hero({
   weddingDate,
   welcomeMessage,
   className = '',
-  showWelcomeModal = false
+  showWelcomeModal = false,
+  userLanguage = 'es'
 }: HeroProps) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 100]);
+  const { t } = useTranslation('templates');
 
-  const formattedDate = new Date(weddingDate).toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  }).replace(/\//g, '.');
+  const date = new Date(weddingDate);
+  let formattedDate;
+  
+  if (userLanguage === 'en') {
+    // English format: MM.DD.YYYY
+    formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}.${date.getFullYear()}`;
+  } else {
+    // Spanish format: DD.MM.YYYY
+    formattedDate = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()}`;
+  }
 
   // Delay animations until welcome modal is closed
   const baseDelay = showWelcomeModal ? 1 : 0;
@@ -78,7 +87,7 @@ export function Hero({
             transition={{ duration: 0.6, delay: baseDelay + 0.2 }}
           >
             <p className="text-xl font-sans tracking-wider">
-              CELEBRAMOS NUESTRA BODA EL
+              {t('hero.celebrate_wedding')}
             </p>
             <p className="text-4xl md:text-5xl font-light tracking-wider mt-4 font-ivyora">
               {formattedDate}

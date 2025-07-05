@@ -1,5 +1,6 @@
 import { Baby, PawPrint } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface KidsAndPetsProps {
   acceptsKids: boolean;
@@ -8,6 +9,7 @@ interface KidsAndPetsProps {
 }
 
 export function KidsAndPets({ acceptsKids, acceptsPets, className = '' }: KidsAndPetsProps) {
+  const { t } = useTranslation('templates');
   if (!acceptsKids && !acceptsPets) return null;
 
   const container = {
@@ -47,9 +49,9 @@ export function KidsAndPets({ acceptsKids, acceptsPets, className = '' }: KidsAn
           >
             <Baby className="w-12 h-12 text-white" />
           </motion.div>
-          <h3 className="text-2xl font-sans mb-4 text-[#BE8750]">Los Niños Bienvenidos</h3>
+          <h3 className="text-2xl font-sans mb-4 text-[#BE8750]">{t('kids_and_pets.kids_title')}</h3>
           <p className="text-white text-lg leading-relaxed font-sans">
-            Los más pequeños de la familia son bienvenidos a nuestra celebración
+            {t('kids_and_pets.kids_description')}
           </p>
         </motion.div>
       )}
@@ -66,9 +68,9 @@ export function KidsAndPets({ acceptsKids, acceptsPets, className = '' }: KidsAn
           >
             <PawPrint className="w-12 h-12 text-white" />
           </motion.div>
-          <h3 className="text-2xl font-sans mb-4 text-[#BE8750]">Pet Friendly</h3>
+          <h3 className="text-2xl font-sans mb-4 text-[#BE8750]">{t('kids_and_pets.pets_title')}</h3>
           <p className="text-white text-lg leading-relaxed font-sans">
-            Tu mascota es parte de la familia y es bienvenida a nuestra celebración
+            {t('kids_and_pets.pets_description')}
           </p>
         </motion.div>
       )}
@@ -86,7 +88,7 @@ export function KidsAndPets({ acceptsKids, acceptsPets, className = '' }: KidsAn
       >
         <motion.div className="text-center mb-12" variants={item}>
           <h2 className="text-6xl font-libre text-[#303D5D] mb-4">
-            Todos son bienvenidos
+            {t('kids_and_pets.title')}
           </h2>
         </motion.div>
         {content}

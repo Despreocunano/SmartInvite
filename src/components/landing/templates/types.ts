@@ -20,6 +20,7 @@ export interface TemplateProps {
   coverImage?: string;
   galleryImages?: string[];
   userId: string;
+  userLanguage?: string;
   bankInfo?: {
     accountHolder: string;
     rut: string;

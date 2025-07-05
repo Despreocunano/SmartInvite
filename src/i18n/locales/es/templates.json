@@ -1,0 +1,120 @@
+{
+  "hero": {
+    "celebrate_wedding": "CELEBRAMOS NUESTRA BODA EL"
+  },
+  "events": {
+    "ceremony": "Ceremonia",
+    "reception": "Recepción",
+    "location": "Lugar",
+    "day": "Día",
+    "address": "Dirección",
+    "how_to_get_there": "¿Cómo llegar?",
+    "confirm_attendance": "Confirmar Asistencia",
+    "schedule_event": "Agendar Evento",
+    "google_calendar": "Google Calendar",
+    "apple_calendar": "Apple Calendar",
+    "outlook": "Outlook"
+  },
+  "party_info": {
+    "title": "Información de la Fiesta",
+    "subtitle": "Hagamos juntos una fiesta épica. Aquí algunos detalles a tener en cuenta.",
+    "dress_code": "Dress Code",
+    "music": "Música",
+    "additional_info": "Info Adicional",
+    "suggest_song": "Sugerir canción",
+    "suggest_songs": "Sugerir Canciones"
+  },
+  "welcome_modal": {
+    "background_music": "La música de fondo es parte de la experiencia",
+    "enter_with_music": "Ingresar con música",
+    "enter_without_music": "Ingresar sin música"
+  },
+  "countdown": {
+    "days": "días",
+    "hours": "horas",
+    "minutes": "minutos",
+    "seconds": "segundos"
+  },
+  "kids_and_pets": {
+    "title": "Todos son bienvenidos",
+    "kids_title": "Los Niños Bienvenidos",
+    "kids_description": "Los más pequeños de la familia son bienvenidos a nuestra celebración",
+    "pets_title": "Pet Friendly",
+    "pets_description": "Tu mascota es parte de la familia y es bienvenida a nuestra celebración"
+  },
+  "gallery": {
+    "title": "Retratos de Nuestro Amor",
+    "subtitle": "Un minuto, un segundo, un instante que queda en la eternidad."
+  },
+  "social": {
+    "share_photos": "Comparte tus Fotos"
+  },
+  "rsvp_form": {
+    "loading_data": "Cargando tus datos...",
+    "welcome_message": "¡Bienvenido/a, {name}!",
+    "data_preloaded": "Tus datos han sido precargados. Puedes modificarlos si es necesario.",
+    "full_name_placeholder": "Nombre completo *",
+    "full_name_required": "El nombre completo es requerido",
+    "email_placeholder": "Correo Electrónico *",
+    "email_required": "El correo electrónico es requerido",
+    "email_invalid": "Correo electrónico inválido",
+    "phone_placeholder": "Teléfono (opcional)",
+    "dietary_restrictions_placeholder": "Restricciones alimentarias (opcional)",
+    "plus_one_question": "¿Vienes con Acompañante?",
+    "plus_one_name_placeholder": "Nombre del Acompañante *",
+    "plus_one_name_required": "El nombre del acompañante es requerido",
+    "plus_one_dietary_placeholder": "Restricciones alimentarias del acompañante (opcional)",
+    "confirming": "Confirmando...",
+    "confirm_attendance": "Confirmar Asistencia",
+    "sending": "Enviando...",
+    "cannot_attend": "No podré asistir",
+    "error_message": "Hubo un error al enviar tu respuesta. Por favor, intenta nuevamente.",
+    "success_title": "¡Gracias por tu respuesta!",
+    "success_message": "Hemos registrado tu respuesta.",
+    "success_closing": "El modal se cerrará en unos segundos..."
+  },
+  "spotify_search": {
+    "search_placeholder": "Buscar canciones...",
+    "search_button": "Buscar",
+    "selected_songs": "Canciones seleccionadas:",
+    "sending": "Enviando...",
+    "send_suggestions": "Enviar Sugerencias",
+    "spotify_connection_error": "Error al conectar con Spotify",
+    "search_error": "Error al buscar canciones",
+    "max_songs_error": "Solo puedes seleccionar hasta {max} canciones",
+    "thanks_suggestions": "¡Gracias por tus sugerencias!",
+    "save_error": "Error al guardar las canciones"
+  },
+  "gifts": {
+    "title": "Mesa de Regalos",
+    "subtitle": "Tu presencia es nuestro mejor regalo. Sin embargo, si deseas hacernos un obsequio, aquí tienes la información necesaria.",
+    "bank_info": {
+      "title": "Datos Bancarios",
+      "subtitle": "Información para transferencia",
+      "button_text": "Haz clic para ver los datos de transferencia",
+      "modal_title": "Datos Bancarios",
+      "account_holder": "Titular",
+      "rut": "RUT",
+      "bank": "Banco",
+      "account_type": "Tipo de Cuenta",
+      "account_number": "Número de Cuenta",
+      "email": "Email",
+      "copy_button": "Copiar Datos",
+      "copied": "Copiado",
+      "copy_success": "Datos copiados al portapapeles",
+      "copy_error": "Error al copiar los datos",
+      "coming_soon": "Pronto encontrarás aquí la información bancaria para realizar tu regalo."
+    },
+    "wishlist": {
+      "title": "Lista de Deseos",
+      "subtitle": "Regalos que nos harían muy felices",
+      "button_text": "Haz clic para ver nuestra lista de deseos"
+    },
+    "couple_code": {
+      "title": "Lista de Regalos",
+      "subtitle": "Información de nuestra lista de regalos",
+      "code_label": "Código",
+      "store_label": "Tienda"
+    }
+  }
+} 

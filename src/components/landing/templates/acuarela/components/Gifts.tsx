@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { InfoModal } from '../../../shared/InfoModal';
 import { WishListModal, WishListItem } from '../../../shared/WishListModal';
 import { GiftsIcon } from '../animations/gifts';
+import { useTranslation } from 'react-i18next';
 
 
 interface GiftsProps {
@@ -28,6 +29,7 @@ interface GiftsProps {
 }
 
 export function Gifts({ bankInfo, couple_code, store, wishListItems = [], className = '', isDemo, showBankInfo = false, showWishList = false, showCoupleCode = false }: GiftsProps) {
+  const { t } = useTranslation('templates');
   const [showModal, setShowModal] = useState(false);
   const [showWishListModal, setShowWishListModal] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -67,11 +69,11 @@ ${bankInfo.email}`;
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      toast.success('Datos copiados al portapapeles');
+      toast.success(t('gifts.bank_info.copy_success'));
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy:', err);
-      toast.error('Error al copiar los datos');
+      toast.error(t('gifts.bank_info.copy_error'));
     }
   };
 
@@ -89,13 +91,13 @@ ${bankInfo.email}`;
           variants={item}
         >
          < GiftsIcon /> 
-          <h2 className="text-6xl font-libre text-[#303D5D] mb-4">Mesa de Regalos</h2>
+          <h2 className="text-6xl font-libre text-[#303D5D] mb-4">{t('gifts.title')}</h2>
            <div className='max-w-4xl mx-auto mb-8'>        
           <motion.p 
             className="text-2xl text-center font-sans text-[#303D5D]"
             variants={item}
           >
-            Tu presencia es nuestro mejor regalo. Sin embargo, si deseas hacernos un obsequio, aquí tienes la información necesaria.
+            {t('gifts.subtitle')}
           </motion.p>
           </div> 
           
@@ -106,13 +108,13 @@ ${bankInfo.email}`;
                 className="bg-[#303D5D] rounded-xl p-8 shadow-lg border border-[#985e4c]/20 w-full"
                 variants={item}
               >
-                <h3 className="text-xl font-sans mb-2 text-[#BE8750]">Datos Bancarios</h3>
+                <h3 className="text-xl font-sans mb-2 text-[#BE8750]">{t('gifts.bank_info.title')}</h3>
                 <p className="text-[#FFFFFF]/80 text-lg mb-2 font-sans">
-                  Información para transferencia
+                  {t('gifts.bank_info.subtitle')}
                 </p>
                 <div className="bg-[#CFD6BA]/10 rounded-lg p-3 h-[72px] flex items-center justify-center">
                   <p className="text-[#FFFFFF] text-lg font-sans">
-                    Haz clic para ver los datos de transferencia
+                    {t('gifts.bank_info.button_text')}
                   </p>
                 </div>
               </motion.button>
@@ -123,13 +125,13 @@ ${bankInfo.email}`;
                 className="bg-[#303D5D] rounded-xl p-8 shadow-lg border border-[#985e4c]/20 w-full"
                 variants={item}
               >
-                <h3 className="text-xl font-sans mb-2 text-[#BE8750]">Lista de Deseos</h3>
+                <h3 className="text-xl font-sans mb-2 text-[#BE8750]">{t('gifts.wishlist.title')}</h3>
                 <p className="text-[#FFFFFF]/80 text-lg mb-2 font-sans">
-                  Regalos que nos harían muy felices
+                  {t('gifts.wishlist.subtitle')}
                 </p>
                 <div className="bg-[#CFD6BA]/10 rounded-lg p-3 h-[72px] flex items-center justify-center">
                   <p className="text-[#FFFFFF] text-lg font-sans">
-                    Haz clic para ver nuestra lista de deseos
+                    {t('gifts.wishlist.button_text')}
                   </p>
                 </div>
               </motion.button>
@@ -139,13 +141,13 @@ ${bankInfo.email}`;
                 className="bg-[#303D5D] rounded-xl p-8 shadow-lg border border-[#985e4c]/20 w-full"
                 variants={item}
               >
-                <h3 className="text-xl font-sans mb-2 text-[#BE8750]">Lista de Regalos</h3>
+                <h3 className="text-xl font-sans mb-2 text-[#BE8750]">{t('gifts.couple_code.title')}</h3>
                 <p className="text-[#FFFFFF]/80 text-lg mb-2 font-sans">
-                  Información de nuestra lista de regalos
+                  {t('gifts.couple_code.subtitle')}
                 </p>
                 <div className="bg-[#CFD6BA]/10 rounded-lg p-3 h-[72px] flex flex-col justify-center">
-                  <p className="text-[#FFFFFF] text-lg font-sans">Código: {couple_code}</p>
-                  <p className="text-[#FFFFFF]/80 text-sm font-sans">Tienda: {store === 'falabella' ? 'Falabella' : 'Paris'}</p>
+                  <p className="text-[#FFFFFF] text-lg font-sans">{t('gifts.couple_code.code_label')}: {couple_code}</p>
+                  <p className="text-[#FFFFFF]/80 text-sm font-sans">{t('gifts.couple_code.store_label')}: {store === 'falabella' ? 'Falabella' : 'Paris'}</p>
                 </div>
               </motion.div>
             )}
@@ -156,7 +158,7 @@ ${bankInfo.email}`;
       <InfoModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title="Datos Bancarios"
+        title={t('gifts.bank_info.modal_title')}
         icon={Gift}
         iconColor="#303D5D"
         overlayColor="#303D5D"
@@ -166,27 +168,27 @@ ${bankInfo.email}`;
             <div className="bg-[#051B24]/10 rounded-lg border border-[#051B24]/20 p-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-[#000]/80 font-sans">Titular</p>
+                  <p className="text-sm text-[#000]/80 font-sans">{t('gifts.bank_info.account_holder')}</p>
                   <p className="text-[#051B24] font-sans">{bankInfo.accountHolder}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-[#051B24]/80 font-sans">RUT</p>
+                  <p className="text-sm text-[#051B24]/80 font-sans">{t('gifts.bank_info.rut')}</p>
                   <p className="text-[#051B24] font-sans">{bankInfo.rut}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-[#051B24]/80 font-sans">Banco</p>
+                  <p className="text-sm text-[#051B24]/80 font-sans">{t('gifts.bank_info.bank')}</p>
                   <p className="text-[#051B24] font-sans">{bankInfo.bank}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-[#051B24]/80 font-sans">Tipo de Cuenta</p>
+                  <p className="text-sm text-[#051B24]/80 font-sans">{t('gifts.bank_info.account_type')}</p>
                   <p className="text-[#051B24] font-sans">{bankInfo.accountType}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-[#051B24]/80 font-sans">Número de Cuenta</p>
+                  <p className="text-sm text-[#051B24]/80 font-sans">{t('gifts.bank_info.account_number')}</p>
                   <p className="text-[#051B24] font-sans">{bankInfo.accountNumber}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-[#051B24]/80 font-sans">Email</p>
+                  <p className="text-sm text-[#051B24]/80 font-sans">{t('gifts.bank_info.email')}</p>
                   <p className="text-[#051B24] font-sans">{bankInfo.email}</p>
                 </div>
               </div>
@@ -197,12 +199,12 @@ ${bankInfo.email}`;
               className="bg-[#CFD6BA] text-[#012D27] hover:bg-[#012D27] hover:text-[#CFD6BA] rounded-full border hover:border-[#CFD6BA]"
               leftIcon={copied ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
             >
-              {copied ? 'Copiado' : 'Copiar Datos'}
+              {copied ? t('gifts.bank_info.copied') : t('gifts.bank_info.copy_button')}
             </Button>
           </div>
         ) : (
           <p className="text-center text-[#CFD6BA]/80 py-8">
-            Pronto encontrarás aquí la información bancaria para realizar tu regalo.
+            {t('gifts.bank_info.coming_soon')}
           </p>
         )}
       </InfoModal>

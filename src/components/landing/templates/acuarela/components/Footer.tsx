@@ -1,18 +1,22 @@
 import { Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface FooterProps {
   groomName: string;
   brideName: string;
   weddingDate: string;
   className?: string;
+  userLanguage?: string;
 }
 
 export function Footer({
   groomName,
   brideName,
   weddingDate,
-  className = ''
+  className = '',
+  userLanguage = 'es'
 }: FooterProps) {
+  const { t } = useTranslation('templates');
   return (
     <footer className={`w-full max-w-3xl mx-auto px-8 py-16 ${className}`}>
       <div className="w-full text-center">
@@ -25,11 +29,14 @@ export function Footer({
         </h2>
         
         <p className="text-white text-2xl font-sans">
-          {new Date(weddingDate).toLocaleDateString('es-ES', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
+          {new Date(weddingDate).toLocaleDateString(
+            userLanguage === 'en' ? 'en-US' : 'es-ES', 
+            {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            }
+          )}
         </p>
       </div>
     </footer>

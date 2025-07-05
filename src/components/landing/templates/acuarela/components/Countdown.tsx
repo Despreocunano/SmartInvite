@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 
 interface TimeLeft {
@@ -15,6 +16,7 @@ interface CountdownProps {
 }
 
 export function Countdown({ date, className = '' }: CountdownProps) {
+  const { t } = useTranslation('templates');
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -79,7 +81,7 @@ export function Countdown({ date, className = '' }: CountdownProps) {
                   {timeLeft.days}
                 </div>
                 <div className="text-[#BE8750] text-sm uppercase tracking-wider font-medium">
-                  días
+                  {t('countdown.days')}
                 </div>
               </div>
             </div>
@@ -95,7 +97,7 @@ export function Countdown({ date, className = '' }: CountdownProps) {
                   {timeLeft.hours}
                 </div>
                 <div className="text-[#BE8750] text-sm uppercase tracking-wider font-medium">
-                  horas
+                  {t('countdown.hours')}
                 </div>
               </div>
             </div>
@@ -111,7 +113,7 @@ export function Countdown({ date, className = '' }: CountdownProps) {
                   {timeLeft.minutes}
                 </div>
                 <div className="text-[#BE8750] text-sm uppercase tracking-wider font-medium">
-                  minutos
+                  {t('countdown.minutes')}
                 </div>
               </div>
             </div>
@@ -127,7 +129,7 @@ export function Countdown({ date, className = '' }: CountdownProps) {
                   {timeLeft.seconds}
                 </div>
                 <div className="text-[#BE8750] text-sm uppercase tracking-wider font-medium">
-                  segundos
+                  {t('countdown.seconds')}
                 </div>
               </div>
             </div>

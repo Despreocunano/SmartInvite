@@ -35,6 +35,7 @@ const ExampleLatePetroPage = lazy(() => import('./pages/examples/ExampleLatePetr
 const ExampleLatePastelPage = lazy(() => import('./pages/examples/ExampleLatePastelPage').then(module => ({ default: module.default })));
 const ExampleNaturalGreenPage = lazy(() => import('./pages/examples/ExampleNaturalGreenPage').then(module => ({ default: module.default })));
 const ExampleAcuarelaPage = lazy(() => import('./pages/examples/ExampleAcuarelaPage').then(module => ({ default: module.default })));
+const ExampleAcuarelaEnglishPage = lazy(() => import('./pages/examples/ExampleAcuarelaEnglishPage').then(module => ({ default: module.default })));
 
 // Loading component
 const PageLoading = () => (
@@ -132,6 +133,11 @@ function PublicRoutes() {
         <Route path="/ejemplos/acuarela" element={
           <Suspense fallback={<PageLoading />}>
             <ExampleAcuarelaPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/acuarela-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleAcuarelaEnglishPage />
           </Suspense>
         } />
         

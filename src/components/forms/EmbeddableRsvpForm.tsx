@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase';
 import { getAttendeeByToken } from '../../lib/api';
 import { Switch } from '../ui/Switch';
 import type { Attendee } from '../../types/supabase';
+import { useTranslation } from 'react-i18next';
 
 interface RsvpFormData {
   full_name: string;
@@ -36,6 +37,7 @@ interface EmbeddableRsvpFormProps {
 }
 
 export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitationToken }: EmbeddableRsvpFormProps) {
+  const { t } = useTranslation('templates');
   const [isLoading, setIsLoading] = React.useState(false);
   const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
   const [attendeeData, setAttendeeData] = React.useState<Attendee | null>(null);
@@ -88,7 +90,7 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
 
   const onSubmit = async (formData: RsvpFormData) => {
     if (!formData.full_name) {
-      setError('full_name', { type: 'required', message: 'El nombre completo es requerido' });
+      setError('full_name', { type: 'required', message: t('rsvp_form.full_name_required') });
       return;
     }
 
@@ -154,7 +156,7 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
   const onReject = async () => {
     const formData = getValues();
     if (!formData.full_name) {
-      setError('full_name', { type: 'required', message: 'El nombre completo es requerido' });
+      setError('full_name', { type: 'required', message: t('rsvp_form.full_name_required') });
       return;
     }
 
@@ -256,7 +258,7 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
 
         {/* Loading text */}
         <div className="text-center">
-          <p className="text-sm text-gray-500 font-sans">Cargando tus datos...</p>
+          <p className="text-sm text-gray-500 font-sans">{t('rsvp_form.loading_data')}</p>
         </div>
       </div>
     );
@@ -270,9 +272,9 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-xl font-sans text-gray-800 mb-2">¡Gracias por tu respuesta!</h3>
-        <p className="text-gray-600 text-sm font-sans mb-3">Hemos registrado tu respuesta.</p>
-        <p className="text-xs text-gray-500 font-sans">El modal se cerrará en unos segundos...</p>
+        <h3 className="text-xl font-sans text-gray-800 mb-2">{t('rsvp_form.success_title')}</h3>
+        <p className="text-gray-600 text-sm font-sans mb-3">{t('rsvp_form.success_message')}</p>
+        <p className="text-xs text-gray-500 font-sans">{t('rsvp_form.success_closing')}</p>
       </div>
     );
   }
@@ -282,17 +284,17 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
       {attendeeData && (
         <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
           <p className="text-sm text-blue-800 font-sans">
-            <strong>¡Bienvenido/a, {attendeeData.first_name}!</strong> 
+            <strong>{t('rsvp_form.welcome_message', { name: attendeeData.first_name })}</strong> 
             <br />
-            Tus datos han sido precargados. Puedes modificarlos si es necesario.
+            {t('rsvp_form.data_preloaded')}
           </p>
         </div>
       )}
 
       <div>
         <input
-          {...register('full_name', { required: 'El nombre completo es requerido' })}
-          placeholder="Nombre completo *"
+          {...register('full_name', { required: t('rsvp_form.full_name_required') })}
+          placeholder={t('rsvp_form.full_name_placeholder')}
           className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent text-sm text-gray-700 placeholder-gray-400 font-sans"
         />
         {errors.full_name && (
@@ -303,13 +305,13 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
       <div>
         <input
           {...register('email', {
-            required: 'El correo electrónico es requerido',
+            required: t('rsvp_form.email_required'),
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: 'Correo electrónico inválido'
+              message: t('rsvp_form.email_invalid')
             }
           })}
-          placeholder="Correo Electrónico *"
+          placeholder={t('rsvp_form.email_placeholder')}
           className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent text-sm text-gray-700 placeholder-gray-400 font-sans"
         />
         {errors.email && (
@@ -320,7 +322,7 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
       <div>
         <input
           {...register('phone')}
-          placeholder="Teléfono (opcional)"
+          placeholder={t('rsvp_form.phone_placeholder')}
           className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent text-sm text-gray-700 placeholder-gray-400 font-sans"
         />
       </div>
@@ -328,14 +330,14 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
       <div>
         <textarea
           {...register('dietary_restrictions')}
-          placeholder="Restricciones alimentarias (opcional)"
+          placeholder={t('rsvp_form.dietary_restrictions_placeholder')}
           rows={2}
           className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent text-sm text-gray-700 placeholder-gray-400 resize-none font-sans"
         />
       </div>
 
       <div className="flex items-center justify-between py-2">
-        <span className="text-sm text-gray-700 font-sans">¿Vienes con Acompañante?</span>
+        <span className="text-sm text-gray-700 font-sans">{t('rsvp_form.plus_one_question')}</span>
         <Switch
           checked={watch('has_plus_one')}
           onCheckedChange={(checked) => setValue('has_plus_one', checked)}
@@ -347,8 +349,8 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
         <div className="space-y-4 bg-gray-50 p-4 rounded-md">
           <div>
             <input
-              {...register('plus_one_name', { required: 'El nombre del acompañante es requerido' })}
-              placeholder="Nombre del Acompañante *"
+              {...register('plus_one_name', { required: t('rsvp_form.plus_one_name_required') })}
+              placeholder={t('rsvp_form.plus_one_name_placeholder')}
               className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent text-sm text-gray-700 placeholder-gray-400 font-sans"
             />
             {errors.plus_one_name && (
@@ -359,7 +361,7 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
           <div>
             <textarea
               {...register('plus_one_dietary_restrictions')}
-              placeholder="Restricciones alimentarias del acompañante (opcional)"
+              placeholder={t('rsvp_form.plus_one_dietary_placeholder')}
               rows={2}
               className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent text-sm text-gray-700 placeholder-gray-400 resize-none font-sans"
             />
@@ -373,7 +375,7 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
           disabled={isLoading}
           className="w-full px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed font-sans"
         >
-          {isLoading ? 'Confirmando...' : 'Confirmar Asistencia'}
+          {isLoading ? t('rsvp_form.confirming') : t('rsvp_form.confirm_attendance')}
         </button>
         <button
           type="button"
@@ -381,13 +383,13 @@ export function EmbeddableRsvpForm({ userId, onSuccess, onError, theme, invitati
           disabled={isLoading}
           className="w-full px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed font-sans"
         >
-          {isLoading ? 'Enviando...' : 'No podré asistir'}
+          {isLoading ? t('rsvp_form.sending') : t('rsvp_form.cannot_attend')}
         </button>
       </div>
 
       {submitStatus === 'error' && (
         <p className="text-xs text-red-500 text-center font-sans">
-          Hubo un error al enviar tu respuesta. Por favor, intenta nuevamente.
+          {t('rsvp_form.error_message')}
         </p>
       )}
     </form>

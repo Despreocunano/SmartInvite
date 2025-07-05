@@ -1,0 +1,120 @@
+{
+  "hero": {
+    "celebrate_wedding": "WE'RE CELEBRATING OUR WEDDING ON"
+  },
+  "events": {
+    "ceremony": "Ceremony",
+    "reception": "Reception",
+    "location": "Location",
+    "day": "Day",
+    "address": "Address",
+    "how_to_get_there": "Open in maps",
+    "confirm_attendance": "Confirm Attendance",
+    "schedule_event": "Schedule Event",
+    "google_calendar": "Google Calendar",
+    "apple_calendar": "Apple Calendar",
+    "outlook": "Outlook"
+  },
+  "party_info": {
+    "title": "Party Information",
+    "subtitle": "Let's make an epic party together. Here are some details to keep in mind.",
+    "dress_code": "Dress Code",
+    "music": "Music",
+    "additional_info": "Additional Info",
+    "suggest_song": "Suggest song",
+    "suggest_songs": "Suggest Songs"
+  },
+  "welcome_modal": {
+    "background_music": "Background music is part of the experience",
+    "enter_with_music": "Enter with music",
+    "enter_without_music": "Enter without music"
+  },
+  "countdown": {
+    "days": "days",
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "seconds"
+  },
+  "kids_and_pets": {
+    "title": "Everyone is Welcome",
+    "kids_title": "Children Welcome",
+    "kids_description": "The little ones in the family are welcome to our celebration",
+    "pets_title": "Pet Friendly",
+    "pets_description": "Your pet is part of the family and is welcome to our celebration"
+  },
+  "gallery": {
+    "title": "Portraits of Our Love",
+    "subtitle": "A minute, a second, an instant that remains in eternity."
+  },
+  "social": {
+    "share_photos": "Share Your Photos"
+  },
+  "rsvp_form": {
+    "loading_data": "Loading your data...",
+    "welcome_message": "Welcome, {name}!",
+    "data_preloaded": "Your data has been preloaded. You can modify it if necessary.",
+    "full_name_placeholder": "Full Name *",
+    "full_name_required": "Full name is required",
+    "email_placeholder": "Email *",
+    "email_required": "Email is required",
+    "email_invalid": "Invalid email",
+    "phone_placeholder": "Phone (optional)",
+    "dietary_restrictions_placeholder": "Dietary restrictions (optional)",
+    "plus_one_question": "Are you bringing a Plus One?",
+    "plus_one_name_placeholder": "Plus One Name *",
+    "plus_one_name_required": "Plus one name is required",
+    "plus_one_dietary_placeholder": "Plus one dietary restrictions (optional)",
+    "confirming": "Confirming...",
+    "confirm_attendance": "Confirm Attendance",
+    "sending": "Sending...",
+    "cannot_attend": "I cannot attend",
+    "error_message": "There was an error sending your response. Please try again.",
+    "success_title": "Thank you for your response!",
+    "success_message": "We have registered your response.",
+    "success_closing": "The modal will close in a few seconds..."
+  },
+  "spotify_search": {
+    "search_placeholder": "Search songs...",
+    "search_button": "Search",
+    "selected_songs": "Selected songs:",
+    "sending": "Sending...",
+    "send_suggestions": "Send Suggestions",
+    "spotify_connection_error": "Error connecting to Spotify",
+    "search_error": "Error searching songs",
+    "max_songs_error": "You can only select up to {max} songs",
+    "thanks_suggestions": "Thank you for your suggestions!",
+    "save_error": "Error saving songs"
+  },
+  "gifts": {
+    "title": "Gift Registry",
+    "subtitle": "Your presence is our best gift. However, if you would like to give us a gift, here is the necessary information.",
+    "bank_info": {
+      "title": "Bank Information",
+      "subtitle": "Information for transfer",
+      "button_text": "Click to see transfer information",
+      "modal_title": "Bank Information",
+      "account_holder": "Account Holder",
+      "rut": "RUT",
+      "bank": "Bank",
+      "account_type": "Account Type",
+      "account_number": "Account Number",
+      "email": "Email",
+      "copy_button": "Copy Data",
+      "copied": "Copied",
+      "copy_success": "Data copied to clipboard",
+      "copy_error": "Error copying data",
+      "coming_soon": "Soon you will find here the bank information to make your gift."
+    },
+    "wishlist": {
+      "title": "Wish List",
+      "subtitle": "Gifts that would make us very happy",
+      "button_text": "Click to see our wish list"
+    },
+    "couple_code": {
+      "title": "Gift List",
+      "subtitle": "Information about our gift list",
+      "code_label": "Code",
+      "store_label": "Store"
+    }
+  }
+} 

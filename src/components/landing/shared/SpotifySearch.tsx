@@ -5,6 +5,7 @@ import { Button } from '../../ui/Button';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { toast } from 'react-hot-toast';
 import { supabase } from '../../../lib/supabase';
+import { useTranslation } from 'react-i18next';
 
 interface Track {
   id: string;
@@ -24,6 +25,7 @@ export function SpotifySearch({
   userId,
   maxTracks = 2
 }: SpotifySearchProps) {
+  const { t } = useTranslation('templates');
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<Track[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -48,7 +50,7 @@ export function SpotifySearch({
         spotify.setAccessToken(data.access_token);
       } catch (error) {
         console.error('Error getting Spotify token:', error);
-        toast.error('Error al conectar con Spotify');
+        toast.error(t('spotify_search.spotify_connection_error'));
       }
     };
 
@@ -70,7 +72,7 @@ export function SpotifySearch({
       setResults(tracks);
     } catch (error) {
       console.error('Error searching tracks:', error);
-      toast.error('Error al buscar canciones');
+      toast.error(t('spotify_search.search_error'));
     } finally {
       setIsSearching(false);
     }
@@ -78,7 +80,7 @@ export function SpotifySearch({
 
   const handleSelect = (track: Track) => {
     if (selectedTracks.length >= maxTracks) {
-      toast.error(`Solo puedes seleccionar hasta ${maxTracks} canciones`);
+      toast.error(t('spotify_search.max_songs_error', { max: maxTracks }));
       return;
     }
     setSelectedTracks([...selectedTracks, track]);
@@ -107,11 +109,11 @@ export function SpotifySearch({
 
       if (error) throw error;
 
-      toast.success('¡Gracias por tus sugerencias!');
+      toast.success(t('spotify_search.thanks_suggestions'));
       setSelectedTracks([]);
     } catch (error) {
       console.error('Error saving songs:', error);
-      toast.error('Error al guardar las canciones');
+      toast.error(t('spotify_search.save_error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -124,7 +126,7 @@ export function SpotifySearch({
         <div>
           <div className="relative mb-4">
             <Input
-              placeholder="Buscar canciones..."
+              placeholder={t('spotify_search.search_placeholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && searchTracks()}
@@ -138,7 +140,7 @@ export function SpotifySearch({
                 onClick={searchTracks}
                 isLoading={isSearching}
               >
-                Buscar
+                {t('spotify_search.search_button')}
               </Button>
             )}
           </div>
@@ -178,7 +180,7 @@ export function SpotifySearch({
       {/* Selected Tracks */}
       {selectedTracks.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-xl font-lora text-[#333]">Canciones seleccionadas:</h3>
+          <h3 className="text-xl font-lora text-[#333]">{t('spotify_search.selected_songs')}</h3>
           {selectedTracks.map((track) => (
             <div 
               key={track.id} 
@@ -218,7 +220,7 @@ export function SpotifySearch({
           disabled={isSubmitting}
           className="w-full bg-[#333] text-white font-sans hover:bg-[#666] hover:text-white rounded-full border hover:border-[#CFD6BA]"
         >
-          {isSubmitting ? 'Enviando...' : 'Enviar Sugerencias'}
+          {isSubmitting ? t('spotify_search.sending') : t('spotify_search.send_suggestions')}
         </Button>
       )}
     </div>

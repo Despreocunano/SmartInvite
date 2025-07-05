@@ -52,6 +52,7 @@ export function PublicSitePage() {
   const { slug } = useParams<{ slug: string }>();
   const [loading, setLoading] = useState(true);
   const [landingData, setLandingData] = useState<LandingPageData | null>(null);
+  const [userLanguage, setUserLanguage] = useState<string>('es');
   const [wishListItems, setWishListItems] = useState<Array<{
     id: string;
     name: string;
@@ -84,6 +85,17 @@ export function PublicSitePage() {
         }
 
         setLandingData(data);
+
+        // Fetch user language
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .select('language')
+          .eq('id', data.user_id)
+          .single();
+
+        if (!userError && userData?.language) {
+          setUserLanguage(userData.language);
+        }
 
         // Fetch wish list items if wish list is enabled
         if (data.wish_list_enabled) {
@@ -259,6 +271,7 @@ export function PublicSitePage() {
     coverImage: landingData.cover_image,
     galleryImages: landingData.gallery_images?.map(img => img.url),
     userId: landingData.user_id,
+    userLanguage: userLanguage,
     bankInfo: landingData.bank_info,
     dress_code: landingData.dress_code,
     additional_info: landingData.additional_info,

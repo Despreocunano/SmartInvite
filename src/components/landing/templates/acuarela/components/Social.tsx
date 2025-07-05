@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { CameraIcon } from '../animations/camera';
 import bgHero from '../assets/bg-piccure.png';
 
 
-export function Social({ hashtag, className = '' }: { hashtag?: string; className?: string }) {
+export function Social({ hashtag, className = '', userLanguage = 'es' }: { hashtag?: string; className?: string; userLanguage?: string }) {
+  const { t } = useTranslation('templates');
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -35,7 +37,7 @@ export function Social({ hashtag, className = '' }: { hashtag?: string; classNam
         {/* Icono y título */}
         <div className="flex flex-col items-center gap-12 mb-8">
 <CameraIcon />
-          <h2 className="text-6xl font-libre text-[#be8750] mb-4">Comparte tus Fotos</h2>
+          <h2 className="text-6xl font-libre text-[#be8750] mb-4">{t('social.share_photos')}</h2>
         </div>
 
         {/* Hashtag */}
