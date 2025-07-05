@@ -39,34 +39,47 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
     const hostname = window.location.hostname;
     const pathname = window.location.pathname;
     
+    console.log('Detecting country from URL:', { hostname, pathname });
+    
     // Check pathname patterns (folders in the same domain)
     if (pathname.startsWith('/mx')) {
+      console.log('Detected MX from pathname');
       return 'MX';
     }
     if (pathname.startsWith('/pa')) {
+      console.log('Detected PA from pathname');
       return 'PA';
     }
     if (pathname.startsWith('/us')) {
+      console.log('Detected US from pathname');
       return 'US';
     }
     
     // Default for smartinvite.me (root domain) is US
     if (hostname === 'smartinvite.me' && pathname === '/') {
+      console.log('Detected US from root domain');
       return 'US';
     }
     
+    console.log('No country detected, defaulting to empty');
     // Default to empty (user will select)
     return '';
   };
 
+  const detectedCountry = detectCountryFromURL();
+  console.log('Setting default country:', detectedCountry);
+  
   const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors, setValue } = useForm<FormData>({
     defaultValues: { 
-      country: detectCountryFromURL(),
+      country: detectedCountry,
       language: i18n.language.startsWith('en') ? 'en' : 'es'
     }
   });
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
+  const currentCountry = watch('country');
+  
+  console.log('Current country value:', currentCountry);
 
   // Update language based on detected country
   useEffect(() => {
