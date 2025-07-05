@@ -36,6 +36,15 @@ const ExampleLatePastelPage = lazy(() => import('./pages/examples/ExampleLatePas
 const ExampleNaturalGreenPage = lazy(() => import('./pages/examples/ExampleNaturalGreenPage').then(module => ({ default: module.default })));
 const ExampleAcuarelaPage = lazy(() => import('./pages/examples/ExampleAcuarelaPage').then(module => ({ default: module.default })));
 const ExampleAcuarelaEnglishPage = lazy(() => import('./pages/examples/ExampleAcuarelaEnglishPage').then(module => ({ default: module.default })));
+const ExampleBesoInfinitoDarkEnglishPage = lazy(() => import('./pages/examples/ExampleBesoInfinitoDarkEnglishPage').then(module => ({ default: module.default })));
+const ExampleBohoEnglishPage = lazy(() => import('./pages/examples/ExampleBohoEnglishPage').then(module => ({ default: module.default })));
+const ExampleMinimalistaEnglishPage = lazy(() => import('./pages/examples/ExampleMinimalistaEnglishPage').then(module => ({ default: module.default })));
+const ExamplePassportEnglishPage = lazy(() => import('./pages/examples/ExamplePassportEnglishPage').then(module => ({ default: module.default })));
+const ExampleNaturalGreenEnglishPage = lazy(() => import('./pages/examples/ExampleNaturalGreenEnglishPage').then(module => ({ default: module.default })));
+const ExampleLatePastelEnglishPage = lazy(() => import('./pages/examples/ExampleLatePastelEnglishPage').then(module => ({ default: module.default })));
+const ExampleLatePetroEnglishPage = lazy(() => import('./pages/examples/ExampleLatePetroEnglishPage').then(module => ({ default: module.default })));
+const ExampleBohoBotanicoEnglishPage = lazy(() => import('./pages/examples/ExampleBohoBotanicoEnglishPage').then(module => ({ default: module.default })));
+const ExampleBosqueEnglishPage = lazy(() => import('./pages/examples/ExampleBosqueEnglishPage').then(module => ({ default: module.default })));
 
 // Loading component
 const PageLoading = () => (
@@ -138,6 +147,51 @@ function PublicRoutes() {
         <Route path="/ejemplos/acuarela-en" element={
           <Suspense fallback={<PageLoading />}>
             <ExampleAcuarelaEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/beso-infinito-dark-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleBesoInfinitoDarkEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/boho-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleBohoEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/minimalista-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleMinimalistaEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/passport-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExamplePassportEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/natural-green-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleNaturalGreenEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/late-pastel-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleLatePastelEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/late-petro-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleLatePetroEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/boho-botanico-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleBohoBotanicoEnglishPage />
+          </Suspense>
+        } />
+        <Route path="/ejemplos/bosque-en" element={
+          <Suspense fallback={<PageLoading />}>
+            <ExampleBosqueEnglishPage />
           </Suspense>
         } />
         
